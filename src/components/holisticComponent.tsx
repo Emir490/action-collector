@@ -3,6 +3,14 @@ import { Camera } from "@mediapipe/camera_utils";
 import { drawConnectors, drawLandmarks } from "@mediapipe/drawing_utils";
 import { Holistic, FACEMESH_TESSELATION, POSE_CONNECTIONS, HAND_CONNECTIONS } from "@mediapipe/holistic";
 
+let counter: number = 0;
+let flag: boolean = true;
+
+// Object storing 30 frames (1 sequence)
+var sequence: { frames: any[] } = {
+  frames: []
+};
+
 const HolisticComponent = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -46,6 +54,40 @@ const HolisticComponent = () => {
       drawLandmarks(canvasCtx, results.rightHandLandmarks,
         { color: '#FF0000', lineWidth: 2 });
       canvasCtx.restore();
+
+      // Extract landmarks data
+      var landmarksData = {
+        poseLandmarks: results.poseLandmarks,
+        faceLandmarks: results.faceLandmarks,
+        leftHandLandmarks: results.leftHandLandmarks,
+        rightHandLandmarks: results.rightHandLandmarks,
+      };
+
+      if (counter < 30) { 
+        sequence.frames.push(
+          {frame: counter,
+           landmarks: landmarksData});
+        if (flag) {console.log(`Frame ${counter} saved!`);}
+        counter++;
+      }
+      else {
+        if (flag) {
+          flag = false;
+          var json = JSON.stringify(sequence); // Convert data to string
+          var filename = 'landmarks.json'; // Data filename
+  
+          var blob = new Blob([json], { type: "application/json" });
+  
+          // Save json
+          const link = document.createElement("a");
+          link.href = window.URL.createObjectURL(blob);
+          link.download = filename;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
+        counter = 0;
+      }
     };
 
 
@@ -58,8 +100,8 @@ const HolisticComponent = () => {
     holistic.setOptions({
       modelComplexity: 1,
       smoothLandmarks: true,
-      enableSegmentation: true,
-      smoothSegmentation: true,
+      enableSegmentation: false,
+      smoothSegmentation: false,
       refineFaceLandmarks: true,
       minDetectionConfidence: 0.5,
       minTrackingConfidence: 0.5
