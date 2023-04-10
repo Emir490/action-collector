@@ -201,7 +201,7 @@ const actions: IActions[] = [
     }
 ];
 
-const getAllActions = async () => actions;
+const getAllActions = () => actions;
 
 export { getAllActions }
 export type { IActions }
