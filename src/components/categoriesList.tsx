@@ -25,14 +25,14 @@ const CategoriesList: React.FC = () => {
   // Returns all the categories in a listbox
   return (
     <>
-      <select value={selectedOption} onChange={handleOptionChange}>
+      <select className="p-2 bg-indigo-800 text-white m-3" value={selectedOption} onChange={handleOptionChange}>
         {categories.map((category) => (
           <option key={category} value={category}>
             {category}
           </option>
         ))}
       </select>
-      <div>< ActionsList category={selectedOption}/></div>
+      < ActionsList category={selectedOption}/>
     </>
   )
 }
