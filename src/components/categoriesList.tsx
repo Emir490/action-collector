@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { getAllActions, IActions } from "@/hooks/useCategories";
+import { getAllActions, IActions } from "@/helpers";
 import ActionsList from "./actionsList";
 
 // Array with all the categories and its actions
@@ -11,8 +11,9 @@ const extractCategories = (actions: IActions[]): string[] => {
   return categories;
 }
 
+const categories = extractCategories(actions);
+
 const CategoriesList: React.FC = () => {
-  const categories = extractCategories(actions);
   const [selectedOption, setSelectedOption] = useState(categories[0]);
 
   // Gets the categorie of the clicked item
