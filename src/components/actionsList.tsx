@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { getAllActions, IActions } from "@/hooks/useCategories";
+import { getAllActions, IActions } from "@/helpers";
 
 // Array with all the categories and its actions
 const actions: IActions[] = getAllActions();
