@@ -10,7 +10,7 @@ export default function Home() {
 
   return (
     <Layout>
-      <div> { <CategoriesList /> } </div>
+      <CategoriesList />
       <div className="container mx-auto">
         {/* <Video /> */}
         {/* {toggle && <HolisticComponent />} */}
