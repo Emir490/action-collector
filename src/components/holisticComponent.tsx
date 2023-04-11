@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Results } from '@mediapipe/holistic';
 import Webcam from 'react-webcam';
 import { useMediaPipeDetection } from '@/hooks/useMediapipeDetection';
+import axios from 'axios';
 
 const sequenceLength = 30; // You can set the desired sequence length here.
 
@@ -27,47 +28,113 @@ const extractKeyPoints = (results: Results): number[] => {
 
 const HolisticComponent: React.FC = () => {
   const [isCollecting, setIsCollecting] = useState<boolean>(false);
+  const [capturing, setCapturing] = useState<boolean>(false);
 
+  const recordedChunksRef = useRef<BlobPart[]>([]); 
   const webcamRef = useRef<Webcam>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const collectingRef = useRef<boolean>(false);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const framesRef = useRef<number[][]>([]); // Use useRef to store frames
+  const hiddenVideoRef = useRef<HTMLVideoElement>(null);
+
+  let counter = 0
 
   const mediapipeDetection = useMediaPipeDetection(onFrame);
 
-  function onFrame(results: Results) {
+  async function onFrame(results: Results) {
     if (collectingRef.current) {
+      if (framesRef.current.length === 0) handleStartCapture();
+
       const keypoints = extractKeyPoints(results);
-      
+
       framesRef.current.push(keypoints);
-      
+
       if (framesRef.current.length === sequenceLength) {
-        sendFramesToServer();
+        await handleStopCapture();
+        handleUpload();
         framesRef.current = []
       }
     }
   }
 
-  const sendFramesToServer = async () => {
-    console.log("Action", framesRef.current);
-  
-    // Disable collecting while waiting
-    setIsCollecting(false);
-    
-    if (webcamRef.current && webcamRef.current.video) {
-      webcamRef.current.video.pause();
+  const handleStartCapture = useCallback(() => {
+    if (hiddenVideoRef.current) {
+      const canvasStream = canvasRef.current!?.captureStream();
+      hiddenVideoRef.current.srcObject = canvasStream;
+      hiddenVideoRef.current.play();
+
+      mediaRecorderRef.current = new MediaRecorder(canvasStream, {
+        mimeType: "video/webm",
+      });
+      mediaRecorderRef.current.addEventListener("dataavailable", ({ data }) => {
+        if (data.size > 0) {
+          recordedChunksRef.current = recordedChunksRef.current.concat(data);
+        }
+      });
+      mediaRecorderRef.current.start();
     }
-    console.log('Collecting Frames...');
-  
-    // Wait for 2 seconds
-    setTimeout(() => {
-      // Continue collecting frames after the wait
+  }, [canvasRef, hiddenVideoRef, setCapturing, mediaRecorderRef]);
+
+  const handleStopCapture = useCallback(() => {
+    return new Promise<void>((resolve) => {
+      if (mediaRecorderRef.current) {
+        mediaRecorderRef.current.addEventListener("stop", () => {
+          setCapturing(false);
+          resolve();
+        });
+        mediaRecorderRef.current.stop();
+      } else {
+        resolve();
+      }
+    });
+  }, [mediaRecorderRef, setCapturing]);  
+
+  const handleUpload = async () => {
+    if (recordedChunksRef.current.length) {
+      counter++;
+      
+      // Disable collecting while waiting
+      setIsCollecting(false);
+
+      const blob = new Blob(recordedChunksRef.current, {
+        type: "video/webm",
+      });
+
+      // Convert the Blob to a File object
+      const file = new File([blob], "video.webm", { type: "video/webm" });
+
+      if (webcamRef.current && webcamRef.current.video) {
+        webcamRef.current.video.pause();
+      }
+      console.log('Collecting Frames...');
+
+      try {
+        const formData = new FormData();
+        formData.append('category', "Saludos");
+        formData.append('action', `Hello`);
+        formData.append('sequence', `Hello-${counter}`);
+        formData.append('keypoints', JSON.stringify(framesRef.current));
+        formData.append('file', file);
+
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/actions`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+
+        console.log('File uploaded:', response.data);
+      } catch (error) {
+        console.error('Error uploading file:', error);
+      }
+
       if (webcamRef.current && webcamRef.current.video) {
         webcamRef.current.video.play();
       }
 
       setIsCollecting(true);
-    }, 2000);
+      recordedChunksRef.current = [];
+    }
   }
 
   useEffect(() => {
@@ -91,7 +158,16 @@ const HolisticComponent: React.FC = () => {
         style={{ display: "none" }}
       />
       <canvas ref={canvasRef} width="1080" height="720"></canvas>
-      <button className='bg-indigo-800 p-3 text-white uppercase font-bold rounded-md hover:bg-indigo-700 transition-colors my-5' onClick={() => setIsCollecting(!isCollecting)}>Start Collecting Frames</button>
+      <video
+        ref={hiddenVideoRef}
+        width="1080"
+        height="720"
+        style={{ display: "none" }}
+      ></video>
+      <button className='bg-indigo-800 p-3 text-white uppercase font-bold rounded-md hover:bg-indigo-700 transition-colors my-5' onClick={() => {
+        setIsCollecting(!isCollecting);
+      }}>Start Collecting Frames</button>
+      
     </div>
   );
 }

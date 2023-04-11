@@ -4,11 +4,9 @@ import { drawConnectors, drawLandmarks } from '@mediapipe/drawing_utils';
 
 export const useMediaPipeDetection = (onFrameCallback: (results: Results) => void) => {
   const mediapipeDetection = async (videoElement: HTMLVideoElement, canvasElement: HTMLCanvasElement) => {
-    const holistic = new Holistic({
-      locateFile: (file) => {
-        return `holistic/${file}`;
-      }
-    });
+    const holistic = new Holistic({locateFile: (file) => {
+      return `https://cdn.jsdelivr.net/npm/@mediapipe/holistic/${file}`;
+    }});
 
     holistic.setOptions({
       smoothLandmarks: true,
