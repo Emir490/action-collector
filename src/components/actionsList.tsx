@@ -8,24 +8,20 @@ type ActionsListProps = {
     category: string
 };
 
-const ActionsList = ({category}: ActionsListProps) => {
-    const actionsObj = actions.find((action) => action.category === category)
+const ActionsList = ({ category }: ActionsListProps) => {
     // Gets the string[] of actions
+    const actionsObj = actions.find((action) => action.category === category)
     const actionsArray = actionsObj ? actionsObj.actions : ["Sin opciones"];
 
-    const [selectedOption, setSelectedOption] = useState(actionsArray[0]);
-
-    // Gets the categorie of the clicked item
-
-    //Returns all the actions in a listbox
+    //Returns all the actions in buttons
     return (
-        <div>
+        <div className="grid grid-cols-6 gap-2">
             {actionsArray.map((action) => (
-                <button className="text-white m-2 p-3 bg-indigo-800 hover:bg-indigo-700 transition-colors rounded" onClick={() => {
-                    console.log(action);
-                }}>
+                <button className="text-white p-3 bg-indigo-800 hover:bg-indigo-600 transition-colors rounded first-letter:uppercase"
+                    onClick={() => { console.log(`Action: ${action}`); }} key={action}>
                     {action}
-                </button>))}
+                </button>
+            ))}
         </div>
     )
 }

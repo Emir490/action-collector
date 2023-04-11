@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { getAllActions, IActions } from "@/helpers";
 import ActionsList from "./actionsList";
 
@@ -11,29 +11,35 @@ const extractCategories = (actions: IActions[]): string[] => {
   return categories;
 }
 
+// Array of categories
 const categories = extractCategories(actions);
 
 const CategoriesList: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState(categories[0]);
 
   // Gets the categorie of the clicked item
-  const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedOption(event.target.value);
-    console.log(event.target.value)
+  const handleOptionChange = (category: string) => {
+    setSelectedOption(category);
+    console.log(`Category: ${category}`);
   };
 
-  // Returns all the categories in a listbox
+  // TODO: Implement functionality for buttons
+  // TODO: Better styling (Tailwind CSS)
+  // Returns all the categories in buttons
   return (
-    <>
-      <select className="p-2 bg-indigo-800 text-white m-3" value={selectedOption} onChange={handleOptionChange}>
+    <div className="flex flex-row">
+      <div className="basis-1/6 flex flex-col gap-y-2 bg-slate-900">
         {categories.map((category) => (
-          <option key={category} value={category}>
+          <button className="p-2 bg-purple-900 hover:bg-purple-700 text-white ml-3 rounded w-full"
+            onClick={() => { handleOptionChange(category) }} key={category}>
             {category}
-          </option>
+          </button>
         ))}
-      </select>
-      < ActionsList category={selectedOption}/>
-    </>
+      </div>
+      <div className="basis-5/6">
+        <ActionsList category={selectedOption}/>
+      </div>
+    </div>
   )
 }
 
