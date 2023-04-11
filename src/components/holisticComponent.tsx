@@ -3,6 +3,7 @@ import { Results } from '@mediapipe/holistic';
 import Webcam from 'react-webcam';
 import { useMediaPipeDetection } from '@/hooks/useMediapipeDetection';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 
 const sequenceLength = 30; // You can set the desired sequence length here.
 
@@ -29,6 +30,9 @@ const extractKeyPoints = (results: Results): number[] => {
 const HolisticComponent: React.FC = () => {
   const [isCollecting, setIsCollecting] = useState<boolean>(false);
   const [capturing, setCapturing] = useState<boolean>(false);
+
+  const router = useRouter();
+  const action = router.query.action;
 
   const recordedChunksRef = useRef<BlobPart[]>([]); 
   const webcamRef = useRef<Webcam>(null);
@@ -112,8 +116,10 @@ const HolisticComponent: React.FC = () => {
       try {
         const formData = new FormData();
         formData.append('category', "Saludos");
-        formData.append('action', `Hello`);
-        formData.append('sequence', `Hello-${counter}`);
+        console.log(action);
+        
+        formData.append('action', action as string);
+        formData.append('sequence', `${action}-${counter}`);
         formData.append('keypoints', JSON.stringify(framesRef.current));
         formData.append('file', file);
 
