@@ -27,18 +27,16 @@ const CategoriesList: React.FC = () => {
   // TODO: Better styling (Tailwind CSS)
   // Returns all the categories in buttons
   return (
-    <div className="flex flex-row">
-      <div className="basis-1/6 flex flex-col gap-y-2 bg-slate-900">
+    <div className="container mx-auto flex gap-x-6 mt-5">
+      <div className="flex flex-col">
         {categories.map((category) => (
-          <button className="p-2 bg-purple-900 hover:bg-purple-700 text-white ml-3 rounded w-full"
+          <button className="p-2 bg-purple-900 hover:bg-purple-700 text-white ml-3 rounded w-full mb-2 transition-colors"
             onClick={() => { handleOptionChange(category) }} key={category}>
             {category}
           </button>
         ))}
       </div>
-      <div className="basis-5/6">
-        <ActionsList category={selectedOption}/>
-      </div>
+      <ActionsList category={selectedOption}/>
     </div>
   )
 }

@@ -5,8 +5,6 @@ import { useState } from "react";
 import CategoriesList from "@/components/categoriesList";
 
 export default function Home() {
-  const [toggle, setToggle] = useState(true);
-
   return (
     <Layout>
       <CategoriesList />
