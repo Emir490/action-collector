@@ -4,8 +4,6 @@ import { drawConnectors, drawLandmarks } from '@mediapipe/drawing_utils';
 
 export const useMediaPipeDetection = (onFrameCallback: (results: Results) => void) => {
   const mediapipeDetection = async (videoElement: HTMLVideoElement, canvasElement: HTMLCanvasElement) => {
-    console.log('Loading...');
-
     const holistic = new Holistic({locateFile: (file) => {
       return `https://cdn.jsdelivr.net/npm/@mediapipe/holistic/${file}`;
     }});

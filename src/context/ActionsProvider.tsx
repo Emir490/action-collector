@@ -21,13 +21,13 @@ const ActionsProvider = ({ children }: { children: ReactNode }) => {
 
                 setActions(data);
             } catch (error) {
-                console.log(error);
+                console.error(error);
             }
         }
         if (action) {
             getActions(action as string);
         }
-    }, [action, setActions])
+    }, [action, apiUrl])
 
     const addAction = async (category: string, action: string, frames: Keypoints[], file: File) => {
         try {
@@ -50,7 +50,9 @@ const ActionsProvider = ({ children }: { children: ReactNode }) => {
             setActions(prevActions => [...prevActions, data]);
         } catch (error: any) {
             console.error("Error uploading file:", error);
-            toast.error(error.response.data);
+            const msg = error.response.data ?? "Ha ocurrido un error inesperado"
+
+            toast.error(msg);
             return {
                 error: true
             }
@@ -64,7 +66,7 @@ const ActionsProvider = ({ children }: { children: ReactNode }) => {
             const updatedActions = actions.filter(actionState => actionState._id !== id);
             setActions(updatedActions);
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     }
 

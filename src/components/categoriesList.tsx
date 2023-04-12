@@ -18,7 +18,6 @@ const categories = extractCategories(actions);
 
 const CategoriesList: React.FC = () => {
   const router = useRouter();
-  console.log(router.query.category);
 
   const categorySelected = categories.find(category => category === router.query.category);
 
@@ -27,8 +26,7 @@ const CategoriesList: React.FC = () => {
   // Gets the categorie of the clicked item
   const handleOptionChange = (category: string) => {
     setSelectedOption(category);
-    console.log(`Category: ${category}`);
-  };
+  }
 
   // TODO: Implement functionality for buttons
   // TODO: Better styling (Tailwind CSS)

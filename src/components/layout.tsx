@@ -1,6 +1,5 @@
 import Head from "next/head";
 import Link from "next/link";
-import Script from "next/script";
 import { FC, ReactNode } from "react";
 
 interface LayoutProps {
@@ -12,7 +11,6 @@ const Layout: FC<LayoutProps> = ({ children }) => {
     <>
       <Head>
         <title>Action Collector</title>
-        <Script src="" />
       </Head>
       <div className="bg-black min-h-screen">
         <header className="flex justify-evenly flex-col md:flex-row text-slate-100 font-black text-center py-5 bg-slate-900">

@@ -6,7 +6,6 @@ import { useRouter } from "next/router";
 import useActions from "@/hooks/useActions";
 import { Keypoints } from "@/interfaces/action";
 import ClipLoader from "react-spinners/ClipLoader";
-import { PulseLoader } from "react-spinners";
 
 const sequenceLength = 30; // You can set the desired sequence length here.
 
@@ -34,9 +33,7 @@ const extractKeyPoints = (results: Results): Keypoints => {
 
 const HolisticComponent: React.FC = () => {
   const [isCollecting, setIsCollecting] = useState<boolean>(false);
-  const [capturing, setCapturing] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
-  const [ready, setReady] = useState(false);
 
   const recordedChunksRef = useRef<BlobPart[]>([]);
   const webcamRef = useRef<Webcam>(null);
@@ -55,10 +52,8 @@ const HolisticComponent: React.FC = () => {
   const action = router.query.action;
 
   const counter = actions.length;
-  console.log(counter);
 
   async function onFrame(results: Results) {
-    setReady(true);
     if (collectingRef.current) {
 
       if (framesRef.current.length === 0) handleStartCapture();
@@ -91,13 +86,12 @@ const HolisticComponent: React.FC = () => {
       });
       mediaRecorderRef.current.start();
     }
-  }, [canvasRef, hiddenVideoRef, setCapturing, mediaRecorderRef]);
+  }, [canvasRef, hiddenVideoRef, mediaRecorderRef]);
 
   const handleStopCapture = useCallback(() => {
     return new Promise<void>((resolve) => {
       if (mediaRecorderRef.current) {
         mediaRecorderRef.current.addEventListener("stop", () => {
-          setCapturing(false);
           resolve();
         });
         mediaRecorderRef.current.stop();
@@ -105,7 +99,7 @@ const HolisticComponent: React.FC = () => {
         resolve();
       }
     });
-  }, [mediaRecorderRef, setCapturing]);
+  }, [mediaRecorderRef]);
 
   const handleUpload = async () => {
     if (recordedChunksRef.current.length) {
@@ -154,13 +148,11 @@ const HolisticComponent: React.FC = () => {
     const handleMediapipe = async () => {
       if (webcamRef.current && canvasRef.current && router.isReady) {
         const videoElement = webcamRef.current.video as HTMLVideoElement;
-        console.log("Loading...");
         await mediapipeDetection(videoElement, canvasRef.current);
-        console.log("Loaded");
       }
     }
     handleMediapipe();
-  }, [webcamRef, canvasRef, router.isReady]);
+  }, [webcamRef, canvasRef, router.isReady, mediapipeDetection]);
 
   return (
     <div className="flex justify-center flex-col items-center align-middle">
@@ -174,7 +166,6 @@ const HolisticComponent: React.FC = () => {
           {isCollecting ? "Detener Recolección" : loading ? "Recolectando fotogramas..." : "Iniciar Recolección"}
         </button>
         <p className="text-white ml-5 text-xl">Recolectando fotogramas para <span className="font-bold">{action}</span> Video Número <span className="font-bold">{counter}</span></p>
-        <PulseLoader className="ml-5" color="#FFF" loading={!ready} />
       </div>
       <Webcam
         ref={webcamRef}
