@@ -17,7 +17,6 @@ const ActionsList = ({ category }: ActionsListProps) => {
     //Returns all the actions in buttons
     return (
         <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2">
-        <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2">
             {actionsArray.map((action) => (
                 <Link href={{ pathname: `${action}`, query: { category, action } }} className="text-white p-3 bg-indigo-800 hover:bg-indigo-600 transition-colors rounded first-letter:uppercase"
                     key={action}>

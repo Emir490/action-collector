@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import React, { useState, useEffect } from "react";
 import { getAllActions, IActions } from "@/helpers";
 import ActionsList from "./actionsList";
 import Link from "next/link";
@@ -44,12 +43,7 @@ const CategoriesList: React.FC = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-  // Gets the category of selected item (DropList)
-  const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedOption(event.target.value)
-  }
-
+  
   // Determine screen size
   useEffect(() => {
     const handleResize = () => {
