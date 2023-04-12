@@ -50,33 +50,33 @@ export const useMediaPipeDetection = (onFrameCallback: (results: Results) => voi
 
     // Draw face connections
     drawConnectors(ctx, results.faceLandmarks, FACEMESH_TESSELATION, {
-      color: '#50ee6b',
+      color: '#00c1ff',
       lineWidth: 1,
     });
 
     // Draw pose connections
     drawConnectors(ctx, results.poseLandmarks, POSE_CONNECTIONS, {
-      color: '#ff553f',
-      lineWidth: 2,
+      color: '#FFFFFF',
+      lineWidth: 4,
     });
 
     // Draw left hand connections
     drawConnectors(ctx, results.leftHandLandmarks, HAND_CONNECTIONS, {
-      color: '#79dbab',
-      lineWidth: 2,
+      color: '#FFFFFF',
+      lineWidth: 5,
       radius: 4
     });
 
     // Draw right hand connections
     drawConnectors(ctx, results.rightHandLandmarks, HAND_CONNECTIONS, {
-      color: '#f57c3b',
-      lineWidth: 2,
+      color: '#FFFFFF',
+      lineWidth: 5,
       radius: 4
     });
 
     // Draw all landmarks
     drawLandmarks(ctx, results.poseLandmarks, {
-      color: '#ff553f',
+      color: '#FFFFFF',
       lineWidth: 2,
     });
     // drawLandmarks(ctx, results.faceLandmarks, {
@@ -84,11 +84,11 @@ export const useMediaPipeDetection = (onFrameCallback: (results: Results) => voi
     //   lineWidth: 1,
     // });
     drawLandmarks(ctx, results.leftHandLandmarks, {
-      color: '#79dbab',
+      color: '#00c1ff',
       lineWidth: 2,
     });
     drawLandmarks(ctx, results.rightHandLandmarks, {
-      color: '#f57c3b',
+      color: '#ff6c00',
       lineWidth: 2,
     });
 
