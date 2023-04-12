@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import useActions from "@/hooks/useActions";
 import { Keypoints } from "@/interfaces/action";
 import ClipLoader from "react-spinners/ClipLoader";
+import { PulseLoader } from "react-spinners";
 
 const sequenceLength = 30; // You can set the desired sequence length here.
 
@@ -35,6 +36,7 @@ const HolisticComponent: React.FC = () => {
   const [isCollecting, setIsCollecting] = useState<boolean>(false);
   const [capturing, setCapturing] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
+  const [ready, setReady] = useState(false);
 
   const recordedChunksRef = useRef<BlobPart[]>([]);
   const webcamRef = useRef<Webcam>(null);
@@ -56,6 +58,7 @@ const HolisticComponent: React.FC = () => {
   console.log(counter);
 
   async function onFrame(results: Results) {
+    setReady(true);
     if (collectingRef.current) {
 
       if (framesRef.current.length === 0) handleStartCapture();
@@ -148,10 +151,15 @@ const HolisticComponent: React.FC = () => {
   }, [isCollecting]);
 
   useEffect(() => {
-    if (webcamRef.current && canvasRef.current && router.isReady) {
-      const videoElement = webcamRef.current.video as HTMLVideoElement;
-      mediapipeDetection(videoElement, canvasRef.current);
+    const handleMediapipe = async () => {
+      if (webcamRef.current && canvasRef.current && router.isReady) {
+        const videoElement = webcamRef.current.video as HTMLVideoElement;
+        console.log("Loading...");
+        await mediapipeDetection(videoElement, canvasRef.current);
+        console.log("Loaded");
+      }
     }
+    handleMediapipe();
   }, [webcamRef, canvasRef, router.isReady]);
 
   return (
@@ -163,9 +171,10 @@ const HolisticComponent: React.FC = () => {
             setIsCollecting(!isCollecting);
           }}
         >
-          Iniciar Recolección
+          {isCollecting ? "Detener Recolección" : loading ? "Recolectando fotogramas..." : "Iniciar Recolección"}
         </button>
         <p className="text-white ml-5 text-xl">Recolectando fotogramas para <span className="font-bold">{action}</span> Video Número <span className="font-bold">{counter}</span></p>
+        <PulseLoader className="ml-5" color="#FFF" loading={!ready} />
       </div>
       <Webcam
         ref={webcamRef}
@@ -175,13 +184,13 @@ const HolisticComponent: React.FC = () => {
         style={{ display: "none" }}
       />
       <div className="relative" style={{ width: "1080px", height: "720px" }}>
-      <canvas ref={canvasRef} width="1080" height="720"></canvas>
-      {loading && (
-        <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-opacity-50 bg-black">
-          <ClipLoader color="#ffffff" loading={loading} size={50} />
-        </div>
-      )}
-    </div>
+        <canvas ref={canvasRef} width="1080" height="720"></canvas>
+        {loading && (
+          <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-opacity-50 bg-black">
+            <ClipLoader color="#ffffff" loading={loading} size={50} />
+          </div>
+        )}
+      </div>
       <video
         ref={hiddenVideoRef}
         width="1080"
