@@ -52,7 +52,7 @@ const CategoriesList: React.FC = () => {
           <select className="font-semibold text- p-2 bg-purple-900 text-white rounded w-full transition-colors"
                   value={selectedOption} onChange={handleOptionChange}>
             {categories.map((category) => (
-              <option value={category}>
+              <option value={category} key={category}>
                 {category}
               </option>
             ))}
