@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { getAllActions, IActions } from "@/helpers";
 import ActionsList from "./actionsList";
 import Link from "next/link";
@@ -28,6 +29,21 @@ const CategoriesList: React.FC = () => {
   const handleClickButton = (category: string) => {
     setSelectedOption(category);
   }
+
+  // Gets the category of selected item (DropList)
+  const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedOption(event.target.value)
+  }
+
+  // Determine screen size
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768); // Breakpoint for mobile screens
+    };
+    handleResize(); // Initial detection
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // Gets the category of selected item (DropList)
   const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
