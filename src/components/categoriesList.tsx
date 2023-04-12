@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { getAllActions, IActions } from "@/helpers";
 import ActionsList from "./actionsList";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 // Array with all the categories and its actions
 const actions: IActions[] = getAllActions();
@@ -15,7 +17,12 @@ const extractCategories = (actions: IActions[]): string[] => {
 const categories = extractCategories(actions);
 
 const CategoriesList: React.FC = () => {
-  const [selectedOption, setSelectedOption] = useState(categories[0]);
+  const router = useRouter();
+  console.log(router.query.category);
+
+  const categorySelected = categories.find(category => category === router.query.category);
+
+  const [selectedOption, setSelectedOption] = useState(categorySelected ?? categories[0]);
 
   // Gets the categorie of the clicked item
   const handleOptionChange = (category: string) => {
@@ -30,10 +37,10 @@ const CategoriesList: React.FC = () => {
     <div className="container mx-auto flex gap-x-6 mt-5">
       <div className="flex flex-col">
         {categories.map((category) => (
-          <button className="p-2 bg-purple-900 hover:bg-purple-700 text-white ml-3 rounded w-full mb-2 transition-colors"
+          <Link href={{ pathname: `${category}`, query: { category: `${category}`, menu: true } }} className="p-2 bg-purple-900 hover:bg-purple-700 text-white ml-3 rounded w-full mb-2 transition-colors"
             onClick={() => { handleOptionChange(category) }} key={category}>
             {category}
-          </button>
+          </Link>
         ))}
       </div>
       <ActionsList category={selectedOption}/>

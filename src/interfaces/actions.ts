@@ -1,8 +1,11 @@
 import { Dispatch, SetStateAction } from "react";
-import { Action } from "./action";
+import { Action, Keypoints } from "./action";
 
 export interface ActionsContextProps {
     actions: Action[];
     setActions: Dispatch<SetStateAction<Action[]>>;
-    getActions: (action: string) => Promise<void>;
+    removeAction: (id: string) => Promise<void>;
+    addAction: (category: string, action: string, frames: Keypoints[], file: File) => Promise<{
+        error: boolean;
+    } | undefined>;
 }

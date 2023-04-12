@@ -18,7 +18,7 @@ const ActionsList = ({ category }: ActionsListProps) => {
     return (
         <div className="flex-1 grid grid-cols-6 gap-2">
             {actionsArray.map((action) => (
-                <Link href={`${action}`} className="text-white p-3 bg-indigo-800 hover:bg-indigo-600 transition-colors rounded first-letter:uppercase"
+                <Link href={{ pathname: `${action}`, query: { category, action } }} className="text-white p-3 bg-indigo-800 hover:bg-indigo-600 transition-colors rounded first-letter:uppercase"
                     onClick={() => { console.log(`Action: ${action}`); }} key={action}>
                     {action}
                 </Link>

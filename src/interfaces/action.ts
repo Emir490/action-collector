@@ -4,3 +4,10 @@ export interface Action {
     sequence: string;
     video: string;
 }
+
+export interface Keypoints {
+    pose: number[];
+    face: number[];
+    leftHand: number[];
+    rightHand: number[];
+}
