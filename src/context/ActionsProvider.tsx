@@ -27,7 +27,7 @@ const ActionsProvider = ({ children }: { children: ReactNode }) => {
         if (action) {
             getActions(action as string);
         }
-    }, [action, apiUrl])
+    }, [action, apiUrl, router]);
 
     const addAction = async (category: string, action: string, frames: Keypoints[], file: File) => {
         try {
