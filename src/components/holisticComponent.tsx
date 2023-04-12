@@ -152,7 +152,7 @@ const HolisticComponent: React.FC = () => {
       }
     }
     handleMediapipe();
-  }, [webcamRef, canvasRef, router.isReady, mediapipeDetection]);
+  }, [webcamRef, canvasRef, router.isReady]);
 
   return (
     <div className="flex justify-center flex-col items-center align-middle">
