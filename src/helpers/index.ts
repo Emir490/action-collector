@@ -1,5 +1,3 @@
-import { type } from "os";
-
 interface IActions {
     category: string,
     actions: string[]
