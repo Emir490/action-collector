@@ -79,4 +79,4 @@ const ActionsProvider = ({ children }: { children: ReactNode }) => {
 
 export { ActionsProvider }
 
-export default ActionsContext;
+export default ActionsContext
