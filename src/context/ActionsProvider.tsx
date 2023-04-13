@@ -50,7 +50,7 @@ const ActionsProvider = ({ children }: { children: ReactNode }) => {
             setActions(prevActions => [...prevActions, data]);
         } catch (error: any) {
             console.error("Error uploading file:", error);
-            const msg = error.response.data ?? "Ha ocurrido un error inesperado"
+            const msg = error.response.data.error ?? "Ha ocurrido un error inesperado"
 
             toast.error(msg);
             return {

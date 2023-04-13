@@ -1,12 +1,13 @@
-import useActions from '@/hooks/useActions';
-import { CldVideoPlayer } from 'next-cloudinary';
-import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
-import { FaTrash } from 'react-icons/fa';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { useState } from "react";
+import useActions from "@/hooks/useActions";
+import { FaTrash, FaPlay } from "react-icons/fa";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import ReactPlayer from "react-player";
 
 const List = () => {
+  const [playingId, setPlayingId] = useState("");
+
   const { actions, removeAction } = useActions();
 
   const notify = () => toast.success("Eliminado exitosamente");
@@ -38,9 +39,27 @@ const List = () => {
                   }}
                 />
               </div>
-              <CldVideoPlayer height="auto" width="auto" src={`${action.video}`} />
-              <p className="text-white font-bold text-xl mt-3">{action.sequence}</p>
-              <ToastContainer/>
+              <div className="relative inline-block">
+                <ReactPlayer
+                  url={`${action.video}`}
+                  width="auto"
+                  height="auto"
+                  playing={action._id === playingId}
+                  onEnded={() => setPlayingId("")}
+                />
+                {action._id !== playingId && (
+                  <FaPlay
+                    className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-black text-4xl cursor-pointer"
+                    title="Play"
+                    color="#FFF"
+                    onClick={() => setPlayingId(action._id)}
+                  />
+                )}
+              </div>
+              <p className="text-white font-bold text-xl mt-3">
+                {action.sequence}
+              </p>
+              <ToastContainer />
             </div>
           ))}
       </div>
