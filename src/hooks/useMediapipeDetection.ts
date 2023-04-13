@@ -52,31 +52,31 @@ export const useMediaPipeDetection = (onFrameCallback: (results: Results) => voi
       color: '#00c1ff',
       lineWidth: 1,
     });
-
     // Draw pose connections
     drawConnectors(ctx, results.poseLandmarks, POSE_CONNECTIONS, {
-      color: '#FFFFFF',
-      lineWidth: 4,
+      color: '#f6f6f6',
+      lineWidth: 2,
+      radius: 4,
     });
-
     // Draw left hand connections
     drawConnectors(ctx, results.leftHandLandmarks, HAND_CONNECTIONS, {
-      color: '#FFFFFF',
-      lineWidth: 5,
-      radius: 4
+      color: '#f6f6f6',
+      lineWidth: 2,
+      radius: 4,
     });
-
     // Draw right hand connections
     drawConnectors(ctx, results.rightHandLandmarks, HAND_CONNECTIONS, {
-      color: '#FFFFFF',
-      lineWidth: 5,
-      radius: 4
+      color: '#f6f6f6',
+      lineWidth: 2,
+      radius: 4,
     });
 
+    
     // Draw all landmarks
     drawLandmarks(ctx, results.poseLandmarks, {
-      color: '#FFFFFF',
+      color: '#f6f6f6',
       lineWidth: 2,
+      radius: 4,
     });
     // drawLandmarks(ctx, results.faceLandmarks, {
     //   color: '#50ee6b',
@@ -85,10 +85,12 @@ export const useMediaPipeDetection = (onFrameCallback: (results: Results) => voi
     drawLandmarks(ctx, results.leftHandLandmarks, {
       color: '#00c1ff',
       lineWidth: 2,
+      radius: 4,
     });
     drawLandmarks(ctx, results.rightHandLandmarks, {
-      color: '#ff6c00',
+      color: '#00c1ff',
       lineWidth: 2,
+      radius: 4,
     });
 
     // Restore the context to its original state
