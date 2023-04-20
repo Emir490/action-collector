@@ -29,7 +29,7 @@ const extractKeyPoints = (results: Results): Keypoints => {
     : Array(21 * 3).fill(0);
 
   return { pose, face, leftHand, rightHand };
-};
+}
 
 const HolisticComponent: React.FC = () => {
   const [isCollecting, setIsCollecting] = useState<boolean>(false);
@@ -45,7 +45,7 @@ const HolisticComponent: React.FC = () => {
 
   const mediapipeDetection = useMediaPipeDetection(onFrame);
 
-  const { actions, addAction } = useActions();
+  const { actions, addVideo } = useActions();
 
   const router = useRouter();
   const category = router.query.category;
@@ -119,16 +119,20 @@ const HolisticComponent: React.FC = () => {
 
       if (!category || !action) return;
 
-      const response = await addAction(category as string, action as string, framesRef.current, file);
+      const recordedURL = URL.createObjectURL(file);
+
+      addVideo(recordedURL, framesRef.current);
+
+      // const response = await addAction(category as string, action as string, framesRef.current, file);
 
       if (webcamRef.current && webcamRef.current.video) {
         webcamRef.current.video.play();
       }
 
-      if (response?.error) {
-        setLoading(false);
-        return;
-      }
+      // if (response?.error) {
+      //   setLoading(false);
+      //   return;
+      // }
 
       setIsCollecting(true);
       setLoading(false)
@@ -190,6 +194,6 @@ const HolisticComponent: React.FC = () => {
       ></video>
     </div>
   );
-};
+}
 
 export default HolisticComponent;

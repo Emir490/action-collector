@@ -1,6 +1,7 @@
 import { Action, Keypoints } from "@/interfaces/action";
-import { ActionsContextProps } from "@/interfaces/actions";
+import { ActionsContextProps, Video } from "@/interfaces/actions";
 import axios from "axios";
+import { randomUUID } from "crypto";
 import { useRouter } from "next/router";
 import { ReactNode, createContext, useEffect, useState } from "react";
 import { toast } from 'react-toastify';
@@ -9,6 +10,7 @@ const ActionsContext = createContext<ActionsContextProps>({} as ActionsContextPr
 
 const ActionsProvider = ({ children }: { children: ReactNode }) => {
     const [actions, setActions] = useState<Action[]>([]);
+    const [videos, setVideos] = useState<Video[]>([]);
     const router = useRouter();
     const action = router.query.action;
 
@@ -59,6 +61,16 @@ const ActionsProvider = ({ children }: { children: ReactNode }) => {
         }
     }
 
+    const addVideo = (video: string, landmarks: Keypoints[]) => {
+        const obj = {
+            id: Date.now(),
+            video,
+            landmarks
+        }
+
+        setVideos(prevVideos => [...prevVideos, obj]);
+    }
+
     const removeAction = async (id: string) => {
         try {
             await axios.patch(`${apiUrl}/actions/${id}`);
@@ -71,7 +83,7 @@ const ActionsProvider = ({ children }: { children: ReactNode }) => {
     }
 
     return (
-        <ActionsContext.Provider value={{ actions, setActions, addAction, removeAction }}>
+        <ActionsContext.Provider value={{ videos, setVideos, actions, setActions, addAction, addVideo, removeAction }}>
             {children}
         </ActionsContext.Provider>
     )
