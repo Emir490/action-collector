@@ -1,7 +1,7 @@
 import HolisticComponent from "@/components/holisticComponent";
 import Layout from "@/components/layout";
 import useActions from "@/hooks/useActions";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaPlay, FaTrash } from "react-icons/fa";
 import ReactPlayer from "react-player";
 import { ToastContainer } from "react-toastify";
@@ -11,6 +11,8 @@ const Add = () => {
   const [toggle, setToggle] = useState(false);
   const [offCanvas, setOffCanvas] = useState(false);
   const [playingId, setPlayingId] = useState<Number>();
+
+  const videosRef = useRef<HTMLDivElement>(null);
 
   const { videos, setVideos } = useActions();
 
@@ -29,7 +31,13 @@ const Add = () => {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-  };
+  }
+
+  useEffect(() => {
+    if (videosRef.current) {
+        videosRef.current.scrollTo(0, videosRef.current.scrollHeight);
+    }
+  }, [videos])
 
   return (
     <Layout>
@@ -51,6 +59,7 @@ const Add = () => {
         {offCanvas ? 'X' : 'Videos'}
       </button>
       <div
+        ref={videosRef}
         className={`fixed right-0 top-0 h-full bg-indigo-800 w-1/5 transform transition-transform ease-in-out duration-300 overflow-y-auto scrollbar-thin scrollbar-corner-indigo-900 scrollbar-track-slate-900 scrollbar-thumb-slate-600 ${
           offCanvas ? "translate-x-0" : "translate-x-full"
         }`}
