@@ -156,6 +156,7 @@ const HolisticComponent: React.FC = () => {
       }
     }
     handleMediapipe();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [webcamRef, canvasRef, router.isReady]);
 
   return (
