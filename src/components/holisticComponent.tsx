@@ -6,6 +6,8 @@ import { useRouter } from "next/router";
 import useActions from "@/hooks/useActions";
 import { Keypoints } from "@/interfaces/action";
 import ClipLoader from "react-spinners/ClipLoader";
+import { Video } from "@/interfaces/actions";
+import { toast } from "react-toastify";
 
 const sequenceLength = 30; // You can set the desired sequence length here.
 
@@ -45,13 +47,13 @@ const HolisticComponent: React.FC = () => {
 
   const mediapipeDetection = useMediaPipeDetection(onFrame);
 
-  const { actions, addVideo } = useActions();
+  const { videos, setVideos } = useActions();
 
   const router = useRouter();
   const category = router.query.category;
   const action = router.query.action;
 
-  const counter = actions.length;
+  const counter = videos.length;
 
   async function onFrame(results: Results) {
     if (collectingRef.current) {
@@ -121,7 +123,21 @@ const HolisticComponent: React.FC = () => {
 
       const recordedURL = URL.createObjectURL(file);
 
-      addVideo(recordedURL, framesRef.current);
+      const obj: Video = {
+        id: Date.now(),
+        category: category as string,
+        action: action as string,
+        video: recordedURL,
+        landmarks: framesRef.current
+      }
+
+      if (videos.length === 240) {
+        toast.error("Limite alcanzado", { position: 'top-right' });
+        setLoading(false);
+        return;
+      }
+
+      setVideos(prevVideos => [...prevVideos, obj]);
 
       // const response = await addAction(category as string, action as string, framesRef.current, file);
 

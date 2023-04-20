@@ -61,16 +61,6 @@ const ActionsProvider = ({ children }: { children: ReactNode }) => {
         }
     }
 
-    const addVideo = (video: string, landmarks: Keypoints[]) => {
-        const obj = {
-            id: Date.now(),
-            video,
-            landmarks
-        }
-
-        setVideos(prevVideos => [...prevVideos, obj]);
-    }
-
     const removeAction = async (id: string) => {
         try {
             await axios.patch(`${apiUrl}/actions/${id}`);
@@ -83,7 +73,7 @@ const ActionsProvider = ({ children }: { children: ReactNode }) => {
     }
 
     return (
-        <ActionsContext.Provider value={{ videos, setVideos, actions, setActions, addAction, addVideo, removeAction }}>
+        <ActionsContext.Provider value={{ videos, setVideos, actions, setActions, addAction, removeAction }}>
             {children}
         </ActionsContext.Provider>
     )

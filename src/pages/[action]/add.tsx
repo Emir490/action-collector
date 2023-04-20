@@ -14,6 +14,23 @@ const Add = () => {
 
     const { videos, setVideos } = useActions();
 
+    const handleDownload = () => {
+        const newVideos = videos.map(({video, ...rest}) => rest);
+
+        const json = JSON.stringify(newVideos);
+        const blob = new Blob([json], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+
+        const link =  document.createElement('a');
+        link.href = url;
+        link.download = `${videos[0].action}.json`;
+        link.style.display = 'none';
+
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
     return (
         <Layout>
             <div className='container mx-auto'>
@@ -22,8 +39,11 @@ const Add = () => {
                 </div>
                 {toggle && <HolisticComponent />}
             </div>
-            <button className="fixed right-0 top-0 p-4 bg-indigo-500 text-white rounded-l-full z-20" onClick={() => setOffCanvas(!offCanvas)}>Videos</button>
+            <button className="fixed right-0 top-0 p-4 bg-indigo-300 text-rose-700 font-bold rounded-l-full z-20" onClick={() => setOffCanvas(!offCanvas)}>X</button>
             <div className={`fixed right-0 top-0 h-full bg-indigo-800 w-1/5 transform transition-transform ease-in-out duration-300 overflow-y-auto scrollbar-thin scrollbar-corner-indigo-900 scrollbar-track-slate-900 scrollbar-thumb-slate-600 ${offCanvas ? 'translate-x-0' : 'translate-x-full'}`}>
+                <div className="flex">
+                    <button className={`text-white uppercase font-bold mx-auto m-5 bg-indigo-950 p-3 rounded-lg hover:bg-indigo-400 transition-colors`} onClick={handleDownload}>Descargar acciones</button>
+                </div>
                 {videos.map(videoObj => (
                     <div key={videoObj.id} className="relative m-5">
                         <ReactPlayer
