@@ -55,16 +55,17 @@ const Add = () => {
           offCanvas ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="flex">
-          <button
-            className={`text-white uppercase font-bold mx-auto m-5 bg-indigo-950 p-3 rounded-lg hover:bg-indigo-400 transition-colors`}
+        <div className="flex sticky top-0 z-10">
+        <button
+            className={`text-white uppercase font-bold mx-auto mt-5 bg-indigo-950 p-3 rounded-lg hover:bg-indigo-400 transition-colors`}
             onClick={handleDownload}
-          >
+            >
             Descargar acciones
-          </button>
+            </button>
+
         </div>
-        {videos.map((videoObj) => (
-          <div key={videoObj.id} className="relative m-5">
+        {videos.map((videoObj, index) => (
+          <div key={videoObj.id} className={`relative m-5 ${index === 0 ? 'mt-5' : ''}`}>
             <ReactPlayer
               url={`${videoObj.video}`}
               width="auto"
