@@ -124,9 +124,7 @@ const HolisticComponent: React.FC = () => {
 
       const recordedURL = URL.createObjectURL(file);
 
-      console.log(counter);
-
-      if (counter >= 48 || videos.length >= 48) {
+      if (counter > 48 || videos.length > 48) {
         toast.error("Limite alcanzado", { position: 'top-right' });
         setLoading(false);
         return;
