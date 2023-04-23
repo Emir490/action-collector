@@ -4,7 +4,7 @@ import useActions from "@/hooks/useActions";
 import { useEffect, useRef, useState } from "react";
 import { FaPlay, FaTrash } from "react-icons/fa";
 import ReactPlayer from "react-player";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Add = () => {
@@ -17,6 +17,11 @@ const Add = () => {
   const { videos, setVideos } = useActions();
 
   const handleDownload = () => {
+    if (videos.length < 48) {
+      toast.error("Deben ser 48")
+      return;
+    }
+
     const newVideos = videos.map(({ video, ...rest }) => rest);
 
     const json = JSON.stringify(newVideos);
@@ -35,7 +40,7 @@ const Add = () => {
 
   useEffect(() => {
     if (videosRef.current) {
-        videosRef.current.scrollTo(0, videosRef.current.scrollHeight);
+      videosRef.current.scrollTo(0, videosRef.current.scrollHeight);
     }
   }, [videos])
 

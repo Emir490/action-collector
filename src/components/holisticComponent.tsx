@@ -53,7 +53,7 @@ const HolisticComponent: React.FC = () => {
   const category = router.query.category;
   const action = router.query.action;
 
-  const counter = videos.length;
+  let counter = 0;
 
   async function onFrame(results: Results) {
     if (collectingRef.current) {
@@ -103,8 +103,9 @@ const HolisticComponent: React.FC = () => {
     });
   }, [mediaRecorderRef]);
 
-  const handleUpload = async () => {
+  const handleUpload = useCallback(() => {
     if (recordedChunksRef.current.length) {
+      counter++
       setIsCollecting(false);
       setLoading(true);
 
@@ -123,18 +124,20 @@ const HolisticComponent: React.FC = () => {
 
       const recordedURL = URL.createObjectURL(file);
 
+      console.log(counter);
+
+      if (counter >= 48 || videos.length >= 48) {
+        toast.error("Limite alcanzado", { position: 'top-right' });
+        setLoading(false);
+        return;
+      }
+
       const obj: Video = {
         id: Date.now(),
         category: category as string,
         action: action as string,
         video: recordedURL,
         landmarks: framesRef.current
-      }
-
-      if (videos.length === 240) {
-        toast.error("Limite alcanzado", { position: 'top-right' });
-        setLoading(false);
-        return;
       }
 
       setVideos(prevVideos => [...prevVideos, obj]);
@@ -154,7 +157,7 @@ const HolisticComponent: React.FC = () => {
       setLoading(false)
       recordedChunksRef.current = [];
     }
-  }
+  }, [action, category, setVideos, videos, counter])
 
   useEffect(() => {
     collectingRef.current = isCollecting;
@@ -186,7 +189,7 @@ const HolisticComponent: React.FC = () => {
         >
           {isCollecting ? "Detener Recolección" : loading ? "Recolectando fotogramas..." : "Iniciar Recolección"}
         </button>
-        <p className="text-white ml-5 text-xl">Recolectando fotogramas para <span className="font-bold">{action}</span> Video Número <span className="font-bold">{counter}</span></p>
+        <p className="text-white ml-5 text-xl">Recolectando fotogramas para <span className="font-bold">{action}</span> Video Número <span className="font-bold">{videos.length}</span></p>
       </div>
       <Webcam
         ref={webcamRef}
