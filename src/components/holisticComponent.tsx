@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 
 const sequenceLength = 30; // You can set the desired sequence length here.
 const numberSequences = 10; // You can set the desired number of sequences here.
+var currentNumVideos: number = 0;
 
 const extractKeyPoints = (results: Results): Keypoints => {
   const pose: number[] = results.poseLandmarks
@@ -49,11 +50,22 @@ const HolisticComponent: React.FC = () => {
   const mediapipeDetection = useMediaPipeDetection(onFrame);
 
   const { videos, setVideos } = useActions();
-  const [currentNumVideos, setCurrentNumVideos] = useState(0);
 
   const router = useRouter();
   const category = router.query.category;
   const action = router.query.action;
+
+  // Handles the user trying to leave the page
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+      event.returnValue = "Estas cerrando la pagina";
+    }
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload)
+    };
+  }, [])
 
   async function onFrame(results: Results) {
     if (collectingRef.current) {
@@ -104,8 +116,8 @@ const HolisticComponent: React.FC = () => {
   }, [mediaRecorderRef]);
 
   useEffect(() => {
-    console.log(`Videos length: ${videos.length}`);
-    setCurrentNumVideos(videos.length);
+    currentNumVideos = videos.length;
+    console.log(`Videos length: ${currentNumVideos}`);
   }, [videos]);
 
   const handleUpload = useCallback(() => {
@@ -131,6 +143,8 @@ const HolisticComponent: React.FC = () => {
       if (currentNumVideos === numberSequences) {
         toast.error("Limite alcanzado", { position: 'top-right' });
         setLoading(false);
+        if (webcamRef.current && webcamRef.current.video)
+          webcamRef.current.video.play();
         return;
       }
 
@@ -191,7 +205,7 @@ const HolisticComponent: React.FC = () => {
         >
           {isCollecting ? "Detener Recolección" : loading ? "Recolectando fotogramas..." : "Iniciar Recolección"}
         </button>
-        <p className="text-white ml-5 text-xl">Recolectando fotogramas para <span className="font-bold">{action}</span> Video Número <span className="font-bold">{currentNumVideos}</span></p>
+        <p className="text-white ml-5 text-xl">Recolectando fotogramas para <span className="font-bold">{action}</span> Video Número <span className="font-bold">{videos.length}</span></p>
       </div>
       <Webcam
         ref={webcamRef}

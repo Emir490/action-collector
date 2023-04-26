@@ -54,7 +54,7 @@ const Add = () => {
             className="bg-indigo-800 p-3 text-white uppercase font-bold rounded-md hover:bg-indigo-700 transition-colors"
             onClick={() => setToggle(!toggle)}
           >
-            {toggle ? "Apagar Cámara" : "Encencer Cámara"}
+            {toggle ? "Apagar Cámara" : "Encender Cámara"}
           </button>
         </div>
         {toggle && <HolisticComponent />}
