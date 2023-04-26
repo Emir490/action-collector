@@ -7,6 +7,8 @@ import ReactPlayer from "react-player";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+const numberSequences = 10; // You can set the desired number of sequences here.
+
 const Add = () => {
   const [toggle, setToggle] = useState(false);
   const [offCanvas, setOffCanvas] = useState(false);
@@ -17,8 +19,8 @@ const Add = () => {
   const { videos, setVideos } = useActions();
 
   const handleDownload = () => {
-    if (videos.length < 48) {
-      toast.error("Deben ser 48")
+    if (videos.length != numberSequences) {
+      toast.error(`Deben ser ${numberSequences} secuencias.`)
       return;
     }
 
@@ -106,6 +108,7 @@ const Add = () => {
                       (videoState) => videoState.id !== videoObj.id
                     )
                   );
+                  console.log(videos.length);
                 }}
               />
             </button>
