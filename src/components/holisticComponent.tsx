@@ -10,7 +10,7 @@ import { Video } from "@/interfaces/actions";
 import { toast } from "react-toastify";
 
 const sequenceLength = 30; // You can set the desired sequence length here.
-const numberSequences = 10; // You can set the desired number of sequences here.
+const numberSequences = 200; // You can set the desired number of sequences here.
 var currentNumVideos: number = 0;
 
 const extractKeyPoints = (results: Results): Keypoints => {
