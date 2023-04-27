@@ -28,6 +28,7 @@ const ActionsProvider = ({ children }: { children: ReactNode }) => {
         if (action) {
             getActions(action as string);
         }
+        setVideos([]);
     }, [action, apiUrl, router]);
 
     const addAction = async (category: string, action: string, frames: Keypoints[], file: File) => {

@@ -54,18 +54,28 @@ const HolisticComponent: React.FC = () => {
   const router = useRouter();
   const category = router.query.category;
   const action = router.query.action;
+  
+  const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+    event.preventDefault();
+    event.returnValue = "Estas cerrando la pagina";
+  }
 
   // Handles the user trying to leave the page
   useEffect(() => {
-    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-      event.preventDefault();
-      event.returnValue = "Estas cerrando la pagina";
-    }
     window.addEventListener('beforeunload', handleBeforeUnload);
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload)
     };
   }, [])
+
+  useEffect(() => {
+    router.events.on('routeChangeStart', (url, { shallow }) => {
+      window.addEventListener('beforeunload', handleBeforeUnload);
+      return () => {
+        window.removeEventListener('beforeunload', handleBeforeUnload)
+      };
+    })
+  }, [router])
 
   async function onFrame(results: Results) {
     if (collectingRef.current) {
@@ -141,7 +151,7 @@ const HolisticComponent: React.FC = () => {
       const recordedURL = URL.createObjectURL(file);
 
       if (currentNumVideos === numberSequences) {
-        toast.error("Limite alcanzado", { position: 'top-right' });
+        toast.error("Limite alcanzado, guarda tus secuencias antes salir.", { position: 'top-right' });
         setLoading(false);
         if (webcamRef.current && webcamRef.current.video)
           webcamRef.current.video.play();
