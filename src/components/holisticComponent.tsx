@@ -10,7 +10,7 @@ import { Video } from "@/interfaces/actions";
 import { toast } from "react-toastify";
 
 const sequenceLength = 30; // You can set the desired sequence length here.
-const numberSequences = 200; // You can set the desired number of sequences here.
+const numberSequences = 100; // You can set the desired number of sequences here.
 var currentNumVideos: number = 0;
 
 const extractKeyPoints = (results: Results): Keypoints => {
@@ -127,7 +127,6 @@ const HolisticComponent: React.FC = () => {
 
   useEffect(() => {
     currentNumVideos = videos.length;
-    console.log(`Videos length: ${currentNumVideos}`);
   }, [videos]);
 
   const handleUpload = useCallback(() => {
@@ -183,7 +182,7 @@ const HolisticComponent: React.FC = () => {
       setLoading(false)
       recordedChunksRef.current = [];
     }
-  }, [action, category, setVideos, videos])
+  }, [action, category, setVideos])
 
   useEffect(() => {
     collectingRef.current = isCollecting;

@@ -7,7 +7,7 @@ import ReactPlayer from "react-player";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const numberSequences = 200; // You can set the desired number of sequences here.
+const numberSequences = 100; // You can set the desired number of sequences here.
 
 const Add = () => {
   const [toggle, setToggle] = useState(false);
