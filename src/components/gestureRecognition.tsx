@@ -23,7 +23,7 @@ const GestureRecognition: React.FC = () => {
         vision,
         {
           baseOptions: {
-            modelAssetPath: "../../asl_model/gesture_recognizer.task",
+            modelAssetPath: "../../gesture_recognizer.task",
           }
         }
       );
