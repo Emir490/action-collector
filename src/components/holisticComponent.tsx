@@ -223,8 +223,8 @@ const HolisticComponent: React.FC = () => {
         screenshotFormat="image/jpeg"
         style={{ display: "none" }}
       />
-      <div className="relative" style={{ width: "1080px", height: "720px" }}>
-        <canvas ref={canvasRef} width="1080" height="720"></canvas>
+      <div className="relative w-full h-screen">
+        <canvas ref={canvasRef} className="w-full h-full object-cover"></canvas>
         {loading && (
           <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-opacity-50 bg-black">
             <ClipLoader color="#ffffff" loading={loading} size={50} />
