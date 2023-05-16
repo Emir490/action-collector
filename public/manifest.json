@@ -1,0 +1,27 @@
+{
+  "name": "Sign Language App",
+  "short_name": "SignAI",
+  "icons": [
+    {
+      "src": "icons/Logo192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/Logo384",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/Logo512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#0F172A",
+  "background_color": "#0F172A",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait"
+}

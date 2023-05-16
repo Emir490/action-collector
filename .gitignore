@@ -36,3 +36,5 @@ next-env.d.ts
 
 /public/holistic
 asl_model
+**/public/workbox-*.js
+**/public/sw.js
