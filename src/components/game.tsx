@@ -1,28 +1,69 @@
 import { Unity, useUnityContext } from "react-unity-webgl";
-import { useEffect, useState } from 'react';
-
-const source = '../../public/build';
+import { useEffect, useState } from "react";
+import useMobile from "@/hooks/useMobile";
+import { Progress } from "flowbite-react";
 
 const Game = () => {
-    const [isClient, setIsClient] = useState(false);
-    const { unityProvider } = useUnityContext({
-        loaderUrl: `../../public/build/SL.loader.js`,
-        dataUrl: `../../public/build/webgl.data`,
-        frameworkUrl: `../../public/build/build.framework.js`,
-        codeUrl: `../../public/build/build.wasm`
+  const [play, setPlay] = useState(false);
+
+  const { unityProvider, isLoaded, loadingProgression, requestFullscreen } =
+    useUnityContext({
+      loaderUrl: `/build/SL.loader.js`,
+      dataUrl: `/build/webgl.data`,
+      frameworkUrl: `/build/build.framework.js`,
+      codeUrl: `/build/build.wasm`,
     });
 
-    // This will only run on the client, so we can use it to set a flag which indicates whether we're on the client
-    useEffect(() => {
-        setIsClient(true);
-    }, []);
+  const isMobile = useMobile();
 
-    // If we're not on the client, don't render anything
-    if (!isClient) {
-        return null;
+  const loadingPercentage = Math.round(loadingProgression * 100);
+
+  useEffect(() => {
+    if (isMobile && isLoaded) {
+      requestFullscreen(true);
     }
+  }, [isLoaded]);
 
-    return <Unity unityProvider={unityProvider} />;
-}
+  const handleFullScreen = () => {
+    requestFullscreen(true);
+  };
+
+  return (
+    <>
+      {isMobile ? (
+        <>
+          <button
+            className="p-3 bg-indigo-700 hover:bg-indigo-800 transition-colors text-white rounded-lg w-full uppercase font-bold"
+            onClick={() => setPlay(true)}
+          >
+            Jugar
+          </button>
+          {play && !isLoaded && (
+            <Progress progress={loadingPercentage} size='lg' />
+          )}
+          {play && <Unity unityProvider={unityProvider} />}
+        </>
+      ) : (
+        <>
+          {!isLoaded && (
+            <Progress progress={loadingPercentage} size='lg' />
+          )}
+          <button
+            className="p-3 bg-indigo-700 text-white rounded-lg mb-5"
+            onClick={handleFullScreen}
+          >
+            Pantalla Completa
+          </button>
+          <div className="w-full flex justify-center">
+            <Unity
+              style={{ width: "100%", height: "90vh" }}
+              unityProvider={unityProvider}
+            />
+          </div>
+        </>
+      )}
+    </>
+  );
+};
 
 export default Game;
