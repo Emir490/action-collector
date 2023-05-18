@@ -1,33 +1,20 @@
-import Link from "next/link";
 import { Navbar } from "flowbite-react";
+import Link from "next/link";
 
 const Header = () => {
     return (
-        <Navbar rounded fluid>
+        <Navbar className="bg-slate-900 p-3" fluid rounded theme={{base: 'dark'}}>
+            <Link className="self-center whitespace-nowrap text-3xl font-bold text-white" href='/'>
+                SignAI
+            </Link>
             <Navbar.Toggle />
-            <Navbar.Brand
-                to="/"
-            >
-                <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
-                    SignAI
-                </span>
-            </Navbar.Brand>
             <Navbar.Collapse>
-                <Navbar.Link href="/menu">
+                <Link className="text-white font-bold text-xl" href="/menu">
                     Contribuir
-                </Navbar.Link>
-                <Navbar.Link to="/play">
+                </Link>
+                <Link className="text-white font-bold text-xl" href="/play">
                     Jugar
-                </Navbar.Link>
-                <Navbar.Link href="/navbars">
-                    Services
-                </Navbar.Link>
-                <Navbar.Link href="/navbars">
-                    Pricing
-                </Navbar.Link>
-                <Navbar.Link href="/navbars">
-                    Contact
-                </Navbar.Link>
+                </Link>
             </Navbar.Collapse>
         </Navbar>
     )

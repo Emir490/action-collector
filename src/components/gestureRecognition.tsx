@@ -3,11 +3,17 @@ import Webcam from "react-webcam";
 
 const GestureRecognition: React.FC = () => {
   const [gestureName, setGestureName] = useState<string>("");
+  const [gestureSequence, setGestureSequence] = useState<string>("");
   const [isCamera, setIsCamera] = useState(false);
 
   const webcamRef = useRef<Webcam>(null);
-  
+
   const toggleCamera = () => setIsCamera(!isCamera);
+
+  const resetSequence = () => {
+    setGestureName("");
+    setGestureSequence("");
+  }
 
   useEffect(() => {
     const mediapipeRecognition = async (videoElement: HTMLVideoElement) => {
@@ -18,7 +24,7 @@ const GestureRecognition: React.FC = () => {
       const vision = await FilesetResolver.forVisionTasks(
         "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm"
       );
-  
+
       const gestureRecognizer = await GestureRecognizer.createFromOptions(
         vision,
         {
@@ -27,19 +33,26 @@ const GestureRecognition: React.FC = () => {
           }
         }
       );
-  
+
       gestureRecognizer.setOptions({ runningMode: "VIDEO" });
-  
+
+      let lastGesture = '';
+
       const camera = new Camera(videoElement, {
         onFrame: async () => {
-          const results = gestureRecognizer.recognizeForVideo(
-            videoElement,
-            Date.now()
-          );
+          const results = gestureRecognizer.recognizeForVideo(videoElement,Date.now());
           const gestures = results.gestures[0];
-          if (gestures) {
-            console.log(gestures[0].categoryName)
+          if (gestures && gestures[0].categoryName !== lastGesture) {
+            console.log(lastGesture, gestures[0].categoryName);
             setGestureName(gestures[0].categoryName);
+            if (gestures[0].categoryName === "space") {
+              setGestureSequence(oldSequence => oldSequence + " ");
+            } else if (gestures[0].categoryName === "del") {
+              setGestureSequence(oldSequence => oldSequence.slice(0, -1));
+            } else {
+              setGestureSequence(oldSequence => oldSequence + gestures[0].categoryName);
+            }
+            lastGesture = gestures[0].categoryName;
           }
         },
         width: 640,
@@ -49,13 +62,11 @@ const GestureRecognition: React.FC = () => {
     };
 
     const handleMediapipe = async () => {
-      console.log(webcamRef.current)
       if (webcamRef.current) {
         const videoElement = webcamRef.current.video as HTMLVideoElement;
         mediapipeRecognition(videoElement);
       }
     }
-
     handleMediapipe();
   }, [webcamRef, isCamera]);
 
@@ -67,6 +78,14 @@ const GestureRecognition: React.FC = () => {
       >
         {isCamera ? "Apagar" : "Encender"}
       </button>
+      <button
+        className="p-3 bg-indigo-700 hover:bg-indigo-800 transition-colors text-white font-bold uppercase rounded-md ml-2"
+        // Add your styling here
+        onClick={() => resetSequence()}
+      >
+        Reset Sequence
+      </button>
+      <button className="p-3 bg-indigo-700 hover:bg-indigo-800 transition-colors text-white font-bold uppercase rounded-md ml-2" onClick={() => setGestureSequence(oldSequence => oldSequence.slice(0, -1))}>Borrar</button>
       {isCamera && (
         <>
           <Webcam
@@ -77,6 +96,9 @@ const GestureRecognition: React.FC = () => {
           />
           <p className="absolute top-10 left-0 m-4 text-5xl text-white font-bold uppercase">
             {gestureName}
+          </p>
+          <p className="absolute top-20 left-0 m-4 text-4xl text-white font-bold uppercase">
+            {gestureSequence}
           </p>
         </>
       )}
