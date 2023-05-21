@@ -2,11 +2,14 @@ import { Unity, useUnityContext } from "react-unity-webgl";
 import { useEffect, useState } from "react";
 import useMobile from "@/hooks/useMobile";
 import { Progress } from "flowbite-react";
+import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 
 const Game = () => {
   const [play, setPlay] = useState(false);
+  const router = useRouter();
 
-  const { unityProvider, isLoaded, loadingProgression, requestFullscreen } =
+  const { unityProvider, isLoaded, loadingProgression, unload, requestFullscreen } =
     useUnityContext({
       loaderUrl: `/build/SL.loader.js`,
       dataUrl: `/build/webgl.data`,
@@ -22,7 +25,8 @@ const Game = () => {
     try {
       await window.screen.orientation.lock('landscape');
     } catch (error) {
-      console.log('Could not lock screen to landscape mode', error);
+      console.error('Could not lock screen to landscape mode', error);
+      toast.info('Hubo un error al querer entrar a pantalla completa');
     }
   }
 
@@ -32,6 +36,16 @@ const Game = () => {
       lockScreenToLandscape();
     }
   }, [isLoaded]);
+
+  useEffect(() => {
+    const handleRouteChange = async () => {
+      await unload();
+    }
+
+    if (isLoaded) {
+      router.events.on('routeChangeStart', handleRouteChange);
+    }
+  }, [router, isLoaded, unload])
 
   const handleFullScreen = () => {
     requestFullscreen(true);
