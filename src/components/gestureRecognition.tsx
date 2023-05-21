@@ -1,5 +1,7 @@
-import React, { useRef, useEffect, useState, ReactNode, useCallback } from "react";
+import { useRef, useEffect, useState } from "react";
 import Webcam from "react-webcam";
+
+const sequenceLength = 30;
 
 const GestureRecognition: React.FC = () => {
   const [gestureName, setGestureName] = useState<string>("");
@@ -7,13 +9,14 @@ const GestureRecognition: React.FC = () => {
   const [isCamera, setIsCamera] = useState(false);
 
   const webcamRef = useRef<Webcam>(null);
+  const framesRef = useRef<number>(0);
 
   const toggleCamera = () => setIsCamera(!isCamera);
 
   const resetSequence = () => {
     setGestureName("");
     setGestureSequence("");
-  }
+  };
 
   useEffect(() => {
     const mediapipeRecognition = async (videoElement: HTMLVideoElement) => {
@@ -30,29 +33,39 @@ const GestureRecognition: React.FC = () => {
         {
           baseOptions: {
             modelAssetPath: "../../gesture_recognizer.task",
-          }
+          },
         }
       );
 
       gestureRecognizer.setOptions({ runningMode: "VIDEO" });
 
-      let lastGesture = '';
+      let lastGesture = "";
 
       const camera = new Camera(videoElement, {
         onFrame: async () => {
-          const results = gestureRecognizer.recognizeForVideo(videoElement,Date.now());
-          const gestures = results.gestures[0];
-          if (gestures && gestures[0].categoryName !== lastGesture) {
-            console.log(lastGesture, gestures[0].categoryName);
-            setGestureName(gestures[0].categoryName);
-            if (gestures[0].categoryName === "space") {
-              setGestureSequence(oldSequence => oldSequence + " ");
-            } else if (gestures[0].categoryName === "del") {
-              setGestureSequence(oldSequence => oldSequence.slice(0, -1));
-            } else {
-              setGestureSequence(oldSequence => oldSequence + gestures[0].categoryName);
+          ++framesRef.current;
+
+          if (framesRef.current === sequenceLength) {
+            framesRef.current = 0;
+            const results = gestureRecognizer.recognizeForVideo(
+              videoElement,
+              Date.now()
+            );
+            const gestures = results.gestures[0];
+            if (gestures && gestures[0].categoryName !== lastGesture) {
+              console.log(lastGesture, gestures[0].categoryName);
+              setGestureName(gestures[0].categoryName);
+              if (gestures[0].categoryName === "space") {
+                setGestureSequence((oldSequence) => oldSequence + " ");
+              } else if (gestures[0].categoryName === "del") {
+                setGestureSequence((oldSequence) => oldSequence.slice(0, -1));
+              } else {
+                setGestureSequence(
+                  (oldSequence) => oldSequence + gestures[0].categoryName
+                );
+              }
+              lastGesture = gestures[0].categoryName;
             }
-            lastGesture = gestures[0].categoryName;
           }
         },
         width: 640,
@@ -66,12 +79,12 @@ const GestureRecognition: React.FC = () => {
         const videoElement = webcamRef.current.video as HTMLVideoElement;
         mediapipeRecognition(videoElement);
       }
-    }
+    };
     handleMediapipe();
   }, [webcamRef, isCamera]);
 
   return (
-    <div className={`${isCamera ? 'relative w-full h-screen' : ''}`}>
+    <div className={`${isCamera ? "relative w-full h-screen" : ""}`}>
       <button
         className="p-3 bg-indigo-700 hover:bg-indigo-800 transition-colors text-white font-bold uppercase rounded-md"
         onClick={() => toggleCamera()}
@@ -83,9 +96,16 @@ const GestureRecognition: React.FC = () => {
         // Add your styling here
         onClick={() => resetSequence()}
       >
-        Reset Sequence
+        Reiniciar
       </button>
-      <button className="p-3 bg-indigo-700 hover:bg-indigo-800 transition-colors text-white font-bold uppercase rounded-md ml-2" onClick={() => setGestureSequence(oldSequence => oldSequence.slice(0, -1))}>Borrar</button>
+      <button
+        className="p-3 bg-indigo-700 hover:bg-indigo-800 transition-colors text-white font-bold uppercase rounded-md ml-2"
+        onClick={() =>
+          setGestureSequence((oldSequence) => oldSequence.slice(0, -1))
+        }
+      >
+        Borrar
+      </button>
       {isCamera && (
         <>
           <Webcam

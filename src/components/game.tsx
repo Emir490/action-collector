@@ -18,9 +18,18 @@ const Game = () => {
 
   const loadingPercentage = Math.round(loadingProgression * 100);
 
+  const lockScreenToLandscape = async () => {
+    try {
+      await window.screen.orientation.lock('landscape');
+    } catch (error) {
+      console.log('Could not lock screen to landscape mode', error);
+    }
+  }
+
   useEffect(() => {
     if (isMobile && isLoaded) {
       requestFullscreen(true);
+      lockScreenToLandscape();
     }
   }, [isLoaded]);
 
