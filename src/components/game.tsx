@@ -56,7 +56,7 @@ const Game = () => {
       {isMobile ? (
         <>
           <button
-            className="p-3 bg-indigo-700 hover:bg-indigo-800 transition-colors text-white rounded-lg w-full uppercase font-bold"
+            className="p-3 bg-orange-400 hover:bg-orange-500 transition-colors text-white rounded-lg w-full uppercase font-bold"
             onClick={() => setPlay(true)}
           >
             Jugar
@@ -72,7 +72,7 @@ const Game = () => {
             <Progress progress={loadingPercentage} size='lg' />
           )}
           <button
-            className="p-3 bg-indigo-700 text-white rounded-lg mb-5"
+            className="p-3 bg-orange-400 hover:bg-orange-500 text-white rounded-lg mb-5"
             onClick={handleFullScreen}
           >
             Pantalla Completa

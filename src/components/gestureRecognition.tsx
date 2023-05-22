@@ -84,28 +84,30 @@ const GestureRecognition: React.FC = () => {
   }, [webcamRef, isCamera]);
 
   return (
-    <div className={`${isCamera ? "relative w-full h-screen" : ""}`}>
-      <button
-        className="p-3 bg-indigo-700 hover:bg-indigo-800 transition-colors text-white font-bold uppercase rounded-md"
-        onClick={() => toggleCamera()}
-      >
-        {isCamera ? "Apagar" : "Encender"}
-      </button>
-      <button
-        className="p-3 bg-indigo-700 hover:bg-indigo-800 transition-colors text-white font-bold uppercase rounded-md ml-2"
-        // Add your styling here
-        onClick={() => resetSequence()}
-      >
-        Reiniciar
-      </button>
-      <button
-        className="p-3 bg-indigo-700 hover:bg-indigo-800 transition-colors text-white font-bold uppercase rounded-md ml-2"
-        onClick={() =>
-          setGestureSequence((oldSequence) => oldSequence.slice(0, -1))
-        }
-      >
-        Borrar
-      </button>
+    <section className={`${isCamera ? "relative w-full h-screen" : ""}`}>
+      <div className="mb-5">
+        <button
+          className="p-3 bg-orange-400 hover:bg-orange-500 transition-colors text-white font-bold uppercase rounded-md"
+          onClick={() => toggleCamera()}
+        >
+          {isCamera ? "Apagar" : "Encender"}
+        </button>
+        <button
+          className="p-3 bg-orange-400 hover:bg-orange-500 transition-colors text-white font-bold uppercase rounded-md ml-2"
+          // Add your styling here
+          onClick={() => resetSequence()}
+        >
+          Reiniciar
+        </button>
+        <button
+          className="p-3 bg-orange-400 hover:bg-orange-500 transition-colors text-white font-bold uppercase rounded-md ml-2"
+          onClick={() =>
+            setGestureSequence((oldSequence) => oldSequence.slice(0, -1))
+          }
+        >
+          Borrar
+        </button>
+      </div>
       {isCamera && (
         <>
           <Webcam
@@ -114,15 +116,15 @@ const GestureRecognition: React.FC = () => {
             className="w-full h-full object-cover"
             screenshotFormat="image/jpeg"
           />
-          <p className="absolute top-10 left-0 m-4 text-5xl text-white font-bold uppercase mt-10">
+          <p className="absolute top-10 left-0 m-4 text-5xl text-black font-bold uppercase mt-10">
             {gestureName}
           </p>
-          <p className="absolute top-20 left-0 m-4 text-4xl text-white font-bold uppercase mt-10">
+          <p className="absolute top-20 left-0 m-4 text-4xl text-black font-bold uppercase mt-10">
             {gestureSequence}
           </p>
         </>
       )}
-    </div>
+    </section>
   );
 };
 
