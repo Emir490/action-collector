@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from "react";
+import React from "react";
 import { getAllActions, IActions } from "@/helpers";
 import Link from "next/link";
 
@@ -16,10 +16,9 @@ const ActionsList = ({ category }: ActionsListProps) => {
 
     //Returns all the actions in buttons
     return (
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
             {actionsArray.map((action) => (
-                <Link href={{ pathname: `${action}`, query: { category, action } }} className="text-white p-3 text-center bg-indigo-800 hover:bg-indigo-600 transition-colors rounded first-letter:uppercase"
-                    key={action}>
+                <Link className="text-white p-3 text-center bg-indigo-800 hover:bg-indigo-600 transition-colors rounded capitalize" href={{ pathname: `/menu/${action}`, query: { category, action } }} key={action}>
                     {action}
                 </Link>
             ))}
@@ -27,4 +26,4 @@ const ActionsList = ({ category }: ActionsListProps) => {
     )
 }
 
-export default ActionsList
+export default ActionsList;
