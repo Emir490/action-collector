@@ -10,7 +10,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
   return (
     <>
       <Head>
-        <title>Action Collector</title>
+        <title>SignAI</title>
       </Head>
       <div className="bg-orange-200 min-h-screen">
         <Header />
