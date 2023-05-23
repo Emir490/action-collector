@@ -43,66 +43,78 @@ const Header = () => {
         backgroundColor="#FED7AA"
       >
         <Menu>
-          <MenuItem
-            icon={<FontAwesomeIcon color="white" icon={faHome} />}
-            rootStyles={{
-              ["." + menuClasses.button]: {
-                backgroundColor: "#fb923c",
-                textTransform: "uppercase",
-                fontWeight: "700",
-                "&:hover": {
-                  backgroundColor: "#f97316",
+          <Link className="text-white" href='/'>
+            <MenuItem
+              component={<div/>}
+              icon={<FontAwesomeIcon color="white" icon={faHome} />}
+              rootStyles={{
+                ["." + menuClasses.button]: {
+                  backgroundColor: "#fb923c",
+                  textTransform: "uppercase",
+                  fontWeight: "700",
+                  "&:hover": {
+                    backgroundColor: "#f97316",
+                  },
                 },
-              },
-            }}
-          >
-            <Link className="text-white" href='/'>Inicio</Link>
-          </MenuItem>
-          <MenuItem
-            icon={<FontAwesomeIcon color="white" icon={faBook} />}
-            rootStyles={{
-              ["." + menuClasses.button]: {
-                backgroundColor: "#fb923c",
-                textTransform: "uppercase",
-                fontWeight: "700",
-                "&:hover": {
-                  backgroundColor: "#f97316",
+              }}
+            >
+              Inicio
+            </MenuItem>
+          </Link>
+          <Link className="text-white" href='/learning'>
+            <MenuItem
+              component={<div/>}
+              icon={<FontAwesomeIcon color="white" icon={faBook} />}
+              rootStyles={{
+                ["." + menuClasses.button]: {
+                  backgroundColor: "#fb923c",
+                  textTransform: "uppercase",
+                  fontWeight: "700",
+                  "&:hover": {
+                    backgroundColor: "#f97316",
+                  },
                 },
-              },
-            }}
-          >
-            <Link className="text-white" href='/learning'>Aprendizaje</Link>
-          </MenuItem>
-          <MenuItem
-            icon={<FontAwesomeIcon color="white" icon={faGamepad} />}
-            rootStyles={{
-              ["." + menuClasses.button]: {
-                backgroundColor: "#fb923c",
-                textTransform: "uppercase",
-                fontWeight: "700",
-                "&:hover": {
-                  backgroundColor: "#f97316",
+              }}
+            >
+              Aprendizaje
+            </MenuItem>
+          </Link>
+          <Link className="text-white" href='/play'>
+            <MenuItem
+              component={<div/>}
+              icon={<FontAwesomeIcon color="white" icon={faGamepad} />}
+              rootStyles={{
+                ["." + menuClasses.button]: {
+                  backgroundColor: "#fb923c",
+                  textTransform: "uppercase",
+                  fontWeight: "700",
+                  "&:hover": {
+                    backgroundColor: "#f97316",
+                  },
                 },
-              },
-            }}
-          >
-            <Link className="text-white" href='/play'>Jugar</Link>
-          </MenuItem>
-          <MenuItem
-            icon={<FontAwesomeIcon color="white" icon={faHandsHelping} />}
-            rootStyles={{
-              ["." + menuClasses.button]: {
-                backgroundColor: "#fb923c",
-                textTransform: "uppercase",
-                fontWeight: "700",
-                "&:hover": {
-                  backgroundColor: "#f97316",
+              }}
+            >
+              Jugar
+            </MenuItem>
+          </Link>
+          <Link className="text-white" href='/menu'>
+            <MenuItem
+              component={<div/>}
+              icon={<FontAwesomeIcon color="white" icon={faHandsHelping} />}
+              rootStyles={{
+                ["." + menuClasses.button]: {
+                  backgroundColor: "#fb923c",
+                  textTransform: "uppercase",
+                  fontWeight: "700",
+                  "&:hover": {
+                    backgroundColor: "#f97316",
+                  },
                 },
-              },
-            }}
-          >
-            <Link className="text-white" href='/menu'>Contribuir</Link>
-          </MenuItem>
+              }}
+            >
+              Contribuir
+            </MenuItem>
+          </Link>
         </Menu>
       </Sidebar>
       <Link
