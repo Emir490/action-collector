@@ -1,12 +1,29 @@
 import useMobile from "@/hooks/useMobile";
-import { Navbar } from "flowbite-react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faBars,
+  faHome,
+  faBook,
+  faGamepad,
+  faHandsHelping,
+} from "@fortawesome/free-solid-svg-icons";
+import { menuClasses } from "react-pro-sidebar";
 
-const Sidebar = dynamic(() => import('react-pro-sidebar').then((mod) => mod.Sidebar), { ssr: false });
-const Menu = dynamic(() => import('react-pro-sidebar').then((mod) => mod.Menu), { ssr: false });
-const MenuItem = dynamic(() => import('react-pro-sidebar').then((mod) => mod.MenuItem), { ssr: false });
+const Sidebar = dynamic(
+  () => import("react-pro-sidebar").then((mod) => mod.Sidebar),
+  { ssr: false }
+);
+const Menu = dynamic(
+  () => import("react-pro-sidebar").then((mod) => mod.Menu),
+  { ssr: false }
+);
+const MenuItem = dynamic(
+  () => import("react-pro-sidebar").then((mod) => mod.MenuItem),
+  { ssr: false }
+);
 
 const Header = () => {
   const isMobile = useMobile();
@@ -15,38 +32,96 @@ const Header = () => {
   const toggle = () => setOpen(!open);
 
   return (
-    <Navbar
-      className="bg-orange-400 p-3"
-      fluid
-      rounded
-      theme={{ base: "dark" }}
-    >
+    <div className="bg-orange-400 p-3 flex justify-between items-center">
+      <div onClick={toggle}>
+        <FontAwesomeIcon icon={faBars} />
+      </div>
+      <Sidebar
+        onBackdropClick={toggle}
+        toggled={open}
+        breakPoint="always"
+        backgroundColor="#FED7AA"
+      >
+        <Menu>
+          <MenuItem
+            icon={<FontAwesomeIcon color="white" icon={faHome} />}
+            rootStyles={{
+              ["." + menuClasses.button]: {
+                backgroundColor: "#fb923c",
+                textTransform: "uppercase",
+                fontWeight: "700",
+                "&:hover": {
+                  backgroundColor: "#f97316",
+                },
+              },
+            }}
+          >
+            <Link className="text-white" href='/'>Inicio</Link>
+          </MenuItem>
+          <MenuItem
+            icon={<FontAwesomeIcon color="white" icon={faBook} />}
+            rootStyles={{
+              ["." + menuClasses.button]: {
+                backgroundColor: "#fb923c",
+                textTransform: "uppercase",
+                fontWeight: "700",
+                "&:hover": {
+                  backgroundColor: "#f97316",
+                },
+              },
+            }}
+          >
+            <Link className="text-white" href='#'>Aprendizaje</Link>
+          </MenuItem>
+          <MenuItem
+            icon={<FontAwesomeIcon color="white" icon={faGamepad} />}
+            rootStyles={{
+              ["." + menuClasses.button]: {
+                backgroundColor: "#fb923c",
+                textTransform: "uppercase",
+                fontWeight: "700",
+                "&:hover": {
+                  backgroundColor: "#f97316",
+                },
+              },
+            }}
+          >
+            <Link className="text-white" href='/play'>Jugar</Link>
+          </MenuItem>
+          <MenuItem
+            icon={<FontAwesomeIcon color="white" icon={faHandsHelping} />}
+            rootStyles={{
+              ["." + menuClasses.button]: {
+                backgroundColor: "#fb923c",
+                textTransform: "uppercase",
+                fontWeight: "700",
+                "&:hover": {
+                  backgroundColor: "#f97316",
+                },
+              },
+            }}
+          >
+            <Link className="text-white" href='/menu'>Contribuir</Link>
+          </MenuItem>
+        </Menu>
+      </Sidebar>
       <Link
-        className="self-center whitespace-nowrap text-3xl font-bold text-white"
+        className="whitespace-nowrap text-3xl font-bold text-white mx-auto"
         href="/"
       >
         SignAI
       </Link>
-      <Navbar.Toggle className="text-black" onClick={toggle} />
-      <Sidebar onBackdropClick={toggle} toggled={open} breakPoint="always" rtl>
-        <Menu>
-          <MenuItem> Documentation</MenuItem>
-          <MenuItem> Calendar</MenuItem>
-          <MenuItem> E-commerce</MenuItem>
-          <MenuItem> Examples</MenuItem>
-        </Menu>
-      </Sidebar>
       {!isMobile && (
-        <Navbar.Collapse>
+        <div className="flex justify-end">
           <Link className="text-white font-bold text-xl" href="/menu">
             Contribuir
           </Link>
           <Link className="text-white font-bold text-xl" href="/play">
             Jugar
           </Link>
-        </Navbar.Collapse>
+        </div>
       )}
-    </Navbar>
+    </div>
   );
 };
 
