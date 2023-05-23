@@ -88,7 +88,7 @@ const Header = () => {
           >
             <Link className="text-white" href='/play'>Jugar</Link>
           </MenuItem>
-          <MenuItem
+          {/* <MenuItem
             icon={<FontAwesomeIcon color="white" icon={faHandsHelping} />}
             rootStyles={{
               ["." + menuClasses.button]: {
@@ -102,7 +102,7 @@ const Header = () => {
             }}
           >
             <Link className="text-white" href='/menu'>Contribuir</Link>
-          </MenuItem>
+          </MenuItem> */}
         </Menu>
       </Sidebar>
       <Link
@@ -115,9 +115,9 @@ const Header = () => {
         <div className="flex justify-end gap-x-3">
           <Link className="text-white font-bold text-xl" href="/">Inicio</Link>
           <Link className="text-white font-bold text-xl" href='/'>Aprendizaje</Link>
-          <Link className="text-white font-bold text-xl" href="/menu">
+          {/* <Link className="text-white font-bold text-xl" href="/menu">
             Contribuir
-          </Link>
+          </Link> */}
           <Link className="text-white font-bold text-xl" href="/play">
             Jugar
           </Link>
