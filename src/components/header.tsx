@@ -71,7 +71,7 @@ const Header = () => {
               },
             }}
           >
-            <Link className="text-white" href='#'>Aprendizaje</Link>
+            <Link className="text-white" href='/learning'>Aprendizaje</Link>
           </MenuItem>
           <MenuItem
             icon={<FontAwesomeIcon color="white" icon={faGamepad} />}
