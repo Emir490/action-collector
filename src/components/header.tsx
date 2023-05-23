@@ -34,7 +34,7 @@ const Header = () => {
   return (
     <div className="bg-orange-400 p-3 flex justify-between items-center">
       <div onClick={toggle}>
-        <FontAwesomeIcon icon={faBars} />
+        <FontAwesomeIcon color="white" icon={faBars} />
       </div>
       <Sidebar
         onBackdropClick={toggle}
@@ -88,7 +88,7 @@ const Header = () => {
           >
             <Link className="text-white" href='/play'>Jugar</Link>
           </MenuItem>
-          <MenuItem
+          {/* <MenuItem
             icon={<FontAwesomeIcon color="white" icon={faHandsHelping} />}
             rootStyles={{
               ["." + menuClasses.button]: {
@@ -102,7 +102,7 @@ const Header = () => {
             }}
           >
             <Link className="text-white" href='/menu'>Contribuir</Link>
-          </MenuItem>
+          </MenuItem> */}
         </Menu>
       </Sidebar>
       <Link
@@ -112,10 +112,12 @@ const Header = () => {
         SignAI
       </Link>
       {!isMobile && (
-        <div className="flex justify-end">
-          <Link className="text-white font-bold text-xl" href="/menu">
+        <div className="flex justify-end gap-x-3">
+          <Link className="text-white font-bold text-xl" href="/">Inicio</Link>
+          <Link className="text-white font-bold text-xl" href='/'>Aprendizaje</Link>
+          {/* <Link className="text-white font-bold text-xl" href="/menu">
             Contribuir
-          </Link>
+          </Link> */}
           <Link className="text-white font-bold text-xl" href="/play">
             Jugar
           </Link>
