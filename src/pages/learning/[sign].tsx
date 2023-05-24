@@ -15,13 +15,13 @@ const Sign: FC = () => {
   
   return (
     <Layout>
-      <div className="flex flex-col items-center justify-center h-screen mt-[-80px]">
+      <div className="flex flex-col items-center justify-center h-screen mt-[-70px]">
         <div className="shadow-lg">
           <Image
             src={sign?.img}
             alt={`${sign?.name} Seña`}
-            width={300}
-            height={250}
+            width={160}
+            height={200}
           />
         </div>
         <p className="text-5xl font-bold mt-16 text-black uppercase">Letra {sign?.name}</p>
