@@ -125,7 +125,7 @@ const Header = () => {
       </Link>
       {!isMobile && (
         <div className="flex justify-end gap-x-3">
-          <Link className="text-white font-bold text-xl" href='/'>Aprendizaje</Link>
+          <Link className="text-white font-bold text-xl" href='/learning'>Aprendizaje</Link>
           <Link className="text-white font-bold text-xl" href="/menu">
             Contribuir
           </Link>

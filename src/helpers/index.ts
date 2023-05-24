@@ -25,151 +25,141 @@ import W from "@/images/W.jpg";
 import X from "@/images/X.jpg";
 import Y from "@/images/Y.jpg";
 import Z from "@/images/Z.jpg";
+import { IActions, Sign } from "@/interfaces";
 
-interface IActions {
-    category: string,
-    actions: string[]
-}
-
-interface Signs {
-    sign: string;
-    img: any;
-    description: string;
-}
-
-export const signs: Signs[] = [
+export const signs: Sign[] = [
     {
-        sign: "A",
+        name: "A",
         img: A,
         description: "Con la mano cerrada, se muestran las uñas y se estira el dedo pulgar hacia un lado. La palma mira al este."
     },
     {
-        sign: "B",
+        name: "B",
         img: B,
         description: "Los dedos índice, medio, anular y meñique se estiran bien unidos y el pulgar se dobla hacia la palma, la cual mira al frente"
     },
     {
-        sign: "C",
+        name: "C",
         img: C,
         description: "Los dedos índice, medio, anular y meñique se mantienen bien unidos y en posición cóncava; el pulgar también se pone en esa posición. La palma mira a un lado."
     },
     {
-        sign: "D",
+        name: "D",
         img: D,
         description: "Los dedos medio, anular, meñique y pulgar se unen por las puntas y el dedo índice se estira. La palma mira al frente."
     },
     {
-        sign: "E",
+        name: "E",
         img: E,
         description: "Se doblan los dedos completamente, y se muestran las uñas. La palma mira al frente."
     },
     {
-        sign: "F",
+        name: "F",
         img: F,
         description: "Con la mano abierta y los dedos bien unidos, se dobla el índice hasta que su parte lateral toque la yema del pulgar. La palma mira a un lado."
     },
     {
-        sign: "G",
+        name: "G",
         img: G,
         description: "Se cierra la mano y los dedos índice y pulgar se estiran. La palma mira hacia usted"
     },
     {
-        sign: "H",
+        name: "H",
         img: H,
         description: "Con la mano cerrada y los dedos índice y medio bien estirados y unidos, se extiende el dedo pulgar señalando hacia arriba. La palma mira hacia usted"
     },
     {
-        sign: "I",
+        name: "I",
         img: I,
         description: "Con la mano cerrada, el dedo meñique se estira señalando hacia arriba. La palma sepone de lado"
     },
     {
-        sign: "J",
+        name: "J",
         img: J,
         description: "Con la mano cerrada, el dedo meñique bien estirado señalando hacia arriba y la palma a un lado dibuja una j en el aire."
     },
     {
-        sign: "K",
+        name: "K",
         img: K,
         description: "Se cierra la mano con los dedos índice, medio y pulgar estirados. La yema del pulgar se pone entre el índice y el medio. Se mueve la muñeca hacia arriba."
     },
     {
-        sign: "L",
+        name: "L",
         img: L,
         description: "Con la mano cerrada y los dedos índice y pulgar estirados, se forma una l. La palma mira al frente"
     },
     {
-        sign: "M",
+        name: "M",
         img: M,
         description: "Con la mano cerrada, se ponen los dedos índice, medio y anular sobre el pulgar."
     },
     {
-        sign: "N",
+        name: "N",
         img: N,
         description: "Con la mano cerrada, se ponen los dedos índice y medio sobre el pulgar. "
     },
     {
-        sign: "Ñ",
+        name: "Ñ",
         img: Ñ,
         description: "Con la mano cerrada, se ponen los dedosíndice y medio sobre el pulgar. Se mueve la muñeca a los lados.. "
     },
     {
-        sign: "O",
+        name: "O",
         img: O,
         description: "Con la mano se forma una letra o. Todos los dedos se tocan por las puntas. "
     },
     {
-        sign: "P",
+        name: "P",
         img: P,
         description: "Con la mano cerrada y los dedos índice, medio y pulgar estirados, se pone la yema del pulgar entre el índice y el medio."
     },
     {
-        sign: "Q",
+        name: "Q",
         img: Q,
         description: "Con la mano cerrada, se ponen los dedos índice y pulgar en posición de garra. La palma mira hacia abajo, y se mueve la muñeca hacia los lados."
     },
     {
-        sign: "R",
+        name: "R",
         img: R,
         description: "Con la mano cerrada, se estiran y entrelazan los dedos índice y medio. La palma mira al frente."
     },
     {
-        sign: "S",
+        name: "S",
         img: S,
         description: "Con la mano cerrada, se pone el pulgar sobre los otros dedos. La palma mira al frente."
     },
     {
-        sign: "T",
+        name: "T",
         img: T,
         description: "Con la mano cerrada, el pulgar se pone entre el índice y el medio. La palma mira al frente."
     },
     {
-        sign: "U",
+        name: "U",
         img: U,
         description: "Con la mano cerrada, se estiran los dedos índice y medio unidos. La palma mira al frente"
     },
     {
-        sign: "V",
+        name: "V",
         img: V,
         description: "Con la mano cerrada, se estiran los dedos índice y medio separados. La palma mira al frente"
     },
     {
-        sign: "W",
+        name: "W",
         img: W,
         description: "Con la mano cerrada, se estiran los dedos índice, medio y anular separados. La palma mira al frente."
     },
     {
-        sign: "X",
+        name: "X",
         img: X,
         description: "Con la mano cerrada, el índice y el pulgar en posición de garra y la palma dirigida a un lado, se realiza un movimiento al frente y de regreso"
     },
     {
-        sign: "Y",
+        name: "Y",
         img: Y,
         description: "Con la mano cerrada, se estira el meñique y el pulgar. La palma mira hacia usted"
     },
     {
-        sign: "Z",
+        name: "Z",
         img: Z,
         description: "Con la mano cerrada, el dedo índice estirado y la palma al frente, se dibuja una letra z en el aire."
     },

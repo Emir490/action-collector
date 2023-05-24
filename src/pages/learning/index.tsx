@@ -1,5 +1,4 @@
 import Layout from "@/components/layout";
-import { Button } from "flowbite-react";
 import Image from "next/image";
 import React from "react";
 import alphabetImg from "@/images/abecedario.png";
