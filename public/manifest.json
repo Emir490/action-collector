@@ -3,18 +3,18 @@
   "short_name": "SignAI",
   "icons": [
     {
-      "src": "icons/Logo192.png",
+      "src": "icons/Icono_192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/icons/Logo384",
+      "src": "/icons/Icono_384",
       "sizes": "384x384",
       "type": "image/png"
     },
     {
-      "src": "/icons/Logo512.png",
+      "src": "/icons/Icono_512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
