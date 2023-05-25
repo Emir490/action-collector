@@ -1,6 +1,5 @@
 import Layout from "@/components/layout";
 import Image from "next/image";
-import React from "react";
 import alphabetImg from "@/images/abecedario.png";
 import Link from "next/link";
 
@@ -32,9 +31,19 @@ const alphabet = [
   "X",
   "Y",
   "Z",
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "Yo",
+  "Hola",
+  "Amor"
 ];
 
 const Learning = () => {
+
   return (
     <Layout>
       <div className="flex flex-col items-center">
@@ -46,7 +55,7 @@ const Learning = () => {
           height={200}
         />
         <p className="bg-orange-400 shadow-md mt-2 text-white p-3 rounded-md font-medium">
-          Aprendiendo Letras
+          Aprendiendo Señas
         </p>
         {/* Utilizando clases de TailwindCSS para acomodar los botones por columna y demás */}
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-4 mt-4 w-full h-auto px-4">

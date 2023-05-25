@@ -1,15 +1,12 @@
 import { useRouter } from "next/router";
 import { useRef, useEffect, useState } from "react";
-import { toast } from "react-toastify";
 import Webcam from "react-webcam";
 
 type Props = {
-    sign: string;
-    setSuccess: React.Dispatch<React.SetStateAction<boolean>>;
-}
+  sign: string;
+};
 
-const SignRecognition: React.FC<Props> = ({ sign, setSuccess }) => {
-  const [gestureName, setGestureName] = useState<string>("");
+const SignRecognition: React.FC<Props> = ({ sign }) => {
   const [isCamera, setIsCamera] = useState(false);
 
   const webcamRef = useRef<Webcam>(null);
@@ -47,13 +44,10 @@ const SignRecognition: React.FC<Props> = ({ sign, setSuccess }) => {
           );
           const gestures = results.gestures[0];
           if (gestures) {
-            setGestureName(gestures[0].categoryName);
 
             if (gestures[0].categoryName == sign) {
-                console.log("Hi")
-                setIsCamera(false);
-                setSuccess(true);
-                router.push("/learning");
+              setIsCamera(false);
+              router.push("/learning");
             }
           }
         },
@@ -73,25 +67,25 @@ const SignRecognition: React.FC<Props> = ({ sign, setSuccess }) => {
   }, [webcamRef, isCamera]);
 
   return (
-    <section className="bg-orange-400 mt-10 rounded-lg shadow-lg flex items-center justify-center h-screen">
-        {isCamera ? (
-          <div className="relative w-full h-full">
-            <Webcam
-              mirrored
-              ref={webcamRef}
-              className="w-full h-full object-cover"
-              screenshotFormat="image/jpeg"
-            />
-          </div>
-        ) : (
-          <button
-            className="text-white bg-orange-500 hover:bg-orange-600 py-5 px-5 text-2xl rounded-lg shadow-orange-500"
-            onClick={toggleCamera}
-          >
-            Inténtalo
-          </button>
-        )}
-      </section>
+    <section className={`bg-orange-400 mt-10 rounded-lg shadow-lg flex items-center justify-center ${isCamera ? 'h-screen' : 'w-80 h-60'}`}>
+      {isCamera ? (
+        <div className="relative w-full h-full">
+          <Webcam
+            mirrored
+            ref={webcamRef}
+            className="w-full h-full object-cover"
+            screenshotFormat="image/jpeg"
+          />
+        </div>
+      ) : (
+        <button
+          className="text-white bg-orange-500 hover:bg-orange-600 py-5 px-5 text-2xl rounded-lg shadow-orange-500"
+          onClick={toggleCamera}
+        >
+          Inténtalo
+        </button>
+      )}
+    </section>
   );
 };
 

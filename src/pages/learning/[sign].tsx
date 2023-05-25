@@ -1,25 +1,16 @@
 import Layout from "@/components/layout";
 import Image from "next/image";
-import React, { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { signs } from "@/helpers";
 import SignRecognition from "@/components/signRecognition";
-import { toast } from "react-toastify";
 
 const Sign: FC = () => {
-  const [success, setSuccess] = useState(false);
-
   const router = useRouter();
   
   const signAction = router.query.sign;
 
   const sign = signs.find((sign) => sign.name === signAction); 
-
-  useEffect(() => {
-    if (success) {
-      setSuccess(false);
-    }
-  }, [success])
   
   return (
     <Layout>
@@ -36,7 +27,7 @@ const Sign: FC = () => {
         <p className="text-2xl mt-6 text-orange-500 text-justify border-t-4 border-b-4 border-orange-500 py-1">
           {sign?.description}
         </p>
-        { sign?.name && <SignRecognition sign={sign.name} setSuccess={setSuccess} /> }
+        { sign?.name && <SignRecognition sign={sign.name} /> }
       </div>
     </Layout>
   );

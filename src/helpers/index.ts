@@ -25,6 +25,15 @@ import W from "@/images/W.jpg";
 import X from "@/images/X.jpg";
 import Y from "@/images/Y.jpg";
 import Z from "@/images/Z.jpg";
+import uno from "@/images/1.jpg";
+import dos from "@/images/2.jpg";
+import tres from "@/images/3.jpg";
+import cuatro from "@/images/4.jpg";
+import cinco from "@/images/5.jpg";
+import seis from "@/images/6.jpg";
+import yo from "@/images/Yo.jpg";
+import hola from "@/images/hola.jpg";
+import amor from "@/images/amor.jpg";
 import { IActions, Sign } from "@/interfaces";
 
 export const signs: Sign[] = [
@@ -163,6 +172,51 @@ export const signs: Sign[] = [
         img: Z,
         description: "Con la mano cerrada, el dedo índice estirado y la palma al frente, se dibuja una letra z en el aire."
     },
+    {
+        name: "Uno",
+        img: uno,
+        description: "Se estira el índice con la palma al frente."
+    },
+    {
+        name: "Dos",
+        img: dos,
+        description: "Se estiran los dedos índice y medio."
+    },
+    {
+        name: "Tres",
+        img: tres,
+        description: "Se estiran los dedos índice, medio y anular con la palma al frente."
+    },
+    {
+        name: "Cuatro",
+        img: cuatro,
+        description: "Se estiran los dedos índice, medio, anular y meñique."
+    },
+    {
+        name: "Cinco",
+        img: cinco,
+        description: "Se abre la mano con la palma al frente y los dedos separados."
+    },
+    {
+        name: "Seis",
+        img: seis,
+        description: "Se hace la letra a con el pulgar hacia arriba."
+    },
+    {
+        name: "Yo",
+        img: yo,
+        description: "Con el índice se señala el pecho."
+    },
+    {
+        name: "Hola",
+        img: hola,
+        description: "Extiende tu mano derecha (si eres diestro) con los dedos unidos y la palma hacia abajo. Luego mueve tu mano de derecha a izquierda en un movimiento de oscilación o vaivén, similar a como lo harías al saludar normalmente."
+    },
+    {
+        name: "Amor",
+        img: amor,
+        description: "Coloca ambas manos a la altura del pecho. Cierra las manos en puños, pero con los pulgares extendidos y apuntando hacia arriba."
+    }
 ]
 const actions: IActions[] = [
     {
