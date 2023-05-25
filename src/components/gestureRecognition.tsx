@@ -53,9 +53,8 @@ const GestureRecognition: React.FC = () => {
             );
             const gestures = results.gestures[0];
             if (gestures && gestures[0].categoryName !== lastGesture) {
-              console.log(lastGesture, gestures[0].categoryName);
               setGestureName(gestures[0].categoryName);
-              if (gestures[0].categoryName === "space") {
+              if (gestures[0].categoryName === "espacio") {
                 setGestureSequence((oldSequence) => oldSequence + " ");
               } else if (gestures[0].categoryName === "del") {
                 setGestureSequence((oldSequence) => oldSequence.slice(0, -1));

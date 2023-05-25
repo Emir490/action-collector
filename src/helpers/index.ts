@@ -173,36 +173,6 @@ export const signs: Sign[] = [
         description: "Con la mano cerrada, el dedo índice estirado y la palma al frente, se dibuja una letra z en el aire."
     },
     {
-        name: "Uno",
-        img: uno,
-        description: "Se estira el índice con la palma al frente."
-    },
-    {
-        name: "Dos",
-        img: dos,
-        description: "Se estiran los dedos índice y medio."
-    },
-    {
-        name: "Tres",
-        img: tres,
-        description: "Se estiran los dedos índice, medio y anular con la palma al frente."
-    },
-    {
-        name: "Cuatro",
-        img: cuatro,
-        description: "Se estiran los dedos índice, medio, anular y meñique."
-    },
-    {
-        name: "Cinco",
-        img: cinco,
-        description: "Se abre la mano con la palma al frente y los dedos separados."
-    },
-    {
-        name: "Seis",
-        img: seis,
-        description: "Se hace la letra a con el pulgar hacia arriba."
-    },
-    {
         name: "Yo",
         img: yo,
         description: "Con el índice se señala el pecho."
