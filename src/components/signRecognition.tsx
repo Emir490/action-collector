@@ -1,10 +1,15 @@
 import { useRouter } from "next/router";
 import { useRef, useEffect, useState } from "react";
 import Webcam from "react-webcam";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+// Include toastify CSS to render the notification
 
 type Props = {
   sign: string;
 };
+
+const sleep = (seconds: number) => new Promise((r) => setTimeout(r, seconds * 1000));
 
 const SignRecognition: React.FC<Props> = ({ sign }) => {
   const [isCamera, setIsCamera] = useState(false);
@@ -44,8 +49,12 @@ const SignRecognition: React.FC<Props> = ({ sign }) => {
           );
           const gestures = results.gestures[0];
           if (gestures) {
+            const prediction = gestures[0].categoryName.toLowerCase()
+            const signToGuess = sign.toLowerCase()
 
-            if (gestures[0].categoryName == sign) {
+            if (prediction === signToGuess) {
+              toast.info("Correcto!", { position: "bottom-center" });
+              await sleep(5)
               setIsCamera(false);
               router.push("/learning");
             }
@@ -85,6 +94,7 @@ const SignRecognition: React.FC<Props> = ({ sign }) => {
           Inténtalo
         </button>
       )}
+      <ToastContainer />
     </section>
   );
 };
