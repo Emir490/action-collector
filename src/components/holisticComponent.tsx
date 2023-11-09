@@ -11,7 +11,9 @@ import { toast } from "react-toastify";
 
 const sequenceLength = 30; // You can set the desired sequence length here.
 const numberSequences = 100; // You can set the desired number of sequences here.
-var currentNumVideos: number = 0;
+let currentNumVideos: number = 0;
+
+const sleep = (seconds: number) => new Promise((r) => setTimeout(r, seconds * 1000));
 
 const extractKeyPoints = (results: Results): Keypoints => {
   const pose: number[] = results.poseLandmarks
@@ -54,7 +56,7 @@ const HolisticComponent: React.FC = () => {
   const router = useRouter();
   const category = router.query.category;
   const action = router.query.action;
-  
+
   const handleBeforeUnload = (event: BeforeUnloadEvent) => {
     event.preventDefault();
     event.returnValue = "Estas cerrando la pagina";
@@ -90,6 +92,14 @@ const HolisticComponent: React.FC = () => {
         await handleStopCapture();
         handleUpload();
         framesRef.current = [];
+
+        toast.info("Preparandose para la siguiente captura", {
+          position: "top-center",
+          autoClose: 5000,
+          closeButton: false,
+          closeOnClick: false,
+        })
+        await sleep(5)
       }
     }
   }
@@ -200,7 +210,7 @@ const HolisticComponent: React.FC = () => {
       }
     }
     handleMediapipe();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [webcamRef, canvasRef, router.isReady]);
 
   return (
