@@ -14,7 +14,7 @@ const Sign: FC = () => {
   
   return (
     <Layout>
-      <div className="flex flex-col items-center justify-center h-screen mt-[-50px]">
+      <div className="flex flex-col items-center justify-center">
         <div className="shadow-lg">
           <Image
             src={sign?.img}

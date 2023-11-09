@@ -112,7 +112,7 @@ const GestureRecognition: React.FC = () => {
           <Webcam
             mirrored
             ref={webcamRef}
-            className="w-full h-full object-cover"
+            className="max-w-full max-h-full object-contain rounded-lg"
             screenshotFormat="image/jpeg"
           />
           <p className="absolute top-10 left-0 m-4 text-5xl text-black font-bold uppercase mt-10">

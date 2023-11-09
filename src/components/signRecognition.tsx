@@ -67,13 +67,13 @@ const SignRecognition: React.FC<Props> = ({ sign }) => {
   }, [webcamRef, isCamera]);
 
   return (
-    <section className={`bg-orange-400 mt-10 rounded-lg shadow-lg flex items-center justify-center ${isCamera ? 'h-screen' : 'w-80 h-60'}`}>
+    <section className={`bg-orange-400 mt-10 rounded-lg shadow-lg flex items-center justify-center ${isCamera ? '' : 'w-80 h-60'}`}>
       {isCamera ? (
         <div className="relative w-full h-full">
           <Webcam
             mirrored
             ref={webcamRef}
-            className="w-full h-full object-cover"
+            className="object-cover rounded-lg"
             screenshotFormat="image/jpeg"
           />
         </div>
