@@ -53,8 +53,11 @@ const SignRecognition: React.FC<Props> = ({ sign }) => {
             const signToGuess = sign.toLowerCase()
 
             if (prediction === signToGuess) {
-              toast.info("Correcto!", { position: "bottom-center" });
-              await sleep(5)
+              toast.info("Correcto!", {
+                position: "bottom-center",
+                autoClose: 3000,
+              });
+              await sleep(3)
               setIsCamera(false);
               router.push("/learning");
             }

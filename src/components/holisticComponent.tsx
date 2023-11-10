@@ -95,7 +95,7 @@ const HolisticComponent: React.FC = () => {
 
         toast.info("Preparandose para la siguiente captura", {
           position: "top-center",
-          autoClose: 5000,
+          autoClose: 4000,
           closeButton: false,
           closeOnClick: false,
         })
