@@ -238,7 +238,7 @@ const HolisticComponent: React.FC = () => {
       <div className="relative capture-sign-camera">
         <canvas ref={canvasRef} className="w-full rounded-xl"></canvas>
         {loading && (
-          <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-opacity-50 bg-black">
+          <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-opacity-50 rounded-xl bg-black">
             <ClipLoader color="#ffffff" loading={loading} size={50} />
           </div>
         )}
