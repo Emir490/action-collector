@@ -11,6 +11,8 @@ import { toast } from "react-toastify";
 
 const sequenceLength = 30; // You can set the desired sequence length here.
 const numberSequences = 100; // You can set the desired number of sequences here.
+const secondsBetweenCapture = 5;
+const millisecondsBetweenCapture = secondsBetweenCapture * 1000;
 let currentNumVideos: number = 0;
 
 const sleep = (seconds: number) => new Promise((r) => setTimeout(r, seconds * 1000));
@@ -92,14 +94,6 @@ const HolisticComponent: React.FC = () => {
         await handleStopCapture();
         handleUpload();
         framesRef.current = [];
-
-        toast.info("Preparandose para la siguiente captura", {
-          position: "top-center",
-          autoClose: 4000,
-          closeButton: false,
-          closeOnClick: false,
-        })
-        await sleep(5)
       }
     }
   }
@@ -139,7 +133,7 @@ const HolisticComponent: React.FC = () => {
     currentNumVideos = videos.length;
   }, [videos]);
 
-  const handleUpload = useCallback(() => {
+  const handleUpload = useCallback(async () => {
     if (recordedChunksRef.current.length) {
       setIsCollecting(false);
       setLoading(true);
@@ -187,6 +181,14 @@ const HolisticComponent: React.FC = () => {
       //   setLoading(false);
       //   return;
       // }
+      toast.info("Preparandose para la siguiente captura...", {
+        position: "top-center",
+        autoClose: millisecondsBetweenCapture / 2,
+        closeButton: false,
+        closeOnClick: false,
+        pauseOnHover: false,
+      })
+      await sleep(secondsBetweenCapture)
 
       setIsCollecting(true);
       setLoading(false)
@@ -224,7 +226,7 @@ const HolisticComponent: React.FC = () => {
         >
           {isCollecting ? "Detener Recolección" : loading ? "Recolectando fotogramas..." : "Iniciar Recolección"}
         </button>
-        <p className="text-white ml-5 text-xl">Recolectando fotogramas para <span className="font-bold">{action}</span> Video Número <span className="font-bold">{videos.length}</span></p>
+        <p className="black-text ml-5 text-xl">Recolectando fotogramas para <span className="font-bold">{action}</span> Video Número <span className="font-bold">{videos.length}</span></p>
       </div>
       <Webcam
         ref={webcamRef}
@@ -233,8 +235,8 @@ const HolisticComponent: React.FC = () => {
         screenshotFormat="image/jpeg"
         style={{ display: "none" }}
       />
-      <div className="relative w-full h-screen">
-        <canvas ref={canvasRef} className="w-full h-full object-cover"></canvas>
+      <div className="relative capture-sign-camera">
+        <canvas ref={canvasRef} className="w-full rounded-xl"></canvas>
         {loading && (
           <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-opacity-50 bg-black">
             <ClipLoader color="#ffffff" loading={loading} size={50} />

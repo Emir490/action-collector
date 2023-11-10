@@ -56,8 +56,9 @@ const SignRecognition: React.FC<Props> = ({ sign }) => {
               toast.info("Correcto!", {
                 position: "bottom-center",
                 autoClose: 3000,
+                pauseOnHover: false,
               });
-              await sleep(3)
+              await sleep(3.2)
               setIsCamera(false);
               router.push("/learning");
             }
