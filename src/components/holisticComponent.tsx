@@ -10,8 +10,8 @@ import { Video } from "@/interfaces/actions";
 import { toast } from "react-toastify";
 
 const sequenceLength = 30; // You can set the desired sequence length here.
-const numberSequences = 100; // You can set the desired number of sequences here.
-const secondsBetweenCapture = 5;
+const numberSequences = 30; // You can set the desired number of sequences here.
+const secondsBetweenCapture = 3;
 const millisecondsBetweenCapture = secondsBetweenCapture * 1000;
 let currentNumVideos: number = 0;
 
