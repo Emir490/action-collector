@@ -67,8 +67,8 @@ const GestureRecognition: React.FC = () => {
             }
           }
         },
-        width: 640,
-        height: 480,
+        width: 1280,
+        height: 720,
       });
       camera.start();
     };
@@ -83,8 +83,8 @@ const GestureRecognition: React.FC = () => {
   }, [webcamRef, isCamera]);
 
   return (
-    <section className={`${isCamera ? "relative w-full h-screen" : ""}`}>
-      <div className="mb-5">
+    <section className={`${isCamera ? "relative" : ""}`}>
+      <div className="mb-5 flex flex-row justify-center">
         <button
           className="p-3 bg-orange-400 hover:bg-orange-500 transition-colors text-white font-bold uppercase rounded-md"
           onClick={() => toggleCamera()}
@@ -112,13 +112,13 @@ const GestureRecognition: React.FC = () => {
           <Webcam
             mirrored
             ref={webcamRef}
-            className="max-w-full max-h-full object-contain rounded-lg"
+            className="rounded-lg mx-auto aspect-video lg:w-3/5"
             screenshotFormat="image/jpeg"
           />
-          <p className="absolute top-10 left-0 m-4 text-5xl text-black font-bold uppercase mt-10">
+          <p className="absolute top-10 left-0 m-4 w-full text-5xl text-black text-center font-bold uppercase mt-10">
             {gestureName}
           </p>
-          <p className="absolute top-20 left-0 m-4 text-4xl text-black font-bold uppercase mt-10">
+          <p className="absolute top-20 left-0 m-4 w-full text-4xl text-black text-center font-bold uppercase mt-10">
             {gestureSequence}
           </p>
         </>

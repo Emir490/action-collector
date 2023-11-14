@@ -230,13 +230,11 @@ const HolisticComponent: React.FC = () => {
       </div>
       <Webcam
         ref={webcamRef}
-        width={640}
-        height={480}
         screenshotFormat="image/jpeg"
         style={{ display: "none" }}
       />
-      <div className="relative capture-sign-camera">
-        <canvas ref={canvasRef} className="w-full rounded-xl"></canvas>
+      <div className="relative w-full lg:w-[70%]">
+        <canvas ref={canvasRef} className="w-full aspect-video rounded-xl"></canvas>
         {loading && (
           <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-opacity-50 rounded-xl bg-black">
             <ClipLoader color="#ffffff" loading={loading} size={50} />
@@ -245,8 +243,8 @@ const HolisticComponent: React.FC = () => {
       </div>
       <video
         ref={hiddenVideoRef}
-        width="1080"
-        height="720"
+        // width="1080"
+        // height="720"
         style={{ display: "none" }}
       ></video>
     </div>
