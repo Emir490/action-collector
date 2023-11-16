@@ -350,7 +350,7 @@ const actions: IActions[] = [
     },
     {
         category: "Otras Palabras",
-        actions: ['abandonar','abrazar','acceso','aceptar',
+        actions: ['hola', 'gracias', 'abandonar','abrazar','acceso','aceptar',
         'acostumbrar','adios','ahí','ahora','alabar','allá',
         'amolado','antifaz','apestoso','aprender','aprisa',
         'aprobado','aqui','arete','asomar','ayudar','bailar',
@@ -381,6 +381,10 @@ const actions: IActions[] = [
         'traducir','transformar','unido','untar','urgente','usar',
         'util','vago','valioso','ver','vez','volar',
         'voleivol','votar','voz','zapato']
+    },
+    {
+        category: "Extra",
+        actions: ["Nada"]
     }
 ];
 
