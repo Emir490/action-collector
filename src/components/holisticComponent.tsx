@@ -234,7 +234,7 @@ const HolisticComponent: React.FC = () => {
         style={{ display: "none" }}
       />
       <div className="relative w-full lg:w-[70%]">
-        <canvas ref={canvasRef} className="w-full aspect-video rounded-xl h-screen object-cover sm:h-auto sm:object-contain lg:w-3/5"></canvas>
+        <canvas ref={canvasRef} className="w-full aspect-video rounded-xl"></canvas>
         {loading && (
           <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-opacity-50 rounded-xl bg-black">
             <ClipLoader color="#ffffff" loading={loading} size={50} />

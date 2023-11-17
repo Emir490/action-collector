@@ -115,10 +115,10 @@ const GestureRecognition: React.FC = () => {
             className="rounded-lg mx-auto h-screen object-cover sm:h-auto sm:object-contain lg:w-3/5"
             screenshotFormat="image/jpeg"
           />
-          <p className="absolute top-10 left-0 m-4 w-full text-5xl text-black text-center font-bold uppercase mt-10">
+          <p className="absolute top-10 left-0 p-4 w-full text-5xl text-black text-center font-bold uppercase pt-10">
             {gestureName}
           </p>
-          <p className="absolute top-20 left-0 m-4 w-full text-4xl text-black text-center font-bold uppercase mt-10">
+          <p className="absolute top-20 left-0 p-4 w-full text-4xl text-black text-center break-words font-bold uppercase pt-10">
             {gestureSequence}
           </p>
         </>

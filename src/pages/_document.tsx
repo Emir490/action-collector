@@ -31,7 +31,7 @@ export default function Document() {
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:url" content="https://action-collector.vercel.app" />
         <meta name="twitter:title" content="PWA App" />
-        <meta name="twitter:description" content="Best PWA App in the world" />
+        <meta name="twitter:description" content="SignAI - Aprende lenguage de señas" />
         <meta name="twitter:image" content="https://yourdomain.com/icons/android-chrome-192x192.png" />
         <meta property="og:type" content="website" />
         <meta property="og:title" content="PWA App" />
