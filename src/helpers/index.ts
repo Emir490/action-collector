@@ -384,7 +384,7 @@ const actions: IActions[] = [
     },
     {
         category: "Extra",
-        actions: ["Nada"]
+        actions: ["Sin acción"]
     }
 ];
 

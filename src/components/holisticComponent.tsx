@@ -10,10 +10,10 @@ import { Video } from "@/interfaces/actions";
 import { toast } from "react-toastify";
 
 const sequenceLength = 30; // You can set the desired sequence length here.
-const numberSequences = 100; // You can set the desired number of sequences here.
+const numberSequences = 50; // You can set the desired number of sequences here.
 const secondsBetweenCapture = 3;
 const millisecondsBetweenCapture = secondsBetweenCapture * 1000;
-let currentNumVideos: number = 0;
+let currentNumVideos = 0;
 
 const sleep = (seconds: number) => new Promise((r) => setTimeout(r, seconds * 1000));
 
@@ -234,7 +234,7 @@ const HolisticComponent: React.FC = () => {
         style={{ display: "none" }}
       />
       <div className="relative w-full lg:w-[70%]">
-        <canvas ref={canvasRef} className="w-full aspect-video rounded-xl"></canvas>
+        <canvas ref={canvasRef} className="w-full aspect-video rounded-xl h-screen object-cover sm:h-auto sm:object-contain lg:w-3/5"></canvas>
         {loading && (
           <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-opacity-50 rounded-xl bg-black">
             <ClipLoader color="#ffffff" loading={loading} size={50} />
