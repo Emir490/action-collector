@@ -9,8 +9,9 @@ import {
   faBook,
   faGamepad,
   faHandsHelping,
+  faRunning,
 } from "@fortawesome/free-solid-svg-icons";
-import { menuClasses } from "react-pro-sidebar";
+import { CSSObject, menuClasses } from "react-pro-sidebar";
 
 const Sidebar = dynamic(
   () => import("react-pro-sidebar").then((mod) => mod.Sidebar),
@@ -24,6 +25,17 @@ const MenuItem = dynamic(
   () => import("react-pro-sidebar").then((mod) => mod.MenuItem),
   { ssr: false }
 );
+
+const rootStyles: CSSObject = {
+  ["." + menuClasses.button]: {
+    backgroundColor: "#fb923c",
+    textTransform: "uppercase",
+    fontWeight: "700",
+    "&:hover": {
+      backgroundColor: "#f97316",
+    },
+  },
+};
 
 const Header = () => {
   const isMobile = useMobile();
@@ -43,76 +55,49 @@ const Header = () => {
         backgroundColor="#FED7AA"
       >
         <Menu>
-          <Link className="text-white" href='/'>
+          <Link className="text-white" href="/">
             <MenuItem
-              component={<div/>}
+              component={<div />}
               icon={<FontAwesomeIcon color="white" icon={faHome} />}
-              rootStyles={{
-                ["." + menuClasses.button]: {
-                  backgroundColor: "#fb923c",
-                  textTransform: "uppercase",
-                  fontWeight: "700",
-                  "&:hover": {
-                    backgroundColor: "#f97316",
-                  },
-                },
-              }}
+              rootStyles={rootStyles}
             >
               Inicio
             </MenuItem>
           </Link>
-          <Link className="text-white" href='/learning'>
+          <Link className="text-white" href="/learning">
             <MenuItem
-              component={<div/>}
+              component={<div />}
               icon={<FontAwesomeIcon color="white" icon={faBook} />}
-              rootStyles={{
-                ["." + menuClasses.button]: {
-                  backgroundColor: "#fb923c",
-                  textTransform: "uppercase",
-                  fontWeight: "700",
-                  "&:hover": {
-                    backgroundColor: "#f97316",
-                  },
-                },
-              }}
+              rootStyles={rootStyles}
             >
               Aprendizaje
             </MenuItem>
           </Link>
-          <Link className="text-white" href='/play'>
+          <Link className="text-white" href="/play">
             <MenuItem
-              component={<div/>}
+              component={<div />}
               icon={<FontAwesomeIcon color="white" icon={faGamepad} />}
-              rootStyles={{
-                ["." + menuClasses.button]: {
-                  backgroundColor: "#fb923c",
-                  textTransform: "uppercase",
-                  fontWeight: "700",
-                  "&:hover": {
-                    backgroundColor: "#f97316",
-                  },
-                },
-              }}
+              rootStyles={rootStyles}
             >
               Jugar
             </MenuItem>
           </Link>
-          <Link className="text-white" href='/menu'>
+          <Link className="text-white" href="/menu">
             <MenuItem
-              component={<div/>}
+              component={<div />}
               icon={<FontAwesomeIcon color="white" icon={faHandsHelping} />}
-              rootStyles={{
-                ["." + menuClasses.button]: {
-                  backgroundColor: "#fb923c",
-                  textTransform: "uppercase",
-                  fontWeight: "700",
-                  "&:hover": {
-                    backgroundColor: "#f97316",
-                  },
-                },
-              }}
+              rootStyles={rootStyles}
             >
               Contribuir
+            </MenuItem>
+          </Link>
+          <Link className="text-white" href="/action">
+            <MenuItem
+              component={<div />}
+              icon={<FontAwesomeIcon color="white" icon={faRunning} />}
+              rootStyles={rootStyles}
+            >
+              Acción
             </MenuItem>
           </Link>
         </Menu>
@@ -125,12 +110,17 @@ const Header = () => {
       </Link>
       {!isMobile && (
         <div className="flex justify-end gap-x-3">
-          <Link className="text-white font-bold text-xl" href='/learning'>Aprendizaje</Link>
+          <Link className="text-white font-bold text-xl" href="/learning">
+            Aprendizaje
+          </Link>
           <Link className="text-white font-bold text-xl" href="/menu">
             Contribuir
           </Link>
           <Link className="text-white font-bold text-xl" href="/play">
             Jugar
+          </Link>
+          <Link className="text-white font-bold text-xl" href="/action">
+            Acción
           </Link>
         </div>
       )}
