@@ -28,7 +28,7 @@ const extractKeyPoints = (results: Results) => {
 
 const sequenceLength = 30;
 
-const actions = ['acceso', 'aceptar', 'ayudar', 'descansar', 'dinero', 'duda', 'hacer', 'nada', 'sin_acción', 'regresar'];
+const actions = ['acceso', 'aceptar', 'ayudar', 'descansar', 'dinero', 'duda', 'gracias', 'hacer', 'hola', 'nada', 'necesitar', 'regresar', 'sin_accion', 'tambien', 'urgente'];
 
 const ActionRecognition = () => {
   const [isCamera, setIsCamera] = useState(false);
