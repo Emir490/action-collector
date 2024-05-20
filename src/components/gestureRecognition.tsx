@@ -1,3 +1,5 @@
+import { faCamera, faPowerOff, faSyncAlt, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRef, useEffect, useState } from "react";
 import Webcam from "react-webcam";
 
@@ -89,13 +91,14 @@ const GestureRecognition: React.FC = () => {
           className="p-3 bg-orange-400 hover:bg-orange-500 transition-colors text-white font-bold uppercase rounded-md"
           onClick={() => toggleCamera()}
         >
+          <FontAwesomeIcon icon={faCamera} className="mr-2" />
           {isCamera ? "Apagar" : "Encender"}
         </button>
         <button
           className="p-3 bg-orange-400 hover:bg-orange-500 transition-colors text-white font-bold uppercase rounded-md ml-2"
-          // Add your styling here
           onClick={() => resetSequence()}
         >
+          <FontAwesomeIcon icon={faSyncAlt} className="mr-2" />
           Reiniciar
         </button>
         <button
@@ -104,6 +107,7 @@ const GestureRecognition: React.FC = () => {
             setGestureSequence((oldSequence) => oldSequence.slice(0, -1))
           }
         >
+          <FontAwesomeIcon icon={faTrashAlt} className="mr-2" />
           Borrar
         </button>
       </div>

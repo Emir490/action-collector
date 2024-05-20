@@ -3,6 +3,8 @@ import React, { useEffect, useRef, useState } from "react";
 import Webcam from "react-webcam";
 import * as tf from "@tensorflow/tfjs";
 import { Camera } from "@mediapipe/camera_utils";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCamera } from "@fortawesome/free-solid-svg-icons";
 
 const extractKeyPoints = (results: Results) => {
   const pose: number[] = results.poseLandmarks
@@ -124,6 +126,7 @@ const ActionRecognition = () => {
           className="p-3 bg-orange-400 hover:bg-orange-500 transition-colors text-white font-bold uppercase rounded-md"
           onClick={toggleCamera}
         >
+          <FontAwesomeIcon icon={faCamera} className="mr-2" />
           {isCamera ? "Apagar" : "Encender"}
         </button>
       </div>
@@ -137,7 +140,7 @@ const ActionRecognition = () => {
             screenshotFormat="image/jpeg"
           />
           <div className="p-4 text-center">
-            <p className="text-xl font-bold text-gray-700">Predicted Action:</p>
+            <p className="text-xl font-bold text-gray-700">Acción realizada:</p>
             <p className="text-2xl text-orange-500 font-semibold">{predictedAction}</p>
           </div>
         </>

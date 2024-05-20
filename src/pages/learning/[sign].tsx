@@ -1,6 +1,6 @@
 import Layout from "@/components/layout";
 import Image from "next/image";
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import { useRouter } from "next/router";
 import { signs } from "@/helpers";
 import SignRecognition from "@/components/signRecognition";
