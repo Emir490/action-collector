@@ -73,13 +73,22 @@ const Header = () => {
               Aprendizaje
             </MenuItem>
           </Link>
-          <Link className="text-white" href="/play">
+          <Link className="text-white" href="/action">
             <MenuItem
               component={<div />}
-              icon={<FontAwesomeIcon color="white" icon={faGamepad} />}
+              icon={<FontAwesomeIcon color="white" icon={faRunning} />}
               rootStyles={rootStyles}
             >
-              Jugar
+              Acción
+            </MenuItem>
+          </Link>
+          <Link className="text-white" href="/mobile">
+            <MenuItem
+              component={<div />}
+              icon={<FontAwesomeIcon color="white" icon={faRunning} />}
+              rootStyles={rootStyles}
+            >
+              Acción Móvil
             </MenuItem>
           </Link>
           <Link className="text-white" href="/menu">
@@ -91,13 +100,13 @@ const Header = () => {
               Contribuir
             </MenuItem>
           </Link>
-          <Link className="text-white" href="/action">
+          <Link className="text-white" href="/play">
             <MenuItem
               component={<div />}
-              icon={<FontAwesomeIcon color="white" icon={faRunning} />}
+              icon={<FontAwesomeIcon color="white" icon={faGamepad} />}
               rootStyles={rootStyles}
             >
-              Acción
+              Jugar
             </MenuItem>
           </Link>
         </Menu>
@@ -116,11 +125,14 @@ const Header = () => {
           <Link className="text-white font-bold text-xl" href="/menu">
             Contribuir
           </Link>
-          <Link className="text-white font-bold text-xl" href="/play">
-            Jugar
-          </Link>
           <Link className="text-white font-bold text-xl" href="/action">
             Acción
+          </Link>
+          <Link className="text-white font-bold text-xl" href="/mobile">
+            Acción Móvil
+          </Link>
+          <Link className="text-white font-bold text-xl" href="/play">
+            Jugar
           </Link>
         </div>
       )}
