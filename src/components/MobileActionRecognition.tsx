@@ -38,6 +38,7 @@ const MobileActionRecognition: React.FC = () => {
   const sequence = useRef<number[][]>([]);
 
   const toggleCamera = () => setIsCamera(!isCamera);
+  const toggleFacingMode = () => setFacingMode(fm => fm === 'user' ? 'environment' : 'user');
 
   useEffect(() => {
     loadModel();
@@ -45,11 +46,9 @@ const MobileActionRecognition: React.FC = () => {
 
   // when camera & model ready, start Mediapipe
   useEffect(() => {
-    if (isCamera && webcamRef.current && canvasRef.current && model) {
+    if (isCamera && webcamRef.current && model) {
       const setupCamera = async () => {
         try {
-          console.log("Setting up camera for mobile recognition...");
-          
           // Ensure video element is properly initialized
           const video = webcamRef.current!.video as HTMLVideoElement;
           
@@ -61,31 +60,23 @@ const MobileActionRecognition: React.FC = () => {
               setTimeout(resolve, 1000);
             });
           }
-          
+
           // Now setup the hand landmarker
           await setupHandLandmarker(
             video,
-            canvasRef.current!,
             onFrame,
             false,
-            facingMode
           );
           
-          console.log("Mobile camera setup complete");
         } catch (error) {
           console.error("Error setting up mobile camera:", error);
         }
       };
-      
+      console.log("Loading model...");
       setupCamera();
     }
     
-    // Cleanup function
-    return () => {
-      console.log("Cleaning up camera resources...");
-      // Add any necessary cleanup code here
-    };
-  }, [isCamera, model, facingMode]);
+  }, [isCamera, model]);
 
   async function onFrame(results: HandLandmarkerResult) {
     if (!model) return;
@@ -109,37 +100,57 @@ const MobileActionRecognition: React.FC = () => {
       );
 
       const action = actions[predictedClassIndex];
+      console.log(`Predicted action: ${action}`);
       setPredictedAction(action); // Update the predicted action
       sequence.current = [];
     }
   }
 
   return (
-    <section className="flex flex-col items-center justify-center">
-      <div className="p-4">
+    <section className="flex flex-col items-center justify-center px-4 sm:px-0 max-w-4xl mx-auto">
+      {/* Instrucciones de uso en Español */}
+      <div className="w-full max-w-md mx-auto mb-6 text-center px-4">
+        <h2 className="text-2xl font-bold text-gray-800">Reconocimiento de gestos</h2>
+        <p className="mt-2 text-gray-600">
+          Esta pantalla permite reconocer acciones mediante la cámara de tu dispositivo móvil. Pulsa el botón de abajo para iniciar o detener la cámara.
+        </p>
+        <p className="mt-2 text-gray-600 font-semibold">
+          Gestos soportados: {actions.join(', ')}.
+        </p>
+      </div>
+      <div className="w-full max-w-md mx-auto p-4">
         <button
-          className="p-3 bg-orange-400 hover:bg-orange-500 transition-colors text-white font-bold uppercase rounded-md"
+          className="w-full p-3 bg-orange-400 hover:bg-orange-500 transition-colors text-white font-bold uppercase rounded-md"
           onClick={toggleCamera}
         >
           <FontAwesomeIcon icon={faCamera} className="mr-2" />
-          {isCamera ? "Stop" : "Start"} Mobile Recognition
+          {isCamera ? "Detener" : "Inciciar"} Reconocimiento Movil
+        </button>
+        <button
+          className="w-full mt-2 p-3 bg-blue-400 hover:bg-blue-500 transition-colors text-white font-bold uppercase rounded-md"
+          onClick={toggleFacingMode}
+        >
+          Cambiar cámara
         </button>
       </div>
       {isCamera && (
-        <>
-          <Webcam
-            mirrored
-            ref={webcamRef}
-            screenshotFormat="image/jpeg"
-            className="rounded-lg mx-auto object-cover sm:h-auto"
-          />
-          <div className="p-4 text-center">
-            <p className="text-xl font-bold text-gray-700">Predicted action:</p>
-            <p className="text-2xl text-orange-500 font-semibold">
-              {predictedAction}
-            </p>
+        <div className="flex flex-col items-center lg:flex-row lg:justify-center lg:space-x-8 w-full mb-4">
+          {/* Cámara */}
+          <div className="w-full mb-4 lg:mb-0 lg:w-3/4 xl:w-4/5">
+            <Webcam
+              mirrored
+              ref={webcamRef}
+              screenshotFormat="image/jpeg"
+              videoConstraints={{ facingMode }}
+              className="w-full h-auto rounded-lg object-cover"
+            />
           </div>
-        </>
+          {/* Predicción */}
+          <div className="sticky top-0 z-10 w-full bg-white p-4 text-center shadow-md lg:w-1/4 xl:w-1/5">
+            <p className="text-lg sm:text-xl font-bold text-gray-700">Acción predicha:</p>
+            <p className="text-xl sm:text-2xl text-orange-500 font-semibold">{predictedAction}</p>
+          </div>
+        </div>
       )}
     </section>
   );

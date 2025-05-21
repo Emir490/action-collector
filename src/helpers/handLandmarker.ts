@@ -33,7 +33,7 @@ export async function drawStyledLandmarks(
     for (let i = 0; i < results.landmarks.length; i++) {
       const landmarks = results.landmarks[i];
       const handed =
-        results.handedness?.[i]?.[0]?.categoryName === "Left"
+        results.handednesses?.[i]?.[0]?.categoryName === "Left"
           ? "Left"
           : "Right";
       const color =
@@ -54,14 +54,13 @@ export async function drawStyledLandmarks(
 
 export async function setupHandLandmarker(
   videoElement: HTMLVideoElement,
-  canvas: HTMLCanvasElement,
   onFrameCallback: (r: HandLandmarkerResult) => void,
   drawOverlay = true,
   facingMode: 'user' | 'environment' = 'user'
 ) {
   const { Camera } = await import("@mediapipe/camera_utils");
 
-  if (!videoElement || !canvas) return;
+  if (!videoElement) return;
   try {
     // Wait for video element to be properly initialized
     if (!videoElement.readyState || videoElement.readyState < 1) {
@@ -80,8 +79,8 @@ export async function setupHandLandmarker(
     videoElement.muted = true;
 
     // Ensure canvas is ready
-    canvas.width = videoElement.videoWidth || 640;
-    canvas.height = videoElement.videoHeight || 480;
+    // canvas.width = videoElement.videoWidth || 640;
+    // canvas.height = videoElement.videoHeight || 480;
 
     console.log("Loading vision tasks...");
     const vision = await FilesetResolver.forVisionTasks(
@@ -107,13 +106,13 @@ export async function setupHandLandmarker(
     const camera = new Camera(videoElement, {
       onFrame: async () => {
         try {
-          if (
-            canvas.width !== videoElement.videoWidth ||
-            canvas.height !== videoElement.videoHeight
-          ) {
-            canvas.width = videoElement.videoWidth;
-            canvas.height = videoElement.videoHeight;
-          }
+          // if (
+          //   canvas.width !== videoElement.videoWidth ||
+          //   canvas.height !== videoElement.videoHeight
+          // ) {
+          //   canvas.width = videoElement.videoWidth;
+          //   canvas.height = videoElement.videoHeight;
+          // }
           if (
             videoElement.readyState >= 2 &&
             videoElement.currentTime !== lastVideoTime
@@ -124,9 +123,9 @@ export async function setupHandLandmarker(
               performance.now()
             );
             onFrameCallback(results);
-            if (drawOverlay) {
-              await drawStyledLandmarks(canvas, results, videoElement);
-            }
+            // if (drawOverlay) {
+            //   await drawStyledLandmarks(canvas, results, videoElement);
+            // }
           }
         } catch (e) {
           console.error("Error in camera frame processing:", e);
