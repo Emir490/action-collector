@@ -1,0 +1,13 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle -->
+  <circle cx="12" cy="12" r="12" fill="#f97316"/>
+  
+  <!-- Hand Icon (simplified for mobile) -->
+  <path d="M9 6C9 5.44772 9.44772 5 10 5H14C14.5523 5 15 5.44772 15 6V9C15 9.55228 14.5523 10 14 10H10C9.44772 10 9 9.55228 9 9V6Z" fill="white"/>
+  
+  <!-- Fingers -->
+  <path d="M7.5 12C7.5 11.4477 7.94772 11 8.5 11H15.5C16.0523 11 16.5 11.4477 16.5 12V15C16.5 15.5523 16.0523 16 15.5 16H8.5C7.94772 16 7.5 15.5523 7.5 15V12Z" fill="white"/>
+  
+  <!-- LSM Text (smaller for mobile) -->
+  <text x="12" y="21" text-anchor="middle" font-family="Arial, sans-serif" font-size="4" font-weight="bold" fill="white">LSM</text>
+</svg> 

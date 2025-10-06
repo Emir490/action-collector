@@ -1,13 +1,227 @@
-import CategoriesList from '@/components/categoriesList'
-import Layout from '@/components/layout'
-import React from 'react'
+import { useState } from 'react';
+import Image from "next/image";
+import { useRouter } from 'next/router';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Camera, Hand, MessageSquare, Gamepad2, BookOpen, PlusCircle, Download } from 'lucide-react';
+import { getAllActions, IActions } from "@/helpers";
 
-const Menu = () => {
+const actionsData: IActions[] = getAllActions();
+
+const extractCategories = (actions: IActions[]): string[] => {
+  const categories: string[] = actions.map((action) => action.category);
+  return [...new Set(categories)];
+};
+
+const categories = extractCategories(actionsData);
+
+export default function MenuPage() {
+  const router = useRouter();
+  const [selectedCategory, setSelectedCategory] = useState(categories[0] || '');
+
+  // Encontrar la categoría seleccionada y obtener sus acciones
+  const currentCategoryData = actionsData.find(cat => cat.category === selectedCategory);
+  const actionsInCategory = currentCategoryData ? currentCategoryData.actions : [];
+
   return (
-    <Layout>
-      <CategoriesList />
-    </Layout>
-  )
-}
+    <div className="min-h-screen bg-neutral-900 text-white flex flex-col lg:flex-row">
+      {/* Vista móvil */}
+      <div className="lg:hidden flex flex-col h-screen">
+        <header className="flex items-center justify-between p-4 bg-orange-600/80 backdrop-blur-sm border-b border-orange-700">
+          <div className="flex items-center gap-2">
+            <Image 
+              src="/signaitext-white.svg" 
+              alt="SignAI Text Logo" 
+              width={120} 
+              height={40} 
+              className="h-8 w-auto"
+            />
+          </div>
+          <Button 
+            variant="ghost" 
+            size="icon"
+            onClick={() => router.push('/')}
+            className="text-white hover:bg-orange-700"
+          >
+            <Camera className="w-6 h-6" />
+          </Button>
+        </header>
 
-export default Menu
+        <div className="flex-1 overflow-y-auto p-4">
+          <div className="mb-4">
+            <select
+              className="w-full p-3 bg-orange-700 text-white rounded-lg font-semibold border border-orange-600"
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+            >
+              {categories.map((category) => (
+                <option value={category} key={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {actionsInCategory.length > 0 && (
+            <div className="mb-4">
+              <Button 
+                className="w-full bg-orange-500 hover:bg-orange-600 text-white"
+                onClick={() => {
+                  const firstAction = actionsInCategory[0];
+                  router.push({
+                    pathname: `/menu/${firstAction}/add`,
+                    query: { category: selectedCategory, action: firstAction }
+                  });
+                }}
+              >
+                <PlusCircle className="w-5 h-5 mr-2" />
+                Añadir Señas
+              </Button>
+            </div>
+          )}
+
+          <div className="space-y-2">
+            {actionsInCategory.map((action, index) => (
+              <Card 
+                key={index}
+                className="bg-orange-700/50 border-orange-600 hover:bg-orange-600/50 transition-all duration-300 cursor-pointer group"
+                onClick={() => router.push({
+                  pathname: `/menu/${action}`,
+                  query: { category: selectedCategory, action: action }
+                })}
+              >
+                <CardContent className="p-3 flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center bg-orange-500/30 group-hover:bg-orange-500/50 transition-all duration-300 flex-shrink-0">
+                    <Hand className="w-5 h-5 text-white" />
+                  </div>
+                  <p className="text-sm text-orange-100 group-hover:text-white transition-colors font-medium capitalize">
+                    {action}
+                  </p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Vista desktop - Sidebar */}
+      <div className="hidden lg:flex lg:flex-col lg:w-80 lg:h-screen lg:bg-orange-600/90 lg:border-r lg:border-orange-700 lg:overflow-hidden lg:fixed lg:left-0 lg:top-0">
+        <div className="p-6 border-b border-orange-700 flex-shrink-0">
+          <div className="flex items-center gap-3 mb-4">
+            <Image 
+              src="/signaitext-white.svg" 
+              alt="SignAI Text Logo" 
+              width={160} 
+              height={54} 
+              className="h-12 w-auto"
+            />
+          </div>
+          <p className="text-orange-100 text-sm">Por un México Inclusivo</p>
+        </div>
+
+        <div className="p-6 flex-1 flex flex-col min-h-0">
+          <div className="flex-shrink-0">
+            <h3 className="text-lg font-semibold text-orange-100 mb-4">Modo de Reconocimiento</h3>
+            <div className="space-y-3 mb-6">
+              <Button 
+                className="w-full bg-orange-700/50 hover:bg-orange-600 justify-start text-orange-100 border border-orange-600"
+                onClick={() => router.push('/')}
+              >
+                <Hand className="w-5 h-5 mr-3" />
+                Abecedario LSM
+              </Button>
+              <Button 
+                className="w-full bg-orange-700/50 hover:bg-orange-600 justify-start text-orange-100 border border-orange-600"
+                onClick={() => router.push('/action')}
+              >
+                <MessageSquare className="w-5 h-5 mr-3" />
+                Frases LSM
+              </Button>
+              <Button 
+                className="w-full bg-orange-700/50 hover:bg-orange-600 justify-start text-orange-100 border border-orange-600"
+                onClick={() => router.push('/play')}
+              >
+                <Gamepad2 className="w-5 h-5 mr-3" />
+                Jugar
+              </Button>
+            </div>
+
+            <h3 className="text-lg font-semibold text-orange-100 mb-4">Categorías</h3>
+          </div>
+
+          <div className="flex-1 overflow-y-auto min-h-0">
+            <div className="space-y-2 pb-4">
+              {categories.map((category) => (
+                <Button 
+                  key={category}
+                  className={`w-full justify-start ${
+                    selectedCategory === category 
+                      ? 'bg-orange-700 text-white border-2 border-orange-500' 
+                      : 'bg-orange-700/50 text-orange-100 border border-orange-600'
+                  } hover:bg-orange-600`}
+                  onClick={() => setSelectedCategory(category)}
+                >
+                  <BookOpen className="w-4 h-4 mr-3" />
+                  {category}
+                </Button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Vista desktop - Contenido principal */}
+      <main className="hidden lg:flex lg:flex-1 lg:flex-col lg:p-6 lg:pl-80 lg:pr-6 lg:h-screen lg:overflow-hidden">
+        <div className="flex flex-col h-full gap-4">
+          <div className="flex-shrink-0">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h1 className="text-3xl font-bold mb-2">Diccionario LSM</h1>
+                <p className="text-orange-100">Categoría: <span className="text-white font-semibold">{selectedCategory}</span></p>
+              </div>
+              {actionsInCategory.length > 0 && (
+                <Button 
+                  className="bg-orange-500 hover:bg-orange-600 text-white"
+                  onClick={() => {
+                    const firstAction = actionsInCategory[0];
+                    router.push({
+                      pathname: `/menu/${firstAction}/add`,
+                      query: { category: selectedCategory, action: firstAction }
+                    });
+                  }}
+                >
+                  <PlusCircle className="w-5 h-5 mr-2" />
+                  Añadir Señas
+                </Button>
+              )}
+            </div>
+          </div>
+
+          <div className="flex-1 overflow-y-auto min-h-0">
+            <div className="space-y-3 pb-4">
+              {actionsInCategory.map((action, index) => (
+                <Card 
+                  key={index}
+                  className="bg-orange-700/50 border-orange-600 hover:bg-orange-600/50 transition-all duration-300 cursor-pointer group"
+                  onClick={() => router.push({
+                    pathname: `/menu/${action}`,
+                    query: { category: selectedCategory, action: action }
+                  })}
+                >
+                  <CardContent className="p-4 flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-full flex items-center justify-center bg-orange-500/30 group-hover:bg-orange-500/50 transition-all duration-300 flex-shrink-0">
+                      <Hand className="w-6 h-6 text-white" />
+                    </div>
+                    <p className="text-base text-orange-100 group-hover:text-white transition-colors font-medium capitalize">
+                      {action}
+                    </p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+}
