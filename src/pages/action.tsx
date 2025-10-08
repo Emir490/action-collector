@@ -150,7 +150,7 @@ export default function ActionPage() {
     const isDesktop = window.innerWidth >= 1024;
     
     if (isDesktop && isCamera) {
-      loadModel();
+    loadModel();
     }
   }, [isCamera]);
 
@@ -253,7 +253,7 @@ export default function ActionPage() {
             ].map((btn, i) => {
               const Icon = btn.icon;
               return (
-                <Button
+              <Button 
                   key={i}
                   className={`transition-all duration-200 ${
                     scrolled
@@ -268,40 +268,40 @@ export default function ActionPage() {
                 >
                   <Icon className={`w-5 h-5 ${scrolled ? '' : 'mr-3'}`} />
                   {!scrolled && btn.label}
-                </Button>
+              </Button>
               );
             })}
           </div>
-        </div>
+          </div>
 
         {/* Acciones */}
         <div className="p-6">
           <h3 className="text-lg font-semibold text-orange-100 mb-4">Acciones Reconocibles</h3>
-          <div className="grid grid-cols-2 gap-2 pb-4">
-            {actions.filter(action => action !== 'sin_accion').map((action, index) => {
-              const file = `/Accion/${action.toLowerCase()}.svg`;
-              return (
-                <Card 
-                  key={index}
+            <div className="grid grid-cols-2 gap-2 pb-4">
+              {actions.filter(action => action !== 'sin_accion').map((action, index) => {
+                const file = `/Accion/${action.toLowerCase()}.svg`;
+                return (
+                  <Card 
+                    key={index}
                   className="bg-orange-400/20 border-orange-400/40 aspect-square"
-                >
-                  <CardContent className="p-3 flex flex-col items-center justify-center gap-2 h-full">
-                    <div className="w-24 h-24 flex items-center justify-center rounded">
-                      <Image
-                        src={file}
-                        alt={`Frase ${action} en LSM`}
+                  >
+                    <CardContent className="p-3 flex flex-col items-center justify-center gap-2 h-full">
+                      <div className="w-24 h-24 flex items-center justify-center rounded">
+                        <Image
+                          src={file}
+                          alt={`Frase ${action} en LSM`}
                         width={96}
                         height={96}
-                        className="w-20 h-20 object-contain invert"
-                      />
-                    </div>
+                          className="w-20 h-20 object-contain invert"
+                        />
+                      </div>
                     <p className="text-sm text-center text-orange-200 font-medium">
-                      {action.charAt(0).toUpperCase() + action.slice(1)}
-                    </p>
-                  </CardContent>
-                </Card>
-              );
-            })}
+                        {action.charAt(0).toUpperCase() + action.slice(1)}
+                      </p>
+                    </CardContent>
+                  </Card>
+                );
+              })}
           </div>
         </div>
       </div>
@@ -310,38 +310,38 @@ export default function ActionPage() {
       <main className="hidden lg:flex lg:flex-1 lg:flex-col lg:pl-80 lg:h-screen lg:overflow-hidden">
         {/* Controles superiores flotantes */}
         <div className="absolute top-6 right-6 z-20 flex gap-3">
-          <Button 
+            <Button 
             size="icon"
             className="w-12 h-12 bg-orange-500/90 hover:bg-orange-600 backdrop-blur-sm rounded-full"
-            onClick={toggleCamera}
+              onClick={toggleCamera}
             title={isCamera ? "Apagar Cámara" : "Encender Cámara"}
-          >
+            >
             {isCamera ? <CameraOff className="w-5 h-5" /> : <Camera className="w-5 h-5" />}
-          </Button>
-          <Button 
+            </Button>
+            <Button 
             size="icon"
             className="w-12 h-12 bg-orange-500/90 hover:bg-orange-600 backdrop-blur-sm rounded-full"
-            onClick={resetSequence}
+              onClick={resetSequence}
             title="Reiniciar Captura"
-          >
+            >
             <Trash2 className="w-5 h-5" />
-          </Button>
-        </div>
+            </Button>
+          </div>
 
         {/* Cámara a pantalla completa */}
         <div className="w-full h-full relative">
-          {isCamera ? (
-            <Webcam
-              ref={webcamRef}
+            {isCamera ? (
+              <Webcam
+                ref={webcamRef}
               className="w-full h-full object-cover"
-              mirrored={true}
-              videoConstraints={{
-                width: 1280,
-                height: 720,
-                facingMode: "user",
-              }}
-            />
-          ) : (
+                mirrored={true}
+                videoConstraints={{
+                  width: 1280,
+                  height: 720,
+                  facingMode: "user",
+                }}
+              />
+            ) : (
             <div className="w-full h-full bg-neutral-800 flex items-center justify-center">
               <div 
                 className="cursor-pointer hover:scale-110 transition-transform duration-200"
@@ -361,9 +361,9 @@ export default function ActionPage() {
                 <Loader2 className="w-16 h-16 text-orange-500 animate-spin" />
                 <p className="text-white text-xl font-medium">Cargando modelo...</p>
               </div>
-            </div>
-          )}
-        </div>
+              </div>
+            )}
+          </div>
 
         {/* Cards flotantes en la parte inferior - solo cuando la cámara esté activa y el modelo cargado */}
         {isCamera && !isModelLoading && (
