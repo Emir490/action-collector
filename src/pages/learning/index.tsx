@@ -140,16 +140,15 @@ const Learning = () => {
             <p className="bg-orange-400 shadow-md mt-2 text-white p-3 rounded-md font-medium">
               Aprendiendo Señas
             </p>
-            {/* Utilizando clases de TailwindCSS para acomodar los botones por columna y demás */}
-            <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-7 xl:grid-cols-9 gap-3 mt-4 w-full h-auto px-4">
-              {/* Utilizar .map cuando se quiera mostrar componentes dinamicamente */}
+            {/* Grid optimizado para mostrar todas las letras bien */}
+            <div className="grid grid-cols-6 sm:grid-cols-8 md:grid-cols-10 gap-2 mt-6 w-full max-w-2xl mx-auto px-4">
               {alphabet.map((letter) => (
                 <Link
                   key={letter}
                   href={`/learning/${letter}`}
-                  className="bg-orange-400 hover:bg-orange-500 border-0 shadow-md text-xs sm:text-sm text-white text-center rounded-lg px-2 py-2 font-medium aspect-square flex items-center justify-center"
+                  className="bg-orange-400 hover:bg-orange-500 border-0 shadow-md text-white text-center rounded-lg font-medium aspect-square flex items-center justify-center transition-all duration-200 hover:scale-105 hover:shadow-lg min-h-[48px] text-sm sm:text-base"
                 >
-                  {letter}
+                  <span className="truncate px-1">{letter}</span>
                 </Link>
               ))}
             </div>
@@ -212,108 +211,54 @@ const Learning = () => {
                 Aprender
               </Button>
             </div>
-
-            <h3 className="text-lg font-semibold text-orange-100 mb-4">Abecedario LSM</h3>
-          </div>
-
-          <div className="flex-1 overflow-y-auto min-h-0">
-            <div className="grid grid-cols-2 gap-2 pb-4">
-              {Array.from('ABCDEFGHIJKLMNÑOPQRSTUVWXYZ').map((letter, index) => {
-                const getLetterFile = (letter: string) => {
-                  const letterMap: { [key: string]: string } = {
-                    'A': 'A.svg',
-                    'B': 'B.svg', 
-                    'C': 'c.svg',
-                    'D': 'd.svg',
-                    'E': 'e.svg',
-                    'F': 'f.svg',
-                    'G': 'g.svg',
-                    'H': 'h.svg',
-                    'I': 'i.svg',
-                    'J': 'j.svg',
-                    'K': 'k.svg',
-                    'L': 'l.svg',
-                    'M': 'm.svg',
-                    'N': 'n.svg',
-                    'Ñ': 'nn.svg',
-                    'O': 'o.svg',
-                    'P': 'p.svg',
-                    'Q': 'q.svg',
-                    'R': 'r.svg',
-                    'S': 's.svg',
-                    'T': 't.svg',
-                    'U': 'u.svg',
-                    'V': 'v.svg',
-                    'W': 'w.svg',
-                    'X': 'x.svg',
-                    'Y': 'y.svg',
-                    'Z': 'z.svg'
-                  };
-                  return letterMap[letter];
-                };
-                
-                const svgFile = getLetterFile(letter);
-                
-                return (
-                  <Card 
-                    key={index}
-                    className="bg-orange-600/30 border-orange-500/50 hover:bg-orange-500/50 transition-all duration-300 cursor-pointer group aspect-square"
-                  >
-                    <CardContent className="p-3 flex flex-col items-center justify-center gap-2 h-full">
-                      <div className="w-16 h-16 flex items-center justify-center bg-orange-400/20 group-hover:bg-orange-400/30 transition-all duration-300 rounded">
-                        {svgFile ? (
-                          <Image
-                            src={`/Abecedario/${svgFile}`}
-                            alt={`Letra ${letter} en LSM`}
-                            width={48}
-                            height={48}
-                            className="w-12 h-12 object-contain"
-                          />
-                        ) : (
-                          <span className="text-xl font-bold text-orange-400 group-hover:text-white transition-all duration-300">
-                            {letter.toUpperCase()}
-                          </span>
-                        )}
-                      </div>
-                      <p className="text-sm text-center text-orange-200 group-hover:text-white transition-colors font-medium">
-                        {letter.toUpperCase()}
-                      </p>
-                    </CardContent>
-                  </Card>
-                );
-              })}
-            </div>
           </div>
         </div>
       </div>
 
       {/* Vista desktop - Contenido principal */}
-      <div className="hidden lg:flex lg:flex-1 lg:flex-col lg:p-6 lg:pl-80 lg:pr-6 lg:h-screen lg:overflow-hidden">
-      <div className="flex flex-col items-center">
-        {/* Utilizar componente Image para mostrar imagenes */}
-        <Image
-          src={alphabetImg}
-          alt="Abecedario Imagen"
-          width={200}
-          height={200}
-        />
-        <p className="bg-orange-400 shadow-md mt-2 text-white p-3 rounded-md font-medium">
-          Aprendiendo Señas
-        </p>
-          {/* Utilizando clases de TailwindCSS para acomodar los botones por columna y demás */}
-          <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-7 xl:grid-cols-9 gap-3 mt-4 w-full h-auto px-4">
-            {/* Utilizar .map cuando se quiera mostrar componentes dinamicamente */}
-            {alphabet.map((letter) => (
-              <Link
-                key={letter}
-                href={`/learning/${letter}`}
-                className="bg-orange-400 hover:bg-orange-500 border-0 shadow-md text-xs sm:text-sm text-white text-center rounded-lg px-2 py-2 font-medium aspect-square flex items-center justify-center"
-              >
-                {letter}
-              </Link>
-            ))}
+      <div className="hidden lg:flex lg:flex-1 lg:flex-col lg:pl-80 lg:h-screen lg:overflow-hidden">
+        <div className="flex-1 overflow-y-auto">
+          <div className="flex flex-col items-center py-8 px-6">
+            {/* Utilizar componente Image para mostrar imagenes */}
+            <Image
+              src={alphabetImg}
+              alt="Abecedario Imagen"
+              width={200}
+              height={200}
+              className="mb-4"
+            />
+            <h1 className="bg-orange-400 shadow-md text-white px-6 py-3 rounded-lg font-semibold text-xl mb-8">
+              Aprendiendo Señas
+            </h1>
+            
+            {/* Grid optimizado para desktop */}
+            <div className="grid grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 2xl:grid-cols-14 gap-4 w-full max-w-6xl mx-auto">
+              {alphabet.map((letter) => (
+                <Link
+                  key={letter}
+                  href={`/learning/${letter}`}
+                  className="bg-orange-400 hover:bg-orange-500 border-0 shadow-md text-white text-center rounded-lg font-medium aspect-square flex items-center justify-center transition-all duration-200 hover:scale-105 hover:shadow-lg min-h-[60px] text-lg group"
+                >
+                  <span className="truncate px-2 group-hover:font-bold transition-all duration-200">
+                    {letter}
+                  </span>
+                </Link>
+              ))}
+            </div>
+            
+            {/* Información adicional */}
+            <div className="mt-12 text-center max-w-2xl">
+              <p className="text-orange-200 text-lg mb-4">
+                Selecciona una letra para aprender su seña correspondiente en Lengua de Señas Mexicana (LSM)
+              </p>
+              <div className="bg-orange-600/30 rounded-lg p-4 border border-orange-500/50">
+                <p className="text-orange-100 text-sm">
+                  <strong>Tip:</strong> Cada letra tiene su propia seña única. Practica regularmente para mejorar tu fluidez en LSM.
+                </p>
+              </div>
+            </div>
           </div>
-      </div>
+        </div>
       </div>
     </div>
   );
