@@ -34,26 +34,38 @@ export default function Welcome() {
           padding: '60px',
           background: 'linear-gradient(to right, rgba(26, 26, 26, 0.8), rgba(26, 26, 26, 0.3), transparent)'
         }}>
-          {/* Logo - Posición fija absoluta */}
+          {/* Logo y QR - Posición fija absoluta */}
           <div style={{ 
             position: 'absolute',
-            top: '60px',
+            top: '30px',
             left: '60px',
-            zIndex: 10
+            width: '1000px',
+            zIndex: 10,
+            overflow: 'hidden',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '50px'
           }}>
             <Image 
-              src="/signaitext-white.svg" 
-              alt="SignAI Text Logo" 
+              src="/GOD.svg" 
+              alt="GOD Logo" 
               width={280} 
               height={94} 
               style={{ height: 'auto', width: '280px' }}
+            />
+            <Image 
+              src="/qr.jpeg" 
+              alt="QR Code" 
+              width={280} 
+              height={280} 
+              style={{ height: '280px', width: '280px', objectFit: 'contain' }}
             />
           </div>
           
           {/* Contenedor para textos que rotan - Posicionado debajo del logo */}
           <div style={{
             position: 'absolute',
-            top: '200px', // Posición fija debajo del logo
+            top: '300px', // Posición más baja debajo del logo
             left: '60px',
             right: '60px'
           }}>
@@ -62,13 +74,14 @@ export default function Welcome() {
         </div>
         
         {/* Columna derecha - Contenido principal */}
-        <div style={{ 
-          width: '50%', 
-          display: 'flex', 
-          justifyContent: 'flex-start', 
-          alignItems: 'center',
-          height: '100vh',
-          paddingLeft: '120px'
+        <div         style={{
+          position: 'absolute',
+          right: '-200px',
+          top: '77%',
+          transform: 'translateY(-50%)',
+          display: 'flex',
+          justifyContent: 'center', 
+          alignItems: 'center'
         }}>
           <CardSwap cardDistance={80} verticalDistance={150} delay={2800} pauseOnHover={false} width={580} height={580}>
             {letters.map((letter, idx) => {

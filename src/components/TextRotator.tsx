@@ -8,8 +8,18 @@ const TextRotator = () => {
   const texts = [
     {
       title: "Rompe el esquema de la comunicación",
-      subtitle: "Por un México incluyente",
-      description: "La comunicación se convierte en un derecho, no en un privilegio"
+      subtitle: "",
+      description: ""
+    },
+    {
+      title: "Por un México incluyente",
+      subtitle: "",
+      description: ""
+    },
+    {
+      title: "La comunicación se convierte en un derecho, no en un privilegio",
+      subtitle: "",
+      description: ""
     },
     {
       title: "Acción",
@@ -41,13 +51,14 @@ const TextRotator = () => {
         className="split-char"
         style={{
           position: 'relative',
-          display: 'inline-block',
+          display: 'inline',
           opacity: animateChars ? 1 : 0,
           transform: animateChars ? 'translate3d(0px, 0px, 0px)' : 'translate3d(0px, 20px, 0px)',
-          transition: `opacity 0.3s ease-out ${index * 0.02}s, transform 0.3s ease-out ${index * 0.02}s`
+          transition: `opacity 0.3s ease-out ${index * 0.02}s, transform 0.3s ease-out ${index * 0.02}s`,
+          whiteSpace: 'pre-wrap'
         }}
       >
-        {char === ' ' ? '\u00A0' : char}
+        {char}
       </span>
     ));
   };
@@ -82,49 +93,78 @@ const TextRotator = () => {
   const currentText = texts[currentTextIndex];
 
   return (
-    <div style={{ marginBottom: '40px' }}>
+    <div style={{ marginBottom: '40px', display: 'flex', justifyContent: 'flex-start', width: '100%' }}>
       <div
         key={currentTextIndex}
         style={{
           opacity: isVisible ? 1 : 0,
-          transition: 'opacity 0.3s ease-in-out'
+          transition: 'opacity 0.3s ease-in-out',
+          textAlign: 'left',
+          maxWidth: '90vw', // más ancho para que no se corte
         }}
       >
-        <h1 style={{ 
-          fontSize: '48px', 
-          fontWeight: '400', 
-          color: '#fff', 
-          marginBottom: '24px',
-          lineHeight: '1.1',
-          textShadow: '0 2px 4px rgba(0,0,0,0.5)',
-          minHeight: '120px',
-          display: 'flex',
-          alignItems: 'center',
-          fontFamily: 'Figtree, sans-serif'
-        }}>
+        <h1
+          style={{
+            fontSize: '100px',
+            fontWeight: '600',
+            color: '#fff',
+            marginBottom: '24px',
+            lineHeight: '1.05',
+            textShadow: '0 2px 4px rgba(0,0,0,0.5)',
+            minHeight: '290px',
+            display: 'block',
+            fontFamily: 'Figtree, sans-serif',
+            width: '100%',
+            maxWidth: '90vw',
+            whiteSpace: 'normal', // permite saltos naturales
+            wordBreak: 'keep-all', // evita romper palabras
+            overflowWrap: 'break-word', // asegura que se ajuste bien
+            margin: '60px 0 0 0'
+          }}
+        >
           {splitText(currentText.title)}
         </h1>
-        <p style={{ 
-          fontSize: '20px', 
-          color: '#FFB366', 
-          marginBottom: '16px',
-          fontWeight: '500',
-          textShadow: '0 1px 2px rgba(0,0,0,0.5)',
-          minHeight: '28px',
-          fontFamily: 'Figtree, sans-serif'
-        }}>
-          {currentText.subtitle}
-        </p>
-        <p style={{ 
-          fontSize: '18px', 
-          color: '#FF8C42', 
-          fontWeight: '400',
-          textShadow: '0 1px 2px rgba(0,0,0,0.5)',
-          minHeight: '22px',
-          fontFamily: 'Figtree, sans-serif'
-        }}>
-          {currentText.description}
-        </p>
+
+        {currentText.subtitle && (
+          <p
+            style={{
+              fontSize: '50px',
+              color: '#FFB366',
+              marginBottom: '16px',
+              fontWeight: '500',
+              textShadow: '0 1px 2px rgba(0,0,0,0.5)',
+              minHeight: '28px',
+              fontFamily: 'Figtree, sans-serif',
+              opacity: isVisible ? 1 : 0,
+              transition: 'opacity 0.3s ease-in-out 0.2s',
+              maxWidth: '85vw',
+              margin: '0',
+              lineHeight: '0.9'
+            }}
+          >
+            {currentText.subtitle}
+          </p>
+        )}
+
+        {currentText.description && (
+          <p
+            style={{
+              fontSize: '40px',
+              color: '#FF8C42',
+              fontWeight: '400',
+              textShadow: '0 1px 2px rgba(0,0,0,0.5)',
+              minHeight: '10px',
+              fontFamily: 'Figtree, sans-serif',
+              opacity: isVisible ? 1 : 0,
+              transition: 'opacity 0.3s ease-in-out 0.4s',
+              maxWidth: '80vw',
+              margin: '0',
+              lineHeight: '1.1'
+            }}
+          >
+            {currentText.description}
+          </p>
+        )}
       </div>
     </div>
   );
