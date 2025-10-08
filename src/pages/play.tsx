@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useRouter } from 'next/router';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Camera, Hand, MessageSquare, Gamepad2, Maximize, BookOpen, Menu } from 'lucide-react';
+import { Camera, Hand, MessageSquare, Gamepad2, Maximize, BookOpen, Menu, GraduationCap } from 'lucide-react';
 import { Unity, useUnityContext } from "react-unity-webgl";
 import useMobile from "@/hooks/useMobile";
 import { toast } from "react-toastify";
@@ -159,11 +159,11 @@ export default function PlayPage() {
                 className="w-full justify-start text-orange-100 hover:bg-orange-600 hover:text-white"
                 onClick={() => {
                   setShowMobileMenu(false);
-                  router.push('/action');
+                  router.push('/mobile');
                 }}
               >
                 <MessageSquare className="w-5 h-5 mr-3" />
-                Frases LSM
+                Acción
               </Button>
               <Button
                 className="w-full justify-start text-white bg-orange-600/50 hover:bg-orange-600"
@@ -182,7 +182,7 @@ export default function PlayPage() {
                 }}
               >
                 <BookOpen className="w-5 h-5 mr-3" />
-                Diccionario LSM
+                Contribuir
               </Button>
             </div>
           </div>
@@ -217,10 +217,10 @@ export default function PlayPage() {
               </Button>
               <Button 
                 className="w-full bg-orange-700/50 hover:bg-orange-600 justify-start text-orange-100 border border-orange-600"
-                onClick={() => router.push('/action')}
+                onClick={() => router.push('/mobile')}
               >
                 <MessageSquare className="w-5 h-5 mr-3" />
-                Frases LSM
+                Acción
               </Button>
               <Button 
                 className="w-full bg-orange-700 hover:bg-orange-600 justify-start text-white border-2 border-orange-500"
@@ -234,7 +234,14 @@ export default function PlayPage() {
                 onClick={() => router.push('/menu')}
               >
                 <BookOpen className="w-5 h-5 mr-3" />
-                Diccionario LSM
+                Contribuir
+              </Button>
+              <Button 
+                className="w-full bg-orange-700/50 hover:bg-orange-600 justify-start text-orange-100 border border-orange-600"
+                onClick={() => router.push('/learning')}
+              >
+                <GraduationCap className="w-5 h-5 mr-3" />
+                Aprender
               </Button>
             </div>
 

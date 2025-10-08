@@ -242,7 +242,7 @@ export default function Home() {
                 className="w-full justify-start text-orange-100 hover:bg-orange-600 hover:text-white"
                 onClick={() => {
                   setShowMobileMenu(false);
-                  router.push('/action');
+                  router.push('/mobile');
                 }}
               >
                 <MessageSquare className="w-5 h-5 mr-3" />
@@ -283,15 +283,15 @@ export default function Home() {
           </div>
         )}
 
-        <div className="absolute top-20 left-4 right-4 z-10">
-          <Card className="bg-orange-700/80 backdrop-blur-sm border-orange-600">
+        <div className="absolute top-20 left-1/2 transform -translate-x-1/2 z-10">
+          <Card className="bg-orange-700/80 backdrop-blur-sm border-orange-600 w-fit max-w-[280px]">
             <CardContent className="p-4">
-              <div className="flex items-center justify-between mb-2">
-                <h3 className="text-sm font-medium text-orange-100">Frase Detectada</h3>
+              <div className="flex items-center justify-between mb-2 gap-3">
+                <h3 className="text-sm font-medium text-orange-100 whitespace-nowrap">Frase Detectada</h3>
                 <Button
                   size="icon"
                   variant="ghost"
-                  className="w-10 h-10 rounded-full bg-orange-500/20 hover:bg-orange-500/30 text-orange-300 hover:text-orange-200 border border-orange-400/30"
+                  className="w-10 h-10 rounded-full bg-orange-500/20 hover:bg-orange-500/30 text-orange-300 hover:text-orange-200 border border-orange-400/30 flex-shrink-0"
                   onClick={() => {
                     if ('speechSynthesis' in window) {
                       const utterance = new SpeechSynthesisUtterance(gestureSequence || detectedText);
@@ -304,12 +304,53 @@ export default function Home() {
                   <Volume2 className="w-5 h-5" />
                 </Button>
               </div>
-              <p className="text-2xl font-bold text-white text-center">
+              <p className="text-xl font-bold text-white text-center leading-tight" style={{ 
+                wordBreak: 'break-word',
+                hyphens: 'auto',
+                whiteSpace: 'normal'
+              }}>
                 {(gestureSequence || detectedText).toUpperCase()}
               </p>
             </CardContent>
           </Card>
         </div>
+
+        {/* Círculo de confianza en móvil */}
+        {isCamera && !isModelLoading && (gestureSequence || detectedText) && (
+          <div className={`absolute bottom-44 right-4 z-10 transition-all duration-500 ease-in-out delay-200 ${showCards ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+            <div className="bg-orange-600/90 backdrop-blur-sm rounded-full p-2 border border-orange-500 shadow-lg">
+              <div className="relative w-10 h-10">
+                {/* Círculo de fondo */}
+                <svg className="w-10 h-10 transform -rotate-90" viewBox="0 0 36 36">
+                  <path
+                    className="text-orange-700"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    fill="transparent"
+                    d="M18 2.0845
+                      a 15.9155 15.9155 0 0 1 0 31.831
+                      a 15.9155 15.9155 0 0 1 0 -31.831"
+                  />
+                  {/* Círculo de progreso */}
+                  <path
+                    className="text-orange-300 transition-all duration-300 ease-out"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    fill="transparent"
+                    strokeDasharray={`${displayedConfidence}, 100`}
+                    d="M18 2.0845
+                      a 15.9155 15.9155 0 0 1 0 31.831
+                      a 15.9155 15.9155 0 0 1 0 -31.831"
+                  />
+                </svg>
+                {/* Porcentaje en el centro */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-xs font-bold text-orange-200">{displayedConfidence}%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         <div className="absolute bottom-6 left-4 right-4 z-10">
           <div className="bg-orange-700/80 backdrop-blur-sm rounded-lg p-3 space-y-4">
@@ -418,7 +459,7 @@ export default function Home() {
             <div className={`${isCompact ? 'flex flex-row gap-4 justify-center' : 'space-y-3'}`}>
               {[
                 { label: 'Abecedario LSM', icon: Hand, active: true },
-                { label: 'Acción', icon: MessageSquare, route: '/action' },
+                { label: 'Acción', icon: MessageSquare, route: '/mobile' },
                 { label: 'Jugar', icon: Gamepad2, route: '/play' },
                 { label: 'Contribuir', icon: BookOpen, route: '/menu' },
                 { label: 'Aprender', icon: GraduationCap, route: '/learning' },
@@ -582,7 +623,11 @@ export default function Home() {
                   </Button>
                 </div>
                 <div className="relative">
-                  <p className="text-2xl font-bold text-white text-center">
+                  <p className="text-xl font-bold text-white text-center leading-tight" style={{ 
+                    wordBreak: 'break-word',
+                    hyphens: 'auto',
+                    maxWidth: '300px'
+                  }}>
                     {(gestureSequence || detectedText).toUpperCase()}
                   </p>
                 </div>

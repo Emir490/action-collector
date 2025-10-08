@@ -83,7 +83,7 @@ const Add = () => {
               </Button>
               <Button 
                 className="w-full bg-orange-700/50 hover:bg-orange-600 justify-start text-orange-100 border border-orange-600"
-                onClick={() => router.push('/action')}
+                onClick={() => router.push('/mobile')}
               >
                 <MessageSquare className="w-5 h-5 mr-3" />
                 Acción
@@ -229,7 +229,7 @@ const Add = () => {
                 className="w-full justify-start text-orange-100 hover:bg-orange-600 hover:text-white"
                 onClick={() => {
                   setShowMobileMenu(false);
-                  router.push('/action');
+                  router.push('/mobile');
                 }}
               >
                 <MessageSquare className="w-5 h-5 mr-3" />

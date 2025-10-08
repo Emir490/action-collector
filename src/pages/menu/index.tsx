@@ -58,17 +58,7 @@ export default function MenuPage() {
                 className="w-full justify-start text-orange-100 hover:bg-orange-600 hover:text-white"
                 onClick={() => {
                   setShowMobileMenu(false);
-                  router.push('/');
-                }}
-              >
-                <Hand className="w-5 h-5 mr-3" />
-                Abecedario LSM
-              </Button>
-              <Button
-                className="w-full justify-start text-orange-100 hover:bg-orange-600 hover:text-white"
-                onClick={() => {
-                  setShowMobileMenu(false);
-                  router.push('/action');
+                  router.push('/mobile');
                 }}
               >
                 <MessageSquare className="w-5 h-5 mr-3" />
@@ -185,14 +175,7 @@ export default function MenuPage() {
             <div className="space-y-3 mb-6">
               <Button 
                 className="w-full bg-orange-700/50 hover:bg-orange-600 justify-start text-orange-100 border border-orange-600"
-                onClick={() => router.push('/')}
-              >
-                <Hand className="w-5 h-5 mr-3" />
-                Abecedario LSM
-              </Button>
-              <Button 
-                className="w-full bg-orange-700/50 hover:bg-orange-600 justify-start text-orange-100 border border-orange-600"
-                onClick={() => router.push('/action')}
+                onClick={() => router.push('/mobile')}
               >
                 <MessageSquare className="w-5 h-5 mr-3" />
                 Acción
@@ -220,76 +203,6 @@ export default function MenuPage() {
               </Button>
             </div>
 
-            <h3 className="text-lg font-semibold text-orange-100 mb-4">Abecedario LSM</h3>
-          </div>
-
-          <div className="flex-1 overflow-y-auto min-h-0">
-            <div className="grid grid-cols-2 gap-2 pb-4">
-              {Array.from('ABCDEFGHIJKLMNÑOPQRSTUVWXYZ').map((letter, index) => {
-                const getLetterFile = (letter: string) => {
-                  const letterMap: { [key: string]: string } = {
-                    'A': 'A.svg',
-                    'B': 'B.svg', 
-                    'C': 'c.svg',
-                    'D': 'd.svg',
-                    'E': 'e.svg',
-                    'F': 'f.svg',
-                    'G': 'g.svg',
-                    'H': 'h.svg',
-                    'I': 'i.svg',
-                    'J': 'j.svg',
-                    'K': 'k.svg',
-                    'L': 'l.svg',
-                    'M': 'm.svg',
-                    'N': 'n.svg',
-                    'Ñ': 'nn.svg',
-                    'O': 'o.svg',
-                    'P': 'p.svg',
-                    'Q': 'q.svg',
-                    'R': 'r.svg',
-                    'S': 's.svg',
-                    'T': 't.svg',
-                    'U': 'u.svg',
-                    'V': 'v.svg',
-                    'W': 'w.svg',
-                    'X': 'x.svg',
-                    'Y': 'y.svg',
-                    'Z': 'z.svg'
-                  };
-                  return letterMap[letter];
-                };
-                
-                const svgFile = getLetterFile(letter);
-                
-                return (
-                  <Card 
-                    key={index}
-                    className="bg-orange-600/30 border-orange-500/50 hover:bg-orange-500/50 transition-all duration-300 cursor-pointer group aspect-square"
-                  >
-                    <CardContent className="p-3 flex flex-col items-center justify-center gap-2 h-full">
-                      <div className="w-16 h-16 flex items-center justify-center bg-orange-400/20 group-hover:bg-orange-400/30 transition-all duration-300 rounded">
-                        {svgFile ? (
-                          <Image
-                            src={`/Abecedario/${svgFile}`}
-                            alt={`Letra ${letter} en LSM`}
-                            width={48}
-                            height={48}
-                            className="w-12 h-12 object-contain"
-                          />
-                        ) : (
-                          <span className="text-xl font-bold text-orange-400 group-hover:text-white transition-all duration-300">
-                            {letter.toUpperCase()}
-                          </span>
-                        )}
-                      </div>
-                      <p className="text-sm text-center text-orange-200 group-hover:text-white transition-colors font-medium">
-                        {letter.toUpperCase()}
-                      </p>
-                    </CardContent>
-                  </Card>
-                );
-              })}
-            </div>
           </div>
         </div>
       </div>

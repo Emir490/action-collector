@@ -72,8 +72,8 @@ export default function Mobile() {
             <div className={`${isCompact ? 'flex flex-row gap-4 justify-center' : 'space-y-3'}`}>
               {[
                 { label: 'Abecedario LSM', icon: Hand, route: '/' },
-                { label: 'Acción', icon: MessageSquare, route: '/action' },
-                { label: 'Acción Móvil', icon: Camera, active: true },
+                { label: 'Acción', icon: MessageSquare, route: '/mobile' },
+                { label: 'Acción', icon: MessageSquare, active: true },
                 { label: 'Jugar', icon: Gamepad2, route: '/play' },
                 { label: 'Contribuir', icon: BookOpen, route: '/menu' },
                 { label: 'Aprender', icon: GraduationCap, route: '/learning' },

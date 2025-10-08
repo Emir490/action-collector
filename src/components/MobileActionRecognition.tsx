@@ -14,18 +14,18 @@ import { HandLandmarkerResult } from "@mediapipe/tasks-vision";
 
 const actions = [
   "abrazar",
+  "caminar",
+  "frio",
+  "libro",
+  "invitar",
   "agarrar",
   "aplastar",
   "bailar",
-  "caminar",
   "cerrar",
   "fabrica",
-  "frio",
   "golpear",
   "guardar",
-  "invitar",
   "jugar",
-  "libro",
   "luna",
   "sin_accion",
   "Tijuana",
@@ -217,12 +217,12 @@ const MobileActionRecognition: React.FC = () => {
               height={40} 
               className="h-8 w-auto"
             />
-          </div>
+      </div>
           <div className="flex items-center gap-2">
             <Button 
               variant="ghost" 
               size="icon"
-              onClick={toggleCamera}
+          onClick={toggleCamera}
               className="text-white hover:bg-orange-700"
             >
               {isCamera ? <CameraOff className="w-6 h-6" /> : <Camera className="w-6 h-6" />}
@@ -258,7 +258,7 @@ const MobileActionRecognition: React.FC = () => {
                   setShowMobileMenu(false);
                 }}
               >
-                <Camera className="w-5 h-5 mr-3" />
+                <MessageSquare className="w-5 h-5 mr-3" />
                 Acción
               </Button>
               <Button
@@ -424,7 +424,7 @@ const MobileActionRecognition: React.FC = () => {
           <div className={`${scrolled ? 'flex flex-row gap-4 justify-center' : 'space-y-3'}`}>
             {[
               { label: 'Abecedario LSM', icon: Hand, route: '/' },
-              { label: 'Acción', icon: Camera, active: true },
+              { label: 'Acción', icon: MessageSquare, route: '/mobile', active: true },
               { label: 'Jugar', icon: Gamepad2, route: '/play' },
               { label: 'Contribuir', icon: BookOpen, route: '/menu' },
               { label: 'Aprender', icon: GraduationCap, route: '/learning' },
@@ -566,8 +566,8 @@ const MobileActionRecognition: React.FC = () => {
                 </CardContent>
               </Card>
             )}
-          </div>
-        )}
+        </div>
+      )}
       </main>
     </div>
   );

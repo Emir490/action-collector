@@ -40,7 +40,7 @@ const extractKeyPoints = (results: Results) => {
 
 const sequenceLength = 30;
 
-const actions = ['abrazar', 'agarrar', 'aplastar', 'bailar', 'caminar', 'cerrar', 'fabrica', 'frio', 'golpear', 'guardar', 'invitar', 'jugar', 'libro', 'luna', 'sin_accion', 'Tijuana'];
+const actions = ['abrazar', 'caminar', 'frio', 'libro', 'invitar', 'agarrar', 'aplastar', 'bailar', 'cerrar', 'fabrica', 'golpear', 'guardar', 'jugar', 'luna', 'sin_accion', 'Tijuana'];
 
 export default function ActionPage() {
   const router = useRouter();
@@ -246,7 +246,7 @@ export default function ActionPage() {
           <div className={`${scrolled ? 'flex flex-row gap-4 justify-center' : 'space-y-3'}`}>
             {[
               { label: 'Abecedario LSM', icon: Hand, route: '/' },
-              { label: 'Acción', icon: MessageSquare, active: true },
+              { label: 'Acción', icon: MessageSquare, route: '/mobile', active: true },
               { label: 'Jugar', icon: Gamepad2, route: '/play' },
               { label: 'Contribuir', icon: BookOpen, route: '/menu' },
               { label: 'Aprender', icon: GraduationCap, route: '/learning' },
