@@ -1,23 +1,23 @@
-
-import { useState } from "react";
+import CategoriesList from '@/components/categoriesList';
+import Layout from '@/components/layout';
+import List from '@/components/list';
+import { ActionsProvider } from '@/context/ActionsProvider';
+import useActions from '@/hooks/useActions';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { FaPlusCircle } from 'react-icons/fa';
 import Image from "next/image";
-import { useRouter } from "next/router";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Camera, Hand, MessageSquare, Gamepad2, BookOpen, PlusCircle, Play, Trash2, ArrowLeft } from "lucide-react";
-import useActions from "@/hooks/useActions";
-import ReactPlayer from "react-player";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Hand, MessageSquare, Gamepad2, BookOpen, Menu, GraduationCap } from 'lucide-react';
+import { useState } from 'react';
 
-export default function ActionPage() {
+const Actions = () => {
     const router = useRouter();
-  const { category, action } = router.query;
-  
-  const [playingId, setPlayingId] = useState("");
-  const { actions, removeAction } = useActions();
-
-  const notify = () => toast.success("Eliminado exitosamente");
+    const category = router.query.category;
+    const action = router.query.action;
+    const menu = router.query.menu;
+    const [showMobileMenu, setShowMobileMenu] = useState(false);
 
     return (
     <div className="min-h-screen bg-neutral-900 text-white flex flex-col lg:flex-row">
@@ -33,81 +33,90 @@ export default function ActionPage() {
               className="h-8 w-auto"
             />
           </div>
+                    <div className="flex items-center gap-2">
           <Button 
             variant="ghost" 
             size="icon"
-            onClick={() => router.push('/menu')}
+                            onClick={() => setShowMobileMenu(!showMobileMenu)}
             className="text-white hover:bg-orange-700"
           >
-            <ArrowLeft className="w-6 h-6" />
+                            <Menu className="w-6 h-6" />
           </Button>
+                    </div>
         </header>
 
-        <div className="flex-1 overflow-y-auto p-4">
-          <div className="mb-4">
-            <h1 className="text-2xl font-bold mb-2 capitalize">{action}</h1>
-            <p className="text-orange-100 text-sm">Categoría: <span className="text-white font-semibold">{category}</span></p>
-          </div>
-
-          <div className="mb-4">
+                {/* Mobile Menu Dropdown */}
+                {showMobileMenu && (
+                    <div className="absolute top-16 left-4 right-4 z-20 bg-orange-700/95 backdrop-blur-sm border border-orange-600 rounded-lg shadow-lg">
+                        <div className="p-4 space-y-2">
+                            <Button
+                                className="w-full justify-start text-orange-100 hover:bg-orange-600 hover:text-white"
+                                onClick={() => {
+                                    setShowMobileMenu(false);
+                                    router.push('/');
+                                }}
+                            >
+                                <Hand className="w-5 h-5 mr-3" />
+                                Abecedario LSM
+                            </Button>
             <Button 
-              className="w-full bg-orange-500 hover:bg-orange-600 text-white"
-              onClick={() => router.push({
-                pathname: `/menu/${action}/add`,
-                query: { category, action }
-              })}
-            >
-              <PlusCircle className="w-5 h-5 mr-2" />
-              Añadir Señas
+                                className="w-full justify-start text-orange-100 hover:bg-orange-600 hover:text-white"
+                                onClick={() => {
+                                    setShowMobileMenu(false);
+                                    router.push('/action');
+                                }}
+                            >
+                                <MessageSquare className="w-5 h-5 mr-3" />
+                                Acción
             </Button>
-          </div>
-
-          <div className="space-y-4">
-            {actions && actions.length > 0 ? (
-              actions.map((actionItem) => (
-                <Card 
-                  key={actionItem._id}
-                  className="bg-orange-700/50 border-orange-600 group relative overflow-hidden"
-                >
-                  <CardContent className="p-4">
-                    <div className="relative">
-                      <ReactPlayer
-                        url={`${actionItem.video}`}
-                        width="100%"
-                        height="auto"
-                        playing={actionItem._id === playingId}
-                        onEnded={() => setPlayingId("")}
-                      />
-                      {actionItem._id !== playingId && (
-                        <div 
-                          className="absolute inset-0 flex items-center justify-center bg-black/30 cursor-pointer"
-                          onClick={() => setPlayingId(actionItem._id)}
-                        >
-                          <Play className="w-12 h-12 text-white" />
+                            <Button
+                                className="w-full justify-start text-orange-100 hover:bg-orange-600 hover:text-white"
+                                onClick={() => {
+                                    setShowMobileMenu(false);
+                                    router.push('/play?autoStart=true');
+                                }}
+                            >
+                                <Gamepad2 className="w-5 h-5 mr-3" />
+                                Jugar
+                            </Button>
+                            <Button
+                                className="w-full justify-start text-white bg-orange-600/50 hover:bg-orange-600"
+                                onClick={() => {
+                                    setShowMobileMenu(false);
+                                    router.push('/menu');
+                                }}
+                            >
+                                <BookOpen className="w-5 h-5 mr-3" />
+                                Contribuir
+                            </Button>
+                            <Button
+                                className="w-full justify-start text-orange-100 hover:bg-orange-600 hover:text-white"
+                                onClick={() => {
+                                    setShowMobileMenu(false);
+                                    router.push('/learning');
+                                }}
+                            >
+                                <GraduationCap className="w-5 h-5 mr-3" />
+                                Aprender
+                            </Button>
                         </div>
-                      )}
-                      <button 
-                        className="absolute top-2 right-2 p-2 bg-red-600 hover:bg-red-700 rounded-full transition-colors opacity-0 group-hover:opacity-100"
-                        onClick={() => {
-                          removeAction(actionItem._id);
-                          notify();
-                        }}
-                      >
-                        <Trash2 className="w-4 h-4 text-white" />
-                      </button>
                     </div>
-                    <p className="text-white font-semibold mt-3">
-                      Secuencia {actionItem.sequence}
-                    </p>
-                  </CardContent>
-                </Card>
-              ))
-            ) : (
-              <div className="text-center text-orange-300 py-8">
-                <p>No hay secuencias grabadas para esta seña</p>
+                )}
+
+                <div className="flex-1 overflow-y-auto p-4">
+                    {menu ? (
+                        <CategoriesList />
+                    ) : (
+                        <>
+                            <div className="flex justify-end mb-4">
+                                <Link href={{ pathname: `${action}/add`, query: { action, category } }} className="p-3 bg-indigo-800 hover:bg-indigo-700 transition-colors font-bold uppercase text-white inline-flex items-center gap-x-2 rounded-lg">
+                                    <FaPlusCircle className="inline" color="#FFF" />
+                                    <p>Añadir Señas</p>
+                                </Link>
               </div>
+                            <List />
+                        </>
             )}
-          </div>
         </div>
       </div>
 
@@ -123,7 +132,7 @@ export default function ActionPage() {
               className="h-12 w-auto"
             />
           </div>
-          <p className="text-orange-100 text-sm">Por un México Inclusivo</p>
+                    <p className="text-orange-100 text-sm">Por un México Incluyente</p>
         </div>
 
         <div className="p-6 flex-1 flex flex-col min-h-0">
@@ -142,7 +151,7 @@ export default function ActionPage() {
                 onClick={() => router.push('/action')}
               >
                 <MessageSquare className="w-5 h-5 mr-3" />
-                Frases LSM
+                Acción
               </Button>
               <Button 
                 className="w-full bg-orange-700/50 hover:bg-orange-600 justify-start text-orange-100 border border-orange-600"
@@ -156,143 +165,109 @@ export default function ActionPage() {
                 onClick={() => router.push('/menu')}
               >
                 <BookOpen className="w-5 h-5 mr-3" />
-                Diccionario LSM
+                Contribuir
+              </Button>
+              <Button 
+                className="w-full bg-orange-700/50 hover:bg-orange-600 justify-start text-orange-100 border border-orange-600"
+                onClick={() => router.push('/learning')}
+              >
+                <GraduationCap className="w-5 h-5 mr-3" />
+                Aprender
               </Button>
             </div>
 
-            <h3 className="text-lg font-semibold text-orange-100 mb-4">Información de la Seña</h3>
+                        <h3 className="text-lg font-semibold text-orange-100 mb-4">Abecedario LSM</h3>
           </div>
 
           <div className="flex-1 overflow-y-auto min-h-0">
-            <div className="space-y-4 pb-4">
-              <Card className="bg-orange-600/30 border-orange-500/50">
-                <CardContent className="p-4">
-                  <h4 className="text-sm font-semibold text-white mb-2">📝 Detalles</h4>
-                  <p className="text-xs text-orange-200">Seña: <span className="font-semibold capitalize">{action}</span></p>
-                  <p className="text-xs text-orange-200">Categoría: <span className="font-semibold">{category}</span></p>
+                        <div className="grid grid-cols-2 gap-2 pb-4">
+                            {Array.from('ABCDEFGHIJKLMNÑOPQRSTUVWXYZ').map((letter, index) => {
+                                const getLetterFile = (letter: string) => {
+                                    const letterMap: { [key: string]: string } = {
+                                        'A': 'A.svg',
+                                        'B': 'B.svg', 
+                                        'C': 'c.svg',
+                                        'D': 'd.svg',
+                                        'E': 'e.svg',
+                                        'F': 'f.svg',
+                                        'G': 'g.svg',
+                                        'H': 'h.svg',
+                                        'I': 'i.svg',
+                                        'J': 'j.svg',
+                                        'K': 'k.svg',
+                                        'L': 'l.svg',
+                                        'M': 'm.svg',
+                                        'N': 'n.svg',
+                                        'Ñ': 'nn.svg',
+                                        'O': 'o.svg',
+                                        'P': 'p.svg',
+                                        'Q': 'q.svg',
+                                        'R': 'r.svg',
+                                        'S': 's.svg',
+                                        'T': 't.svg',
+                                        'U': 'u.svg',
+                                        'V': 'v.svg',
+                                        'W': 'w.svg',
+                                        'X': 'x.svg',
+                                        'Y': 'y.svg',
+                                        'Z': 'z.svg'
+                                    };
+                                    return letterMap[letter];
+                                };
+                                
+                                const svgFile = getLetterFile(letter);
+                                
+                                return (
+                                    <Card 
+                                        key={index}
+                                        className="bg-orange-600/30 border-orange-500/50 hover:bg-orange-500/50 transition-all duration-300 cursor-pointer group aspect-square"
+                                    >
+                                        <CardContent className="p-3 flex flex-col items-center justify-center gap-2 h-full">
+                                            <div className="w-16 h-16 flex items-center justify-center bg-orange-400/20 group-hover:bg-orange-400/30 transition-all duration-300 rounded">
+                                                {svgFile ? (
+                                                    <Image
+                                                        src={`/Abecedario/${svgFile}`}
+                                                        alt={`Letra ${letter} en LSM`}
+                                                        width={48}
+                                                        height={48}
+                                                        className="w-12 h-12 object-contain"
+                                                    />
+                                                ) : (
+                                                    <span className="text-xl font-bold text-orange-400 group-hover:text-white transition-all duration-300">
+                                                        {letter.toUpperCase()}
+                                                    </span>
+                                                )}
+                                            </div>
+                                            <p className="text-sm text-center text-orange-200 group-hover:text-white transition-colors font-medium">
+                                                {letter.toUpperCase()}
+                                            </p>
                 </CardContent>
               </Card>
-
-              <Card className="bg-orange-600/30 border-orange-500/50">
-                <CardContent className="p-4">
-                  <h4 className="text-sm font-semibold text-white mb-2">📊 Estadísticas</h4>
-                  <p className="text-xs text-orange-200">Total de secuencias: <span className="font-semibold">{actions?.length || 0}</span></p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-orange-600/30 border-orange-500/50">
-                <CardContent className="p-4">
-                  <h4 className="text-sm font-semibold text-white mb-2">ℹ️ Instrucciones</h4>
-                  <p className="text-xs text-orange-200">Puedes reproducir, eliminar o agregar nuevas secuencias de esta seña.</p>
-                </CardContent>
-              </Card>
+                                );
+                            })}
             </div>
           </div>
         </div>
       </div>
 
-      {/* Vista desktop - Contenido principal */}
-      <main className="hidden lg:flex lg:flex-1 lg:flex-col lg:p-6 lg:pl-80 lg:pr-6 lg:h-screen lg:overflow-hidden">
-        <div className="flex flex-col h-full gap-4">
-          <div className="flex-shrink-0">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <h1 className="text-3xl font-bold mb-2 capitalize">{action}</h1>
-                <p className="text-orange-100">Categoría: <span className="text-white font-semibold">{category}</span></p>
-              </div>
-              <div className="flex gap-3">
-                <Button 
-                  className="bg-orange-500 hover:bg-orange-600 text-white"
-                  onClick={() => router.push({
-                    pathname: `/menu/${action}/add`,
-                    query: { category, action }
-                  })}
-                >
-                  <PlusCircle className="w-5 h-5 mr-2" />
-                  Añadir Señas
-                </Button>
-                <Button 
-                  variant="outline"
-                  className="border-orange-600 text-orange-100 hover:bg-orange-700"
-                  onClick={() => router.push('/menu')}
-                >
-                  <ArrowLeft className="w-5 h-5 mr-2" />
-                  Volver
-                </Button>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex-1 overflow-y-auto min-h-0">
-            {actions && actions.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pb-4">
-                {actions.map((actionItem) => (
-                  <Card 
-                    key={actionItem._id}
-                    className="bg-orange-700/50 border-orange-600 group relative overflow-hidden"
-                  >
-                    <CardContent className="p-4">
-                      <div className="relative">
-                        <ReactPlayer
-                          url={`${actionItem.video}`}
-                          width="100%"
-                          height="auto"
-                          playing={actionItem._id === playingId}
-                          onEnded={() => setPlayingId("")}
-                        />
-                        {actionItem._id !== playingId && (
-                          <div 
-                            className="absolute inset-0 flex items-center justify-center bg-black/30 cursor-pointer"
-                            onClick={() => setPlayingId(actionItem._id)}
-                          >
-                            <Play className="w-12 h-12 text-white" />
-                          </div>
-                        )}
-                        <button 
-                          className="absolute top-2 right-2 p-2 bg-red-600 hover:bg-red-700 rounded-full transition-colors opacity-0 group-hover:opacity-100"
-                          onClick={() => {
-                            removeAction(actionItem._id);
-                            notify();
-                          }}
-                        >
-                          <Trash2 className="w-4 h-4 text-white" />
-                        </button>
-                      </div>
-                      <p className="text-white font-semibold mt-3">
-                        Secuencia {actionItem.sequence}
-                      </p>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            ) : (
-              <div className="flex items-center justify-center h-full">
-                <Card className="bg-orange-700/50 border-orange-600 max-w-md">
-                  <CardContent className="p-8 text-center">
-                    <Hand className="w-16 h-16 text-orange-300 mx-auto mb-4" />
-                    <h3 className="text-xl font-bold mb-2">No hay secuencias</h3>
-                    <p className="text-orange-200 mb-4">
-                      Aún no hay secuencias grabadas para esta seña
-                    </p>
-                    <Button 
-                      className="bg-orange-500 hover:bg-orange-600 text-white"
-                      onClick={() => router.push({
-                        pathname: `/menu/${action}/add`,
-                        query: { category, action }
-                      })}
-                    >
-                      <PlusCircle className="w-5 h-5 mr-2" />
-                      Agregar Primera Seña
-                    </Button>
-                  </CardContent>
-                </Card>
+            {/* Contenido principal con margen para sidebar */}
+            <div className="flex-1 lg:ml-80">
+                {menu ? (
+                    <CategoriesList />
+                ) : (
+                    <>
+                        <div className="flex justify-end p-4">
+                            <Link href={{ pathname: `${action}/add`, query: { action, category } }} className="p-3 bg-indigo-800 hover:bg-indigo-700 transition-colors font-bold uppercase text-white inline-flex items-center gap-x-2 rounded-lg">
+                                <FaPlusCircle className="inline" color="#FFF" />
+                                <p>Añadir Señas</p>
+                            </Link>
                     </div>
+                        <List />
+                    </>
             )}
           </div>
-        </div>
-      </main>
-
-      <ToastContainer />
     </div>
   );
-}
+};
+
+export default Actions;

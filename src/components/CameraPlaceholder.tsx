@@ -6,16 +6,17 @@ interface CameraPlaceholderProps {
   isCamera?: boolean;
   webcamRef?: React.RefObject<Webcam>;
   children?: React.ReactNode;
+  onToggleCamera?: () => void;
 }
 
-export default function CameraPlaceholder({ isCamera = false, webcamRef, children }: CameraPlaceholderProps) {
+export default function CameraPlaceholder({ isCamera = false, webcamRef, children, onToggleCamera }: CameraPlaceholderProps) {
   if (isCamera && webcamRef) {
     return (
       <div className="relative w-full h-full">
         <Webcam
           mirrored
           ref={webcamRef}
-          className="rounded-lg w-full h-full object-cover"
+          className="w-full h-full object-cover"
           screenshotFormat="image/jpeg"
         />
         {children}
@@ -24,7 +25,7 @@ export default function CameraPlaceholder({ isCamera = false, webcamRef, childre
   }
 
   return (
-    <div className="w-full h-full bg-gradient-to-br from-neutral-800 to-neutral-900 flex items-center justify-center relative rounded-lg border border-neutral-700 overflow-hidden">
+    <div className="w-full h-full bg-gradient-to-br from-neutral-800 to-neutral-900 flex items-center justify-center relative overflow-hidden">
       {/* Animated Detection Overlay */}
       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-green-500/5 to-transparent animate-pulse"></div>
       
@@ -41,23 +42,19 @@ export default function CameraPlaceholder({ isCamera = false, webcamRef, childre
       
       {/* Camera Icon and Text */}
       <div className="flex flex-col items-center gap-4 text-neutral-300 relative z-10">
-        <div className="relative">
-          <Camera className="w-16 h-16 lg:w-24 lg:h-24 text-neutral-400" />
+        <div 
+          className="relative cursor-pointer hover:scale-110 transition-transform duration-200"
+          onClick={onToggleCamera}
+        >
+          <Camera className="w-16 h-16 lg:w-24 lg:h-24 text-neutral-400 hover:text-neutral-300 transition-colors duration-200" />
           <div className="absolute -top-2 -right-2 w-4 h-4 bg-green-500 rounded-full animate-pulse"></div>
         </div>
         <div className="text-center space-y-2">
           <p className="text-lg lg:text-xl font-medium text-neutral-200">Vista de Cámara</p>
-          <p className="text-sm lg:text-base text-neutral-400">Coloca tus manos en el área de detección</p>
+          <p className="text-sm lg:text-base text-neutral-400">Activa la camara para poder realizar el reconocimiento de señas</p>
         </div>
       </div>
 
-      {/* Detection Status */}
-      <div className="absolute bottom-6 left-6">
-        <div className="flex items-center gap-2 bg-green-500/20 px-3 py-2 rounded-full border border-green-500/30 backdrop-blur-sm">
-          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-          <span className="text-sm text-green-400 font-medium">Analizando...</span>
-        </div>
-      </div>
 
       {/* Corner Indicators */}
       <div className="absolute top-4 left-4 w-6 h-6 lg:w-8 lg:h-8 border-l-2 border-t-2 border-green-500 rounded-tl-lg" />

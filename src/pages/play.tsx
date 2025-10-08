@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useRouter } from 'next/router';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Camera, Hand, MessageSquare, Gamepad2, Maximize, BookOpen } from 'lucide-react';
+import { Camera, Hand, MessageSquare, Gamepad2, Maximize, BookOpen, Menu } from 'lucide-react';
 import { Unity, useUnityContext } from "react-unity-webgl";
 import useMobile from "@/hooks/useMobile";
 import { toast } from "react-toastify";
@@ -11,6 +11,8 @@ import { toast } from "react-toastify";
 export default function PlayPage() {
   const router = useRouter();
   const [play, setPlay] = useState(false);
+  const [autoStart, setAutoStart] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   const { unityProvider, isLoaded, loadingProgression, unload, requestFullscreen } =
     useUnityContext({
@@ -32,6 +34,14 @@ export default function PlayPage() {
       toast.info('Hubo un error al querer entrar a pantalla completa');
     }
   }
+
+  useEffect(() => {
+    // Check for autoStart parameter
+    if (router.query.autoStart === 'true') {
+      setAutoStart(true);
+      setPlay(true);
+    }
+  }, [router.query.autoStart]);
 
   useEffect(() => {
     if (isMobile && isLoaded) {
@@ -119,15 +129,64 @@ export default function PlayPage() {
               className="h-8 w-auto"
             />
           </div>
-          <Button 
-            variant="ghost" 
-            size="icon"
-            onClick={() => router.push('/')}
-            className="text-white hover:bg-orange-700"
-          >
-            <Camera className="w-6 h-6" />
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setShowMobileMenu(!showMobileMenu)}
+              className="text-white hover:bg-orange-700"
+            >
+              <Menu className="w-6 h-6" />
+            </Button>
+          </div>
         </header>
+
+        {/* Mobile Menu Dropdown */}
+        {showMobileMenu && (
+          <div className="absolute top-16 left-4 right-4 z-20 bg-orange-700/95 backdrop-blur-sm border border-orange-600 rounded-lg shadow-lg">
+            <div className="p-4 space-y-2">
+              <Button
+                className="w-full justify-start text-orange-100 hover:bg-orange-600 hover:text-white"
+                onClick={() => {
+                  setShowMobileMenu(false);
+                  router.push('/');
+                }}
+              >
+                <Hand className="w-5 h-5 mr-3" />
+                Abecedario LSM
+              </Button>
+              <Button
+                className="w-full justify-start text-orange-100 hover:bg-orange-600 hover:text-white"
+                onClick={() => {
+                  setShowMobileMenu(false);
+                  router.push('/action');
+                }}
+              >
+                <MessageSquare className="w-5 h-5 mr-3" />
+                Frases LSM
+              </Button>
+              <Button
+                className="w-full justify-start text-white bg-orange-600/50 hover:bg-orange-600"
+                onClick={() => {
+                  setShowMobileMenu(false);
+                }}
+              >
+                <Gamepad2 className="w-5 h-5 mr-3" />
+                Jugar
+              </Button>
+              <Button
+                className="w-full justify-start text-orange-100 hover:bg-orange-600 hover:text-white"
+                onClick={() => {
+                  setShowMobileMenu(false);
+                  router.push('/menu');
+                }}
+              >
+                <BookOpen className="w-5 h-5 mr-3" />
+                Diccionario LSM
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Vista desktop - Sidebar */}
@@ -142,7 +201,7 @@ export default function PlayPage() {
               className="h-12 w-auto"
             />
           </div>
-          <p className="text-orange-100 text-sm">Por un México Inclusivo</p>
+          <p className="text-orange-100 text-sm">Por un México Incluyente</p>
         </div>
 
         <div className="p-6 flex-1 flex flex-col min-h-0">
