@@ -1,8 +1,17 @@
+import CardSwap, { Card } from '@/components/CardSwap';
 import Image from 'next/image';
 import Aurora from '@/components/Aurora';
 import TextRotator from '@/components/TextRotator';
 
 export default function Welcome() {
+  const letters = Array.from('ABCDEFGHIJKLMNÑOPQRSTUVWXYZ');
+
+  const getLetterFile = (letter: string) => {
+    const letterMap: { [key: string]: string } = {
+      'A': 'A.svg', 'B': 'B.svg', 'C': 'c.svg', 'D': 'd.svg', 'E': 'e.svg', 'F': 'f.svg', 'G': 'g.svg', 'H': 'h.svg', 'I': 'i.svg', 'J': 'j.svg', 'K': 'k.svg', 'L': 'l.svg', 'M': 'm.svg', 'N': 'n.svg', 'Ñ': 'nn.svg', 'O': 'o.svg', 'P': 'p.svg', 'Q': 'q.svg', 'R': 'r.svg', 'S': 's.svg', 'T': 't.svg', 'U': 'u.svg', 'V': 'v.svg', 'W': 'w.svg', 'X': 'x.svg', 'Y': 'y.svg', 'Z': 'z.svg'
+    };
+    return letterMap[letter];
+  };
 
   return (
     <div style={{ width: '100vw', height: '100vh', background: '#1a1a1a', position: 'relative', overflow: 'hidden' }}>
@@ -16,24 +25,26 @@ export default function Welcome() {
         />
       </div>
       
-      {/* Layout principal */}
+      {/* Layout con dos columnas */}
       <div style={{ display: 'flex', height: '100vh', position: 'relative', zIndex: 1 }}>
-        {/* Contenido principal - Logo fijo y textos rotativos */}
+        {/* Columna izquierda - Logo fijo y textos rotativos */}
         <div style={{ 
-          width: '100%', 
+          width: '50%', 
           position: 'relative',
           padding: '60px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center'
+          background: 'linear-gradient(to right, rgba(26, 26, 26, 0.8), rgba(26, 26, 26, 0.3), transparent)'
         }}>
-          {/* Logo y QR - Centrado */}
+          {/* Logo y QR - Posición fija absoluta */}
           <div style={{ 
+            position: 'absolute',
+            top: '30px',
+            left: '60px',
+            width: '1000px',
+            zIndex: 10,
+            overflow: 'hidden',
             display: 'flex',
             alignItems: 'center',
-            gap: '50px',
-            marginBottom: '60px'
+            gap: '50px'
           }}>
             <Image 
               src="/GOD.svg" 
@@ -51,14 +62,46 @@ export default function Welcome() {
             />
           </div>
           
-          {/* Contenedor para textos que rotan */}
+          {/* Contenedor para textos que rotan - Posicionado debajo del logo */}
           <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center'
+            position: 'absolute',
+            top: '300px', // Posición más baja debajo del logo
+            left: '60px',
+            right: '60px'
           }}>
             <TextRotator />
           </div>
+        </div>
+        
+        {/* Columna derecha - Contenido principal */}
+        <div         style={{
+          position: 'absolute',
+          right: '-200px',
+          top: '77%',
+          transform: 'translateY(-50%)',
+          display: 'flex',
+          justifyContent: 'center', 
+          alignItems: 'center'
+        }}>
+          <CardSwap cardDistance={80} verticalDistance={150} delay={2800} pauseOnHover={false} width={580} height={580}>
+            {letters.map((letter, idx) => {
+              const svgFile = getLetterFile(letter);
+              return (
+                <Card key={idx}>
+                  <div style={{ padding: '32px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+                    <div style={{ width: 380, height: 380, borderRadius: 24, background: 'rgba(234, 90, 12, 0)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 18 }}>
+                      {svgFile ? (
+                        <Image src={`/Abecedario/${svgFile}`} alt={`Letra ${letter} en LSM`} width={380} height={380} style={{ width: 360, height: 360, objectFit: 'contain' }} />
+                      ) : (
+                        <span style={{ fontSize: 120, color: '#fff', fontWeight: 800 }}>{letter}</span>
+                      )}
+                    </div>
+                    <span style={{ color: '#fff', fontSize: 32, fontWeight: 900 }}>{letter}</span>
+                  </div>
+                </Card>
+              );
+            })}
+          </CardSwap>
         </div>
       </div>
     </div>
