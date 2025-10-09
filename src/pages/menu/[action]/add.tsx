@@ -53,6 +53,13 @@ const Add = () => {
     }
   }, [videos])
 
+  // Auto start camera when coming from menu selection
+  useEffect(() => {
+    if (router.query.autoStart === 'true') {
+      setToggle(true);
+    }
+  }, [router.query.autoStart]);
+
   return (
     <div className="min-h-screen bg-neutral-900 text-white flex">
       {/* Sidebar */}
@@ -109,77 +116,6 @@ const Add = () => {
                 <GraduationCap className="w-5 h-5 mr-3" />
                 Aprender
               </Button>
-            </div>
-
-            <h3 className="text-lg font-semibold text-orange-100 mb-4">Abecedario LSM</h3>
-          </div>
-
-          <div className="flex-1 overflow-y-auto min-h-0">
-            <div className="grid grid-cols-2 gap-2 pb-4">
-              {Array.from('ABCDEFGHIJKLMNÑOPQRSTUVWXYZ').map((letter, index) => {
-                const getLetterFile = (letter: string) => {
-                  const letterMap: { [key: string]: string } = {
-                    'A': 'A.svg',
-                    'B': 'B.svg', 
-                    'C': 'c.svg',
-                    'D': 'd.svg',
-                    'E': 'e.svg',
-                    'F': 'f.svg',
-                    'G': 'g.svg',
-                    'H': 'h.svg',
-                    'I': 'i.svg',
-                    'J': 'j.svg',
-                    'K': 'k.svg',
-                    'L': 'l.svg',
-                    'M': 'm.svg',
-                    'N': 'n.svg',
-                    'Ñ': 'nn.svg',
-                    'O': 'o.svg',
-                    'P': 'p.svg',
-                    'Q': 'q.svg',
-                    'R': 'r.svg',
-                    'S': 's.svg',
-                    'T': 't.svg',
-                    'U': 'u.svg',
-                    'V': 'v.svg',
-                    'W': 'w.svg',
-                    'X': 'x.svg',
-                    'Y': 'y.svg',
-                    'Z': 'z.svg'
-                  };
-                  return letterMap[letter];
-                };
-                
-                const svgFile = getLetterFile(letter);
-                
-                return (
-                  <Card 
-                    key={index}
-                    className="bg-orange-600/30 border-orange-500/50 hover:bg-orange-500/50 transition-all duration-300 cursor-pointer group aspect-square"
-                  >
-                    <CardContent className="p-3 flex flex-col items-center justify-center gap-2 h-full">
-                      <div className="w-16 h-16 flex items-center justify-center bg-orange-400/20 group-hover:bg-orange-400/30 transition-all duration-300 rounded">
-                        {svgFile ? (
-                          <Image
-                            src={`/Abecedario/${svgFile}`}
-                            alt={`Letra ${letter} en LSM`}
-                            width={48}
-                            height={48}
-                            className="w-12 h-12 object-contain"
-                          />
-                        ) : (
-                          <span className="text-xl font-bold text-orange-400 group-hover:text-white transition-all duration-300">
-                            {letter.toUpperCase()}
-                          </span>
-                        )}
-                      </div>
-                      <p className="text-sm text-center text-orange-200 group-hover:text-white transition-colors font-medium">
-                        {letter.toUpperCase()}
-                      </p>
-                    </CardContent>
-                  </Card>
-                );
-              })}
             </div>
           </div>
         </div>
@@ -273,16 +209,20 @@ const Add = () => {
         <div className="container mx-auto">
         <div className={`flex ${toggle ? "justify-end" : "justify-center"}`}>
           <button
-            className="bg-indigo-800 p-3 text-white uppercase font-bold rounded-md hover:bg-indigo-700 transition-colors"
+            className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 p-3 text-white uppercase font-bold rounded-md shadow-lg hover:shadow-xl transition-all inline-flex items-center gap-2"
             onClick={() => setToggle(!toggle)}
           >
+            {/* Camera icon placeholder style */}
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+              <path d="M9 2a1 1 0 0 0-.894.553L7.382 4H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2.382l-.724-1.447A1 1 0 0 0 15 2H9zm3 5a5 5 0 1 1 0 10 5 5 0 0 1 0-10z"/>
+            </svg>
             {toggle ? "Apagar Cámara" : "Encender Cámara"}
           </button>
         </div>
         {toggle && <HolisticComponent />}
       </div>
       <button
-        className={`fixed right-0 top-0 p-4 bg-indigo-300 font-bold rounded-l-full z-20 ${offCanvas ? 'text-rose-500' : 'text-white'}`}
+        className={`fixed right-0 top-12 p-4 bg-indigo-300 font-bold rounded-l-full z-20 ${offCanvas ? 'text-rose-500' : 'text-white'}`}
         onClick={() => setOffCanvas(!offCanvas)}
       >
         {offCanvas ? 'X' : 'Videos'}

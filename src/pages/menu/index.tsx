@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import Image from "next/image";
 import { useRouter } from 'next/router';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Camera, Hand, MessageSquare, Gamepad2, BookOpen, PlusCircle, Download, Menu, GraduationCap } from 'lucide-react';
 import { getAllActions, IActions } from "@/helpers";
+import AnimatedList from '@/components/AnimatedList';
 
 const actionsData: IActions[] = getAllActions();
 
@@ -18,6 +20,20 @@ const categories = extractCategories(actionsData);
 export default function MenuPage() {
   const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState(categories[0] || '');
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const check = () => setIsMobile(window.innerWidth < 1024);
+      check();
+      window.addEventListener('resize', check);
+      return () => window.removeEventListener('resize', check);
+    }
+  }, []);
+  useEffect(() => {
+    if (isMobile) {
+      setSelectedCategory('');
+    }
+  }, [isMobile]);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   // Encontrar la categoría seleccionada y obtener sus acciones
@@ -54,6 +70,16 @@ export default function MenuPage() {
         {showMobileMenu && (
           <div className="absolute top-16 left-4 right-4 z-20 bg-orange-700/95 backdrop-blur-sm border border-orange-600 rounded-lg shadow-lg">
             <div className="p-4 space-y-2">
+              <Button
+                className="w-full justify-start text-orange-100 hover:bg-orange-600 hover:text-white"
+                onClick={() => {
+                  setShowMobileMenu(false);
+                  router.push('/');
+                }}
+              >
+                <Hand className="w-5 h-5 mr-3" />
+                Abecedario LSM
+              </Button>
               <Button
                 className="w-full justify-start text-orange-100 hover:bg-orange-600 hover:text-white"
                 onClick={() => {
@@ -97,59 +123,83 @@ export default function MenuPage() {
           </div>
         )}
 
-        <div className="flex-1 overflow-y-auto p-4">
-          <div className="mb-4">
-            <select
-              className="w-full p-3 bg-orange-700 text-white rounded-lg font-semibold border border-orange-600"
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-            >
-              {categories.map((category) => (
-                <option value={category} key={category}>
-                  {category}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {actionsInCategory.length > 0 && (
-            <div className="mb-4">
-              <Button 
-                className="w-full bg-orange-500 hover:bg-orange-600 text-white"
-                onClick={() => {
-                  const firstAction = actionsInCategory[0];
-                  router.push({
-                    pathname: `/menu/${firstAction}/add`,
-                    query: { category: selectedCategory, action: firstAction }
-                  });
-                }}
-              >
-                <PlusCircle className="w-5 h-5 mr-2" />
-                Añadir Señas
-              </Button>
+        <div className="flex-1 overflow-y-auto p-6 bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900">
+          <div className="space-y-6">
+            {/* Header Section */}
+            <div className="text-center space-y-4">
+              <h1 className="text-2xl font-bold text-white bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent">
+                Diccionario LSM
+              </h1>
+              <p className="text-orange-200 text-sm">
+                Contribuye al crecimiento del diccionario de Lengua de Señas Mexicana
+              </p>
             </div>
-          )}
 
-          <div className="space-y-2">
-            {actionsInCategory.map((action, index) => (
-              <Card 
-                key={index}
-                className="bg-orange-700/50 border-orange-600 hover:bg-orange-600/50 transition-all duration-300 cursor-pointer group"
-                onClick={() => router.push({
-                  pathname: `/menu/${action}`,
-                  query: { category: selectedCategory, action: action }
-                })}
-              >
-                <CardContent className="p-3 flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center bg-orange-500/30 group-hover:bg-orange-500/50 transition-all duration-300 flex-shrink-0">
-                    <Hand className="w-5 h-5 text-white" />
+            {/* Mobile step flow with transitions */}
+            <AnimatePresence mode="wait">
+              {isMobile && (!selectedCategory || selectedCategory === '') ? (
+                <motion.div
+                  key="mobile-categories"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.25 }}
+                  className="space-y-3"
+                >
+                  <h2 className="text-lg font-semibold text-orange-100 text-center">Selecciona una categoría</h2>
+                  <AnimatedList
+                    items={categories}
+                    onItemSelect={(category) => setSelectedCategory(category)}
+                    showGradients={false}
+                    enableArrowNavigation={true}
+                    displayScrollbar={true}
+                    className="h-full"
+                  />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="mobile-actions"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.25 }}
+                >
+                  {actionsInCategory.length > 0 && (
+                    <div className="flex justify-center">
+                      <Button 
+                        className="w-full max-w-sm bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
+                        onClick={() => {
+                          const firstAction = actionsInCategory[0];
+                          router.push({
+                            pathname: `/menu/${firstAction}/add`,
+                            query: { category: selectedCategory, action: firstAction, autoStart: 'true' }
+                          });
+                        }}
+                      >
+                        <PlusCircle className="w-5 h-5 mr-2" />
+                        Añadir Señas
+                      </Button>
+                    </div>
+                  )}
+                  <div className="space-y-3">
+                    <h2 className="text-lg font-semibold text-orange-100 text-center">
+                      Acciones en {selectedCategory}
+                    </h2>
+                    <AnimatedList
+                      items={actionsInCategory}
+                      onItemSelect={(action, index) => router.push({
+                        pathname: `/menu/${action}/add`,
+                        query: { category: selectedCategory, action: action, autoStart: 'true' }
+                      })}
+                      showGradients={false}
+                      enableArrowNavigation={true}
+                      displayScrollbar={true}
+                      className="h-full"
+                    />
                   </div>
-                  <p className="text-sm text-orange-100 group-hover:text-white transition-colors font-medium capitalize">
-                    {action}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       </div>
@@ -173,6 +223,13 @@ export default function MenuPage() {
           <div className="flex-shrink-0">
             <h3 className="text-lg font-semibold text-orange-100 mb-4">Modo de Reconocimiento</h3>
             <div className="space-y-3 mb-6">
+              <Button 
+                className="w-full bg-orange-700/50 hover:bg-orange-600 justify-start text-orange-100 border border-orange-600"
+                onClick={() => router.push('/')}
+              >
+                <Hand className="w-5 h-5 mr-3" />
+                Abecedario LSM
+              </Button>
               <Button 
                 className="w-full bg-orange-700/50 hover:bg-orange-600 justify-start text-orange-100 border border-orange-600"
                 onClick={() => router.push('/mobile')}
@@ -202,74 +259,77 @@ export default function MenuPage() {
                 Aprender
               </Button>
             </div>
-
           </div>
         </div>
       </div>
 
       {/* Vista desktop - Contenido principal */}
-      <main className="hidden lg:flex lg:flex-1 lg:flex-col lg:p-6 lg:pl-80 lg:pr-6 lg:h-screen lg:overflow-hidden">
-        <div className="flex flex-col h-full gap-4">
-          <div className="flex-shrink-0">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <h1 className="text-3xl font-bold mb-2">Diccionario LSM</h1>
-                <p className="text-orange-100">Categoría: <span className="text-white font-semibold">{selectedCategory}</span></p>
-              </div>
-              {actionsInCategory.length > 0 && (
-                <Button 
-                  className="bg-orange-500 hover:bg-orange-600 text-white"
-                  onClick={() => {
-                    const firstAction = actionsInCategory[0];
-                    router.push({
-                      pathname: `/menu/${firstAction}/add`,
-                      query: { category: selectedCategory, action: firstAction }
-                    });
-                  }}
-                >
-                  <PlusCircle className="w-5 h-5 mr-2" />
-                  Añadir Señas
-                </Button>
-              )}
-            </div>
-            
-            {/* Selector de categorías para desktop */}
-            <div className="mb-4">
-              <select
-                className="w-full max-w-md p-3 bg-orange-700 text-white rounded-lg font-semibold border border-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500"
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-              >
-                {categories.map((category) => (
-                  <option value={category} key={category}>
-                    {category}
-                  </option>
-                ))}
-              </select>
-            </div>
+      <main className="hidden lg:flex lg:flex-1 lg:flex-col lg:p-8 lg:pl-80 lg:pr-8 lg:h-screen lg:overflow-hidden">
+        <div className="flex flex-col h-full gap-6">
+          {/* Header Section Desktop */}
+          <div className="flex-shrink-0 text-center space-y-4 mb-8">
+            <h1 className="text-4xl font-bold text-white bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 bg-clip-text text-transparent">
+              Diccionario LSM
+            </h1>
+            <p className="text-orange-200 text-lg max-w-2xl mx-auto">
+              Contribuye al crecimiento del diccionario de Lengua de Señas Mexicana
+            </p>
           </div>
 
-          <div className="flex-1 overflow-y-auto min-h-0">
-            <div className="space-y-3 pb-4">
-              {actionsInCategory.map((action, index) => (
-                <Card 
-                  key={index}
-                  className="bg-orange-700/50 border-orange-600 hover:bg-orange-600/50 transition-all duration-300 cursor-pointer group"
-                  onClick={() => router.push({
-                    pathname: `/menu/${action}`,
-                    query: { category: selectedCategory, action: action }
-                  })}
-                >
-                  <CardContent className="p-4 flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-full flex items-center justify-center bg-orange-500/30 group-hover:bg-orange-500/50 transition-all duration-300 flex-shrink-0">
-                      <Hand className="w-6 h-6 text-white" />
-                    </div>
-                    <p className="text-base text-orange-100 group-hover:text-white transition-colors font-medium capitalize">
-                      {action}
+          {/* Layout de dos columnas */}
+          <div className="flex-1 flex gap-8 min-h-0">
+            {/* Primera columna - Categorías */}
+            <div className="w-1/3 flex flex-col">
+              <div className="flex-shrink-0 mb-6 ml-4">
+                <h2 className="text-2xl font-semibold text-orange-100 mb-4">
+                  Categorías
+                </h2>
+                <p className="text-orange-200/70 text-sm">
+                  Selecciona una categoría para ver sus acciones
+                </p>
+              </div>
+              
+              <div className="flex-1">
+                <AnimatedList
+                  items={categories.map(category => `${category} (${actionsData.find(cat => cat.category === category)?.actions.length || 0} acciones)`)}
+                  onItemSelect={(item, index) => setSelectedCategory(categories[index])}
+                  showGradients={true}
+                  enableArrowNavigation={true}
+                  displayScrollbar={true}
+                  initialSelectedIndex={categories.indexOf(selectedCategory)}
+                  className="h-full"
+                />
+              </div>
+            </div>
+
+            {/* Segunda columna - Subcategorías (Acciones) */}
+            <div className="w-2/3 flex flex-col">
+              <div className="flex-shrink-0 mb-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h2 className="text-2xl font-semibold text-orange-100 mb-2">
+                      Acciones en <span className="text-white font-bold">{selectedCategory}</span>
+                    </h2>
+                    <p className="text-orange-200/70">
+                      {actionsInCategory.length} acciones disponibles
                     </p>
-                  </CardContent>
-                </Card>
-              ))}
+                  </div>
+                </div>
+              </div>
+              
+              <div className="flex-1">
+                <AnimatedList
+                  items={actionsInCategory}
+                  onItemSelect={(action, index) => router.push({
+                    pathname: `/menu/${action}/add`,
+                    query: { category: selectedCategory, action: action, autoStart: 'true' }
+                  })}
+                  showGradients={true}
+                  enableArrowNavigation={true}
+                  displayScrollbar={true}
+                  className="h-full"
+                />
+              </div>
             </div>
           </div>
         </div>

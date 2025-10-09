@@ -1,24 +1,28 @@
 import { useRouter } from "next/router";
 import { useRef, useEffect, useState } from "react";
 import Webcam from "react-webcam";
-import { toast, ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
-// Include toastify CSS to render the notification
+import { Check } from "lucide-react";
 
 type Props = {
   sign: string;
+  onToggleCamera?: (isActive: boolean) => void;
 };
 
 const sleep = (seconds: number) => new Promise((r) => setTimeout(r, seconds * 1000));
 
-const SignRecognition: React.FC<Props> = ({ sign }) => {
+const SignRecognition: React.FC<Props> = ({ sign, onToggleCamera }) => {
   const [isCamera, setIsCamera] = useState(false);
+  const [showCheckmark, setShowCheckmark] = useState(false);
 
   const webcamRef = useRef<Webcam>(null);
 
   const router = useRouter();
 
-  const toggleCamera = () => setIsCamera(!isCamera);
+  const toggleCamera = () => {
+    const newState = !isCamera;
+    setIsCamera(newState);
+    onToggleCamera?.(newState);
+  };
 
   useEffect(() => {
     const mediapipeRecognition = async (videoElement: HTMLVideoElement) => {
@@ -53,13 +57,11 @@ const SignRecognition: React.FC<Props> = ({ sign }) => {
             const signToGuess = sign.toLowerCase()
 
             if (prediction === signToGuess) {
-              toast.info("Correcto!", {
-                position: "bottom-center",
-                autoClose: 3000,
-                pauseOnHover: false,
-              });
-              await sleep(3.2)
+              setShowCheckmark(true);
+              await sleep(2);
               setIsCamera(false);
+              setShowCheckmark(false);
+              onToggleCamera?.(false);
               router.push("/learning");
             }
           }
@@ -80,26 +82,39 @@ const SignRecognition: React.FC<Props> = ({ sign }) => {
   }, [webcamRef, isCamera]);
 
   return (
-    <section className={`bg-orange-400 mt-10 rounded-lg shadow-lg flex items-center justify-center ${isCamera ? '' : 'w-80 h-60'}`}>
-      {isCamera ? (
-        <div className="relative w-full h-full">
-          <Webcam
-            mirrored
-            ref={webcamRef}
-            className="object-cover rounded-lg"
-            screenshotFormat="image/jpeg"
-          />
-        </div>
-      ) : (
+    <div className="w-full">
+      {/* Botón Inténtalo - solo cuando la cámara esté cerrada */}
+      {!isCamera && (
         <button
-          className="text-white bg-orange-500 hover:bg-orange-600 py-5 px-5 text-2xl rounded-lg shadow-orange-500"
+          className="w-full text-white bg-orange-500 hover:bg-orange-600 py-4 px-6 text-xl rounded-lg shadow-lg font-semibold transition-all duration-200 hover:scale-105"
           onClick={toggleCamera}
         >
           Inténtalo
         </button>
       )}
-      <ToastContainer />
-    </section>
+      
+      {/* Componente de reconocimiento */}
+      {isCamera && (
+        <div className="bg-orange-400 rounded-lg shadow-lg overflow-hidden">
+          <div className="relative w-full h-80">
+            <Webcam
+              mirrored
+              ref={webcamRef}
+              className="object-cover w-full h-full"
+              screenshotFormat="image/jpeg"
+            />
+            {/* Animación de palomita verde */}
+            {showCheckmark && (
+              <div className="absolute inset-0 flex items-center justify-center bg-green-500/90 z-10">
+                <div className="animate-bounce">
+                  <Check className="w-24 h-24 text-white animate-pulse" />
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 
